@@ -1,0 +1,58 @@
+@media (max-width: 900px) {
+    #loc {
+        background-color: aqua;
+    }
+    mat-card-content {
+        margin-left: 16px;
+    }
+    button {
+        border: solid grey 2px;
+        background-color: green;
+        color: white;
+        font-family: 'Oxygen';
+    }
+    #table {
+        margin-left: 0px;
+    }
+    table {
+        border: solid grey 2px;
+        width: 100%;
+    }
+    #checkBox {
+        text-align: center;
+    }
+    #cancel {
+        background-color: red;
+        margin-top: 10px;
+        margin-left: 5%;
+        margin-right: 32%;
+    }
+}
+
+@media (min-width: 902px) {
+    #loc {
+        background-color: red;
+    }
+    mat-card-content {
+        margin-left: 16px;
+    }
+    button {
+        border: solid grey 2px;
+        background-color: green;
+        color: white;
+        font-family: 'Oxygen';
+    }
+    table {
+        border: solid grey 2px;
+        width: 30%;
+    }
+    #checkBox {
+        text-align: center;
+    }
+    #cancel {
+        background-color: red;
+        margin-top: 10px;
+        margin-left: 1.5%;
+        margin-right: 12%;
+    }
+}

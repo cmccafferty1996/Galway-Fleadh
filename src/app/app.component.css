@@ -1,0 +1,42 @@
+/* for mobile view*/
+@media (max-width: 900px) {
+    header {
+        background-color: #800020;
+    }
+    #navBar {
+        display: none;
+    }
+    #mobile-main {
+        vertical-align: middle;
+    }
+    #menu-icon {
+        font-size: 50px;
+        margin-top: 5px;
+        margin-right: 10px;
+    }
+    #menu-button {
+        float: right;
+        margin-right: 10px;
+    }
+    footer {
+        background-color: grey;
+        margin-top: 10%
+    }
+}
+
+/* for PC view*/
+@media (min-width: 902px) {
+    header {
+        background-color: #800020;
+    }
+    footer {
+        background-color: grey;
+        margin-top: 2%;
+    }
+    #menu-button {
+        display: none;
+    }
+    #menu-icon {
+        display: none;
+    }
+}

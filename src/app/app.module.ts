@@ -9,7 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { MaterialsModule } from './materials/materials.module';
 import { RegisterComponent } from './register/register.component';
 import { ViewResultsComponent } from './view-results/view-results.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     MaterialsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

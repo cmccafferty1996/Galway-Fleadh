@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient} from '@angular/common/http'
 import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
@@ -19,6 +19,9 @@ export class RegisterComponent implements OnInit {
     {name: 'Cow'},
     {name: 'Fox'},
   ];
+  branch;
+  name;
+  group;
   today = new Date();
   showCompetitions = false;
   displayedColumns: string[] = ['compition', 'registered'];
@@ -39,6 +42,18 @@ export class RegisterComponent implements OnInit {
         this.location.push(position.coords.longitude);
       })
     }
+  }
+
+  changeBranch(branch) {
+    this.branch = branch;
+  }
+
+  changeName(name) {
+    this.name = name;
+  }
+
+  changeGroup(group) {
+    this.group = group;
   }
 
   onSubmit() {

@@ -1,3 +1,61 @@
-<p>
-  view-results works!
-</p>
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>View Competition Results</mat-card-title>
+    <mat-card-subtitle>Please select competition and category</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-form-field id="category">
+      <mat-label>Catagory</mat-label>
+      <mat-select [formControl]="categoryControl" required (selectionChange)="changeCategory($event.value)">
+        <mat-option *ngFor="let category of catagories" [value]="category">
+          {{category}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="categoryControl.hasError('required')">Please choose a category</mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field id="compitition">
+      <mat-label>Competition</mat-label>
+      <mat-select (selectionChange)="changeCompetition($event.value)">
+        <mat-option *ngFor="let animal of animals" [value]="animal.name">
+          {{animal.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="categoryControl.hasError('required')">Please choose your competition</mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <button mat-button (click)="onSubmit()" [disabled]="!compitition && !category">View Results</button>
+  </mat-card-content>
+</mat-card>
+<br>
+<mat-card *ngIf="showResults">
+  <mat-card-content id="table">
+    <table mat-table [dataSource]="dataSource">
+      <!-- Place Column -->
+      <ng-container matColumnDef="place">
+        <th mat-header-cell *matHeaderCellDef> Place </th>
+        <td mat-cell *matCellDef="let element"> {{element.place}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Branch Column -->
+      <ng-container matColumnDef="branch">
+        <th mat-header-cell *matHeaderCellDef> Branch </th>
+        <td mat-cell *matCellDef="let element"> {{element.branch}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

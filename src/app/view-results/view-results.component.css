@@ -1,0 +1,36 @@
+@media (max-width: 900px) {
+    
+    mat-card-content {
+        margin-left: 16px;
+    }
+    button {
+        border: solid grey 2px;
+        background-color: green;
+        color: white;
+        font-family: 'Oxygen';
+    }
+    #table {
+        margin-left: 0px;
+    }
+    table {
+        border: solid grey 2px;
+        width: 100%;
+    }
+}
+
+@media (min-width: 902px) {
+
+    mat-card-content {
+        margin-left: 16px;
+    }
+    button {
+        border: solid grey 2px;
+        background-color: green;
+        color: white;
+        font-family: 'Oxygen';
+    }
+    table {
+        border: solid grey 2px;
+        width: 30%;
+    }
+}

@@ -1,0 +1,27 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-subtitle>Login for admin access - to manage registration and competition results</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-form-field id="username">
+      <input matInput placeholder="Username" [(ngModel)]="username">
+    </mat-form-field>
+    <mat-form-field id="password">
+      <input matInput type="password" placeholder="Password" [(ngModel)]="password">
+    </mat-form-field>
+    <button mat-button id="login" [disabled]="isLoggedIn" (click)="onSubmit()">Login</button>
+  </mat-card-content>
+</mat-card>
+<br>
+<mat-card *ngIf="isLoggedIn">
+  <mat-card-content id="success">
+    Login successful! You now have admin access!
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="loginFailed">
+  <mat-card-content id="failed">
+    Login failed! Try again!
+  </mat-card-content>
+</mat-card>

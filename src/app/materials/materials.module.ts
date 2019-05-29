@@ -10,7 +10,8 @@ import {MatCardModule,
         MatSelectModule,
         MatPaginatorModule,
         MatTableModule,
-        MatCheckboxModule} from '@angular/material';
+        MatCheckboxModule,
+        MatInputModule} from '@angular/material';
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,7 @@ import {MatCardModule,
     MatMenuModule,
     MatTabsModule,
     MatToolbarModule,
+    MatInputModule,
     MatIconModule,
     MatCardModule,
     MatFormFieldModule,
@@ -39,7 +41,8 @@ import {MatCardModule,
     MatSelectModule,
     MatPaginatorModule,
     MatTableModule,
-    MatCheckboxModule 
+    MatCheckboxModule,
+    MatInputModule
   ]
 })
 export class MaterialsModule {}

@@ -18,6 +18,10 @@
         float: right;
         margin-right: 10px;
     }
+    #admin {
+        color: white;
+        float: right;
+    }
     footer {
         background-color: grey;
         margin-top: 10%
@@ -37,6 +41,13 @@
         display: none;
     }
     #menu-icon {
+        display: none;
+    }
+    #admin {
+        color: white;
+        float: right;
+    }
+    #mobile-space {
         display: none;
     }
 }

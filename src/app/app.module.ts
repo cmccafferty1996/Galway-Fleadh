@@ -10,13 +10,19 @@ import { MaterialsModule } from './materials/materials.module';
 import { RegisterComponent } from './register/register.component';
 import { ViewResultsComponent } from './view-results/view-results.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+import { ManageResultsComponent } from './manage-results/manage-results.component';
+import { ManageRegistrationComponent } from './manage-registration/manage-registration.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     RegisterComponent,
-    ViewResultsComponent
+    ViewResultsComponent,
+    LoginComponent,
+    ManageResultsComponent,
+    ManageRegistrationComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,3 @@
-Location:<span id="loc">{{location[0]}}, {{location[1]}}</span>
 <div>
 <mat-card class="example-card">
   <mat-card-header>
@@ -21,8 +20,8 @@ Location:<span id="loc">{{location[0]}}, {{location[1]}}</span>
 
     <mat-form-field id="name">
       <mat-label>Name</mat-label>
-      <mat-select (selectionChange)="changeName($event.value)">
-        <mat-option *ngFor="let animal of animals" [value]="animmal">
+      <mat-select (selectionChange)="changeName($event.value)" [disabled]="group">
+        <mat-option *ngFor="let animal of animals" [value]="animal">
           {{animal.name}}
         </mat-option>
       </mat-select>
@@ -33,7 +32,7 @@ Location:<span id="loc">{{location[0]}}, {{location[1]}}</span>
 
     <mat-form-field id="group">
       <mat-label>Group</mat-label>
-      <mat-select (selectionChange)="changeGroup($event.value)">
+      <mat-select (selectionChange)="changeGroup($event.value)" [disabled]="name">
         <mat-option *ngFor="let animal of animals" [value]="animal">
           {{animal.name}}
         </mat-option>
@@ -44,7 +43,7 @@ Location:<span id="loc">{{location[0]}}, {{location[1]}}</span>
     <br>
 
     <button mat-button (click)="onSubmit()" 
-            [disabled]="!branch && !name || !group">Submit</button>
+            [disabled]="!(branch && (name || group))">Submit</button>
   </mat-card-content>
 </mat-card>
 <br>

@@ -1,0 +1,53 @@
+@media (max-width: 900px) {
+    
+    mat-card-content {
+        margin-left: 16px;
+    }
+    button {
+        border: solid grey 2px;
+        background-color: green;
+        color: white;
+        font-family: 'Oxygen';
+    }
+    #table {
+        margin-left: 0px;
+    }
+    table {
+        border: solid grey 2px;
+        width: 100%;
+    }
+    #cancel {
+        background-color: red;
+        margin-top: 10px;
+        margin-right: 5%;
+    }
+
+    #save {
+        margin-left: 10%;
+    }
+}
+
+@media (min-width: 902px) {
+
+    mat-card-content {
+        margin-left: 16px;
+    }
+    button {
+        border: solid grey 2px;
+        background-color: green;
+        color: white;
+        font-family: 'Oxygen';
+    }
+    table {
+        border: solid grey 2px;
+        width: 30%;
+    }
+    #place {
+        width: 60px;
+    }
+    #cancel {
+        background-color: red;
+        margin-top: 10px;
+        margin-right: 5%;
+    }
+}

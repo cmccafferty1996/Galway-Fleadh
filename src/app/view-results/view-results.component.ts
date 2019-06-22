@@ -48,4 +48,5 @@ const DATA: Object[] = [
   {place: 1, name: 'Sean', branch: 'Cork CCE'},
   {place: 2, name: 'Jack', branch: 'Sligo CCE'},
   {place: 3, name: 'Sarah', branch: 'Dublin CCE'},
-  {place: 'R', name: 'Lily', branch: 'Galway CCE'}];
+  {place: 'R', name: 'Lily', branch: 'Galway CCE'}
+];

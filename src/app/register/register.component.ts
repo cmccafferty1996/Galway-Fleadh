@@ -2,6 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient} from '@angular/common/http'
 import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
+import { Router } from '@angular/router';
+
+export class RowElement {
+  name: string;
+  isRegistered: boolean;
+  isEditable: boolean;
+
+  constructor(n: string, reg: boolean) {
+    this.name = n;
+    this.isRegistered = reg;
+    this.isEditable = !reg;
+  }
+}
 
 @Component({
   selector: 'app-register',
@@ -25,9 +38,9 @@ export class RegisterComponent implements OnInit {
   today = new Date();
   showCompetitions = false;
   displayedColumns: string[] = ['compition', 'registered'];
-  dataSource = new MatTableDataSource<String>(DATA);
+  dataSource = new MatTableDataSource<RowElement>(DATA);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
     this.location = [];
@@ -61,4 +74,7 @@ export class RegisterComponent implements OnInit {
   }
 }
 
-const DATA: String[] = ['U12 -Fiddle', 'Ceili Band'];
+const DATA: RowElement[] = [
+  new RowElement('U12 -Fiddle', true),
+  new RowElement('Ceili Band', false)
+];

@@ -12,6 +12,16 @@
     color: white;
     font-family: 'Oxygen';
   }
+
+  #success {
+    color: green;
+    margin-left: 16px;
+  }
+
+  #failed {
+    color: red;
+    margin-left: 16px;
+  }
 }
 
 @media (min-width: 902px) {

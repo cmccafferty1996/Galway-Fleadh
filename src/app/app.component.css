@@ -1,7 +1,28 @@
 /* for mobile view*/
 @media (max-width: 900px) {
+    body {
+        margin:0;
+        padding:0;
+        height:100%;
+    }
     header {
         background-color: #800020;
+    }
+    #container {
+        min-height:100%;
+        position:relative;
+    }
+    #body {
+        padding:10px;
+        padding-bottom:60px;   /* Height of the footer */
+    }
+    footer {
+        background-color: grey;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        padding-bottom: 0px;
     }
     #navBar {
         display: none;
@@ -22,20 +43,33 @@
         color: white;
         float: right;
     }
-    footer {
-        background-color: grey;
-        margin-top: 10%
-    }
 }
 
 /* for PC view*/
 @media (min-width: 902px) {
+    body {
+        margin:0;
+        padding:0;
+        height:100%;
+    }
     header {
         background-color: #800020;
     }
+    #container {
+        min-height:100%;
+        position:relative;
+    }
+    #body {
+        padding:10px;
+        padding-bottom:60px;   /* Height of the footer */
+    }
     footer {
         background-color: grey;
-        margin-top: 2%;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        padding-bottom: 0px;
     }
     #menu-button {
         display: none;

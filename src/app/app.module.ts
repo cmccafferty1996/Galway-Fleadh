@@ -13,6 +13,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { ManageResultsComponent } from './manage-results/manage-results.component';
 import { ManageRegistrationComponent } from './manage-registration/manage-registration.component';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ManageRegistrationComponent } from './manage-registration/manage-regist
     ViewResultsComponent,
     LoginComponent,
     ManageResultsComponent,
-    ManageRegistrationComponent
+    ManageRegistrationComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +36,7 @@ import { ManageRegistrationComponent } from './manage-registration/manage-regist
     FormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmModalComponent]
 })
 export class AppModule { }

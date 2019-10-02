@@ -2,3 +2,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 @import 'https://fonts.googleapis.com/css?family=Oxygen';
+
+mat-dialog-container {
+    border: 5px solid #800020;
+}

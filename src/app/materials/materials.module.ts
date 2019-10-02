@@ -11,7 +11,8 @@ import {MatCardModule,
         MatPaginatorModule,
         MatTableModule,
         MatCheckboxModule,
-        MatInputModule} from '@angular/material';
+        MatInputModule,
+        MatDialogModule} from '@angular/material';
 
 @NgModule({
   declarations: [],
@@ -28,7 +29,8 @@ import {MatCardModule,
     MatSelectModule,
     MatPaginatorModule,
     MatTableModule,
-    MatCheckboxModule 
+    MatCheckboxModule,
+    MatDialogModule
   ],
   exports: [
     MatButtonModule,
@@ -42,7 +44,8 @@ import {MatCardModule,
     MatPaginatorModule,
     MatTableModule,
     MatCheckboxModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule
   ]
 })
 export class MaterialsModule {}

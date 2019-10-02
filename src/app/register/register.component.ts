@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient} from '@angular/common/http'
 import { FormControl, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material';
-import { Router } from '@angular/router';
+import { MatTableDataSource, MatDialog } from '@angular/material';
+import { RegistrationService } from '../services/registration.service';
+import { Branch } from '../models/branch';
+import { Entrant } from '../models/entrant';
+import { Category } from '../models/category';
+import { Competition } from '../models/competition';
+import { Entries } from '../models/entries';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 export class RowElement {
   name: string;
@@ -25,30 +30,36 @@ export class RowElement {
 export class RegisterComponent implements OnInit {
   location: number[];
   branchControl = new FormControl('', [Validators.required]);
+  categoryControl = new FormControl('', [Validators.required]);
+  compControl = new FormControl('', [Validators.required]);
   selectFormControl = new FormControl('', Validators.required);
-  animals: Object[] = [
-    {name: 'Dog'},
-    {name: 'Cat'},
-    {name: 'Cow'},
-    {name: 'Fox'},
-  ];
-  branch;
-  name;
-  group;
+  branches: Branch[];
+  catagories: Category[];
+  competitions: Competition[];
+  branch: Branch;
+  category: Category;
+  competition: Competition;
   today = new Date();
   showCompetitions = false;
-  displayedColumns: string[] = ['compition', 'registered'];
-  dataSource = new MatTableDataSource<RowElement>(DATA);
+  displayedColumns: string[] = ['name', 'registered'];
+  tableData: RowElement[];
+  entries: Entries[];
+  enableSave: boolean = false;
+  dataSource = new MatTableDataSource<RowElement>(this.tableData);
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(public dialog: MatDialog, 
+    private service: RegistrationService) { }
 
   ngOnInit() {
     this.location = [];
     this.getLocation();
+    this.tableData = [];
+    this.entries = [];
+    this.service.getAllBranchNames()
+      .then((res) => this.branches = res);
   }
 
   getLocation() {
-    console.log(navigator.geolocation);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.location.push(position.coords.latitude);
@@ -59,22 +70,75 @@ export class RegisterComponent implements OnInit {
 
   changeBranch(branch) {
     this.branch = branch;
+    if (!this.catagories) {
+      this.service.getAllCategories()
+      .then((res) => this.catagories = res);
+    }
   }
 
-  changeName(name) {
-    this.name = name;
+  changeCategory(cat) {
+    this.category = cat;
+    this.service.getCompetitionByAgeGroup(this.category.id)
+      .then((res) => this.competitions = res);
   }
 
-  changeGroup(group) {
-    this.group = group;
+  changeCompetition(comp) {
+    this.competition = comp;
   }
 
   onSubmit() {
-    this.showCompetitions = true;
+    this.tableData = [];
+    this.entries = [];
+    this.service.getEntries(this.branch.id, this.competition.id)
+      .then((res) => {
+        this.branchFiltering(res);
+      });
+  }
+
+  saveEntries() {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      data: {
+        title: 'Confirm Registration', 
+        ageGroup: this.category.age_group,
+        competition: this.competition.competition_name,
+        entrants: this.tableData.filter((entrant) => entrant.isRegistered == true)
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.tableData.forEach((row, i) => {
+          this.entries[i].registered = row.isRegistered;
+        });
+        this.service.saveEntries(this.entries)
+          .then((res) => console.log(res));
+      }
+    });
+  }
+
+  shouldEnableSave($event) {
+    const registered = this.tableData.filter((entrant) => entrant.isRegistered == true);
+    this.enableSave = (registered.length > 0);
+  }
+
+  private branchFiltering(entries: Entries[]) {
+    let temp: RowElement;
+    let promise = entries.map((entrant) => {
+      return this.service.getEntrantById(entrant.entrant)
+        .then((res2: Entrant) => {
+          if (res2) {
+            if (res2.branch === this.branch.id) {
+              this.entries.push(entrant);
+              temp = new RowElement(res2.entrant_name, entrant.registered);
+              this.tableData.push(temp);
+            }
+          }
+        });
+    });
+    Promise.all(promise).then(() => {
+      this.dataSource = new MatTableDataSource<RowElement>(this.tableData);
+      this.showCompetitions = true;
+    });
   }
 }
 
-const DATA: RowElement[] = [
-  new RowElement('U12 -Fiddle', true),
-  new RowElement('Ceili Band', false)
-];

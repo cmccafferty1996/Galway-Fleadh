@@ -8,8 +8,8 @@
     <mat-form-field id="category">
       <mat-label>Catagory</mat-label>
       <mat-select [formControl]="categoryControl" required (selectionChange)="changeCategory($event.value)">
-        <mat-option *ngFor="let category of catagories" [value]="category">
-          {{category}}
+        <mat-option *ngFor="let category of categories" [value]="category">
+          {{category.age_group}}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="categoryControl.hasError('required')">Please choose a category</mat-error>
@@ -17,22 +17,21 @@
 
     <br>
 
-    <mat-form-field id="compitition">
+    <mat-form-field id="competition" *ngIf="category">
       <mat-label>Competition</mat-label>
       <mat-select (selectionChange)="changeCompetition($event.value)">
-        <mat-option *ngFor="let animal of animals" [value]="animal.name">
-          {{animal.name}}
+        <mat-option *ngFor="let competition of competitions" [value]="competition">
+          {{competition.competition_name}}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="categoryControl.hasError('required')">Please choose your competition</mat-error>
     </mat-form-field>
-
+    
     <br>
-
     <button mat-button (click)="onSubmit()" [disabled]="!compitition && !category">View Results</button>
   </mat-card-content>
 </mat-card>
 <br>
+<mat-spinner *ngIf="onSubmitClicked && !showResults"></mat-spinner>
 <mat-card *ngIf="showResults">
   <mat-card-content id="table">
     <table mat-table [dataSource]="dataSource">

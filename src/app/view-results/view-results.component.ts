@@ -1,6 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
+import { Category } from '../models/category';
+import { ResultsService } from '../services/results.service';
+import { Competition } from '../models/competition';
+
+export class ResultsTable {
+
+  place: String;
+  name: String;
+  branch: String;
+
+  constructor(pl: String, nm: String, br: String) {
+    this.place = pl;
+    this.name = nm;
+    this.branch = br;
+  }
+}
 
 @Component({
   selector: 'app-view-results',
@@ -11,42 +27,54 @@ export class ViewResultsComponent implements OnInit {
 
   categoryControl = new FormControl('', [Validators.required]);
   selectFormControl = new FormControl('', Validators.required);
-  category;
-  competition;
-  animals: Object[] = [
-    {name: 'Dog'},
-    {name: 'Cat'},
-    {name: 'Cow'},
-    {name: 'Fox'},
-  ];
-  catagories: string[] = ['U9', 'U12', 'U15', 'U18',
-   'Senior', 'duet', 'Grupa Ceol', 'Ceili band'];
+  category: Category;
+  competition: Competition;
+  categories: Category[];
+  competitions: Competition[];
   today = new Date();
   showResults = false;
+  onSubmitClicked = false;
   displayedColumns: string[] = ['place', 'name', 'branch'];
-  dataSource = new MatTableDataSource<Object>(DATA);
+  results: ResultsTable[];
+  dataSource = new MatTableDataSource<ResultsTable>(this.results);
 
-  constructor() { }
+  constructor(private service: ResultsService) { }
 
   ngOnInit() {
+    this.categories = [];
+    this.results = [];
+    this.service.getAllCategories()
+      .then((res: Category[]) => this.categories = res);
   }
 
   changeCategory(cat) {
     this.category = cat;
+    this.initializeTable();
+    this.service.getCompetitionByAgeGroup(this.category.id)
+      .then((res) => this.competitions = res);
   }
 
   changeCompetition(comp) {
     this.competition = comp;
+    this.initializeTable();
   }
 
   onSubmit() {
-    this.showResults = true;
+    this.onSubmitClicked = true;
+    this.showResults = false;
+    this.service.getResultsByCompetition(this.competition.id)
+      .then((res: ResultsTable[]) => {
+        res.forEach((winner) => {
+          this.results.push(winner);
+        });
+        this.dataSource = new MatTableDataSource<ResultsTable>(this.results);
+        this.showResults = true;
+      });
+  }
+
+  initializeTable() {
+    this.showResults = false;
+    this.onSubmitClicked = false;
+    this.results = [];
   }
 }
-
-const DATA: Object[] = [
-  {place: 1, name: 'Sean', branch: 'Cork CCE'},
-  {place: 2, name: 'Jack', branch: 'Sligo CCE'},
-  {place: 3, name: 'Sarah', branch: 'Dublin CCE'},
-  {place: 'R', name: 'Lily', branch: 'Galway CCE'}
-];

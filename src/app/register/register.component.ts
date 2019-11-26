@@ -8,6 +8,7 @@ import { Category } from '../models/category';
 import { Competition } from '../models/competition';
 import { Entries } from '../models/entries';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { Router } from '@angular/router';
 
 export class RowElement {
   name: string;
@@ -48,7 +49,7 @@ export class RegisterComponent implements OnInit {
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
 
   constructor(public dialog: MatDialog, 
-    private service: RegistrationService) { }
+    private service: RegistrationService, private router: Router) { }
 
   ngOnInit() {
     this.location = [];
@@ -89,7 +90,7 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.tableData = [];
     this.entries = [];
-    this.service.getEntries(this.branch.id, this.competition.id)
+    this.service.getEntries(this.competition.id)
       .then((res) => {
         this.branchFiltering(res);
       });

@@ -2,10 +2,11 @@
   <h1 mat-dialog-title>{{data.title}}</h1>
   <div mat-dialog-content *ngFor="let entrant of data.entrants">
     <p>Please confirm registration details below:</p>
-    <p>Register <b>{{entrant.name}}</b> for {{data.ageGroup}} {{data.competition}}</p>
+    <p *ngIf="entrant.isRegistered">Register <b>{{entrant.name}}</b> for {{data.ageGroup}} {{data.competition}}</p>
+    <p *ngIf="!entrant.isRegistered">Unregister <b>{{entrant.name}}</b> for {{data.ageGroup}} {{data.competition}}</p>
   </div>
   <div mat-dialog-actions>
     <button mat-button (click)="cancel()">Cancel</button>
-    <button id="register" mat-button (click)="register()" cdkFocusInitial>Register</button>
+    <button id="register" mat-button (click)="register()" cdkFocusInitial>{{buttonText}}</button>
   </div>
 </div>

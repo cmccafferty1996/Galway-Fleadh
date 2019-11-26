@@ -34,8 +34,7 @@ export class RegistrationService {
       });
   }
 
-  getEntries(branch, comp) {
-    let entries: Map<string, boolean> = new Map();
+  getEntries(comp) {
     return this.http.get(`http://localhost:8080/controller/entries?comp=${comp}`).toPromise()
       .then((res: Entries[]) => {
         return res;

@@ -8,10 +8,15 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class ConfirmModalComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<ConfirmModalComponent>,
+  buttonText = 'Register';
+
+  constructor(public dialogRef: MatDialogRef<ConfirmModalComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
+    if (this.data.isManageReg) {
+      this.buttonText = 'Update';
+    }
   }
 
   register() {

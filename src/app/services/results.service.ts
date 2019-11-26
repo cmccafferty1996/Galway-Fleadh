@@ -27,20 +27,6 @@ export class ResultsService {
       });
   }
 
-  getEntrantById(id) {
-    return this.http.get(`http://localhost:8080/controller/entrant?id=${id}`).toPromise()
-      .then((res: Entrant) => {
-        return res;
-      });
-  }
-
-  getBranchById(id) {
-    return this.http.get(`http://localhost:8080/controller/branch?id=${id}`).toPromise()
-      .then((branch: Branch) => {
-        return branch;
-      });
-  }
-
   getResultsByCompetition(comp) {
     return this.http.get(`http://localhost:8080/controller/results?competition=${comp}`).toPromise()
       .then((res: ResultsTable[]) => {

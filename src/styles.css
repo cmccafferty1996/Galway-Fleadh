@@ -4,5 +4,5 @@
 @import 'https://fonts.googleapis.com/css?family=Oxygen';
 
 mat-dialog-container {
-    border: 5px solid #800020;
+    padding: 0px !important;
 }

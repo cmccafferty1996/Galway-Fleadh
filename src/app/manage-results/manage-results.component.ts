@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
+import { ResultsTable } from '../view-results/view-results.component';
+import { Competition } from '../models/competition';
+import { Category } from '../models/category';
+import { ResultsService } from '../services/results.service';
+import { Entrant } from '../models/entrant';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-results',
@@ -11,80 +17,114 @@ export class ManageResultsComponent implements OnInit {
   
   categoryControl = new FormControl('', [Validators.required]);
   selectFormControl = new FormControl('', Validators.required);
-  category;
-  competition;
-  animals: Object[] = [
-    {name: 'Dog'},
-    {name: 'Cat'},
-    {name: 'Cow'},
-    {name: 'Fox'},
-  ];
-  catagories: string[] = [
-    'U9', 'U12', 'U15', 'U18',
-   'Senior', 'duet', 'Grupa Ceol', 'Ceili band'
-  ];
-  places: string[] = ['1', '2', '3', 'R'];
-  names: string[] = [
-    'Sean', 'Jack', 'Mary', 'John', 'Lily', 'Pat', 'Sarah'
-  ];
-  winners: Map<String, String> = new Map<String, String>();
+  category: Category;
+  competition: Competition;
+  categories: Category[];
+  competitions: Competition[];
+  names: Entrant[];
   today = new Date();
   showResults = false;
+  onSubmitClicked = false;
+  results: ResultsTable[];
+  winners: Map<String, Entrant> = new Map<String, Entrant>();
   manageResults = false;
   displayedColumns: string[] = ['name', 'branch', 'place'];
-  dataSource = new MatTableDataSource<Object>(DATA);
+  dataSource = new MatTableDataSource<Object>(this.results);
 
-  constructor() { }
+  constructor(private service: ResultsService, private router: Router) { }
 
   ngOnInit() {
+    this.categories = [];
+    this.competitions = [];
+    this.results = [];
+    this.names = [];
+    this.initializeMap();
+    this.service.getAllCategories()
+      .then((res: Category[]) => this.categories = res);
   }
 
   changeCategory(cat) {
+    this.initializeTable();
+    this.initializeMap();
+    this.manageResults = false;
     this.category = cat;
+    this.service.getCompetitionByAgeGroup(this.category.id)
+    .then((res) => this.competitions = res);
   }
 
   changeCompetition(comp) {
+    this.initializeTable();
+    this.initializeMap();
+    this.manageResults = false;
     this.competition = comp;
+    this.service.getNames(this.competition.id)
+      .then((res: Entrant[]) => this.names = res);
   }
 
-  changePlace(musician, place) {
-    if (this.winners.get(musician)) {
-      // handle change
-    } else {
-      this.winners.set(musician, place);
-      const oldPlace = this.places.indexOf(place);
-      this.places.splice(oldPlace, 1);
-      console.log(this.winners);
-    }
-  }
+  // changePlace(musician, place) {
+  //   if (this.winners.get(musician)) {
+  //     // handle change
+  //   } else {
+  //     this.winners.set(musician, place);
+  //     const oldPlace = this.places.indexOf(place);
+  //     this.places.splice(oldPlace, 1);
+  //     console.log(this.winners);
+  //   }
+  // }
 
   placeSelected(name, place) {
-    const index = this.names.indexOf(name);
-    if (this.winners.get(name)) {
-      console.log(this.winners.get(name));
-    } else {
-      this.winners.set(name, place);
-      if (index) {
-        this.names.splice(index, 1);
-      } 
-      console.log(this.winners);
-    }
+    this.winners.set(place, name);
   }
 
   onSubmit() {
-    this.showResults = true;
-    this.manageResults = false;
+    if (this.results.length > 0) return;
+    this.onSubmitClicked = true;
+    this.showResults = false;
+    this.service.getResultsByCompetition(this.competition.id)
+      .then((res: ResultsTable[]) => {
+        res.forEach((winner) => {
+          this.results.push(winner);
+        });
+        this.dataSource = new MatTableDataSource<ResultsTable>(this.results);
+        this.showResults = true;
+      });
+  }
+
+  saveResults() {
+    const params = {
+      competition: this.competition.id,
+      first: this.getEntrantIdCheckIfNull(this.winners.get("1")),
+      second: this.getEntrantIdCheckIfNull(this.winners.get("2")),
+      third: this.getEntrantIdCheckIfNull(this.winners.get("3")),
+      recommended: this.getEntrantIdCheckIfNull(this.winners.get("R")),
+    }
+    this.service.saveResults(params);
+  }
+
+  initializeTable() {
+    this.showResults = false;
+    this.onSubmitClicked = false;
+    this.results = [];
+  }
+
+  initializeMap() {
+    this.winners.set('1', null);
+    this.winners.set('2', null);
+    this.winners.set('3', null);
+    this.winners.set('R', null);
   }
 
   inputResults() {
     this.manageResults = true;
     this.showResults = false;
+    this.results = [];
+  }
+
+  private getEntrantIdCheckIfNull(entrant: Entrant) {
+    if (entrant === null) {
+      return null;
+    } else {
+      return entrant.id;
+    }
   }
 }
-
-const DATA: Object[] = [
-  {place: 1, name: 'Sean', branch: 'Cork CCE'},
-  {place: 2, name: 'Jack', branch: 'Sligo CCE'},
-  {place: 3, name: 'Sarah', branch: 'Dublin CCE'},
-  {place: 'R', name: 'Lily', branch: 'Galway CCE'}
-];

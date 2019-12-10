@@ -1,12 +1,39 @@
-<div id="container">
-  <h1 mat-dialog-title>{{data.title}}</h1>
-  <div mat-dialog-content *ngFor="let entrant of data.entrants">
-    <p>Please confirm registration details below:</p>
-    <p *ngIf="entrant.isRegistered">Register <b>{{entrant.name}}</b> for {{data.ageGroup}} {{data.competition}}</p>
-    <p *ngIf="!entrant.isRegistered">Unregister <b>{{entrant.name}}</b> for {{data.ageGroup}} {{data.competition}}</p>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="cancel()">Cancel</button>
-    <button id="register" mat-button (click)="register()" cdkFocusInitial>{{buttonText}}</button>
-  </div>
+<div id="modal-header">
+  <span id="header-text">{{data.title}}</span>
+</div>
+<div id="modal-content">
+  <span *ngIf="registerEntrants.length > 0">Register</span>
+  <mat-accordion *ngIf="registerEntrants.length > 0">
+    <mat-expansion-panel class="example-accordion" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Name</mat-panel-title>
+        <mat-panel-description>Branch</mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-selection-list id="reg-list" *ngFor="let entrant of registerEntrants">
+        <span id="name">{{entrant.name}}</span>
+        <span id="branch">{{data.branch}}</span>
+      </mat-selection-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <span *ngIf="unregisterEntrants.length > 0">Unregister</span>
+  <mat-accordion *ngIf="unregisterEntrants.length > 0">
+    <mat-expansion-panel class="example-accordion" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Name</mat-panel-title>
+        <mat-panel-description>Branch</mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-selection-list id="reg-list" *ngFor="let entrant of unregisterEntrants">
+        <span id="name">{{entrant.name}}</span>
+        <span id="branch">{{data.branch}}</span>
+      </mat-selection-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<div id="buttons">
+  <button id="cancel" mat-raised-button (click)="close()">Cancel</button>
+  <button id="register" mat-raised-button (click)="close(true)" cdkFocusInitial>{{buttonText}}</button>
 </div>

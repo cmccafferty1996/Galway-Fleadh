@@ -16,6 +16,9 @@
         border: solid grey 2px;
         width: 100%;
     }
+    #first {
+        text-align: center
+    }
     #cancel {
         background-color: red;
         margin-top: 10px;
@@ -44,6 +47,9 @@
     }
     #place {
         width: 60px;
+    }
+    #first {
+        text-align: center
     }
     #cancel {
         background-color: red;

@@ -98,11 +98,18 @@ export class RegisterComponent implements OnInit {
 
   saveEntries() {
     const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      width: '750px',
+      height: '500px',
       data: {
         title: 'Confirm Registration', 
         ageGroup: this.category.age_group,
         competition: this.competition.competition_name,
-        entrants: this.tableData.filter((entrant) => entrant.isRegistered == true)
+        entrants: this.tableData.filter((entrant) => {
+          if (entrant.isRegistered && entrant.isEditable) {
+            return entrant;
+          }
+        }),
+        branch: this.branch.branchName
       }
     });
 
@@ -112,7 +119,12 @@ export class RegisterComponent implements OnInit {
           this.entries[i].registered = row.isRegistered;
         });
         this.service.saveEntries(this.entries)
-          .then((res) => console.log(res));
+          .then((res) => console.log(res))
+          .finally(() => {
+            this.tableData = [];
+            this.showCompetitions = false;
+            this.enableSave = false;
+          });
       }
     });
   }

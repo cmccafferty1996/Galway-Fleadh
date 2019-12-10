@@ -5,6 +5,7 @@ import { Entrant } from '../models/entrant';
 import { Category } from '../models/category';
 import { Branch } from '../models/branch';
 import { ResultsTable } from '../view-results/view-results.component';
+import { Entries } from '../models/entries';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,13 @@ export class ResultsService {
   getAllCategories() {
     return this.http.get('http://localhost:8080/controller/age-groups').toPromise()
       .then((res: Category[]) => {
+        return res;
+      });
+  }
+
+  getNames(comp) {
+    return this.http.get(`http://localhost:8080/controller/entries-names?comp=${comp}`).toPromise()
+      .then((res: Entrant[]) => {
         return res;
       });
   }
@@ -32,5 +40,10 @@ export class ResultsService {
       .then((res: ResultsTable[]) => {
         return res;
       });
+  }
+
+  saveResults(results) {
+    return this.http.put('http://localhost:8080/controller/update-results', results).toPromise()
+      .then((res) => console.log(res));
   }
 }

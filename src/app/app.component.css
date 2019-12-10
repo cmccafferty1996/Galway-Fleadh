@@ -44,6 +44,7 @@
     #admin {
         color: white;
         float: right;
+        margin-right: 10px;
     }
 }
 
@@ -84,6 +85,8 @@
     #admin {
         color: white;
         float: right;
+        margin-right: 15px;
+        margin-top: 10px;
     }
     #mobile-space {
         display: none;

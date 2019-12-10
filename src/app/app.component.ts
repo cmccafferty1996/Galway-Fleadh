@@ -14,14 +14,17 @@ export class AppComponent {
   activeLinkIndex = -1;
   isLoggedIn = false;
   subscription: Subscription;
+  user: string;
 
   constructor(private router: Router, private login: LoginService) {
   }
 
   ngOnInit(): void {
+    this.user = "";
     this.subscription = this.login.isLoggedIn$.subscribe((res) => {
-      this.isLoggedIn = res;
-      this.setNavLinks(res);
+      this.isLoggedIn = res.isLoggedIn;
+      this.user = res.user;
+      this.setNavLinks(res.isLoggedIn);
     });
     this.router.events.subscribe((res) => {
         this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));

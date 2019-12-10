@@ -9,6 +9,9 @@
         color: white;
         font-family: 'Oxygen';
     }
+    #view-btn {
+        margin-left: 10px;
+    }
     #table {
         margin-left: 0px;
     }
@@ -41,6 +44,11 @@
         color: white;
         font-family: 'Oxygen';
     }
+
+    #view-btn {
+        margin-left: 10px;
+    }
+
     table {
         border: solid grey 2px;
         width: 30%;

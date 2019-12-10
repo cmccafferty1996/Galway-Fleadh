@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Competition } from '../models/competition';
 import { Entrant } from '../models/entrant';
 import { Category } from '../models/category';
-import { Branch } from '../models/branch';
 import { ResultsTable } from '../view-results/view-results.component';
-import { Entries } from '../models/entries';
 
 @Injectable({
   providedIn: 'root'

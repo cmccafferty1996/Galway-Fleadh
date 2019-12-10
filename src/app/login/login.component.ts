@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { Subscription } from 'rxjs';
+import { AdminUser } from '../models/AdminUser';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +22,7 @@ export class LoginComponent implements OnInit {
     this.username = '';
     this.password = '';
     this.subscription = this.login.isLoggedIn$.subscribe((res) => {
-      console.log(res);
-      this.isLoggedIn = res;
+      this.isLoggedIn = res.isLoggedIn;
     });
   }
 
@@ -31,12 +31,25 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('here', this.username, this.password);
-    if (this.username === 'admin' && this.password === 'donegal$1') {
-      this.login.updateLoginState(true);
-      this.loginFailed = false;
-    } else {
-      this.loginFailed = true;
-    }
+    this.login.getUserByUserName(this.username)
+      .then((user: AdminUser) => {
+        if (user === null) {
+          this.loginFailed = true;
+        } else {
+          if (this.password !== user.password) {
+            this.loginFailed = true;
+          } else {
+            this.login.updateLoginState(true, this.username);
+            this.loginFailed = false;
+            console.log(this.getTodaysDate());
+            // user.lastLogon = this.getTodaysDate();
+            // this.login.updateLastLogon(user);
+          }
+        }
+      });
+  }
+
+  getTodaysDate() {
+    return new Date('yyyyMMdd').toString();
   }
 }

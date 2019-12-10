@@ -1,7 +1,7 @@
 <div id="container">
   <header>
       <img width="100" alt="Angular Logo" src="../assets/Fleadh-Logo.png">
-      <div id="admin" *ngIf="isLoggedIn">Admin logged in</div>
+      <div id="admin" *ngIf="isLoggedIn">{{user}} logged in</div>
   </header>
   <nav mat-tab-nav-bar id="navBar">
     <a mat-tab-link

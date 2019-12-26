@@ -34,6 +34,6 @@ export class LoginService {
   }
 
   updateLastLogon(user) {
-    return this.http.put('http://localhost:8080/controller/update-logon', user);
+    return this.http.get(`http://localhost:8080/controller/update-logon?username=${user}`).toPromise();
   }
 }

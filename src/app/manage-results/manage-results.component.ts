@@ -61,17 +61,6 @@ export class ManageResultsComponent implements OnInit {
       .then((res: Entrant[]) => this.names = res);
   }
 
-  // changePlace(musician, place) {
-  //   if (this.winners.get(musician)) {
-  //     // handle change
-  //   } else {
-  //     this.winners.set(musician, place);
-  //     const oldPlace = this.places.indexOf(place);
-  //     this.places.splice(oldPlace, 1);
-  //     console.log(this.winners);
-  //   }
-  // }
-
   placeSelected(name, place) {
     this.winners.set(place, name);
   }
@@ -99,7 +88,11 @@ export class ManageResultsComponent implements OnInit {
       third: this.getEntrantIdCheckIfNull(this.winners.get("3")),
       recommended: this.getEntrantIdCheckIfNull(this.winners.get("R")),
     }
-    this.service.saveResults(params);
+    if (this.areResultsUnique()) {
+      this.service.saveResults(params);
+    } else {
+      console.log('error not unique ', this.winners);
+    }
   }
 
   initializeTable() {
@@ -127,5 +120,18 @@ export class ManageResultsComponent implements OnInit {
     } else {
       return entrant.id;
     }
+  }
+
+  private areResultsUnique() {
+    let i, y;
+    let values = Array.from(this.winners.values());
+    for (i=0; i < values.length - 1; i++) {
+      for (y=i + 1; y < values.length; y++) {
+        if (this.getEntrantIdCheckIfNull(values[i]) === this.getEntrantIdCheckIfNull(values[y])) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }

@@ -41,15 +41,9 @@ export class LoginComponent implements OnInit {
           } else {
             this.login.updateLoginState(true, this.username);
             this.loginFailed = false;
-            console.log(this.getTodaysDate());
-            // user.lastLogon = this.getTodaysDate();
-            // this.login.updateLastLogon(user);
+            this.login.updateLastLogon(user.userName);
           }
         }
       });
-  }
-
-  getTodaysDate() {
-    return new Date('yyyyMMdd').toString();
   }
 }

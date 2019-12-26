@@ -79,6 +79,7 @@ export class ManageResultsComponent implements OnInit {
   onSubmit() {
     if (this.results.length > 0) return;
     this.onSubmitClicked = true;
+    this.manageResults = false;
     this.showResults = false;
     this.service.getResultsByCompetition(this.competition.id)
       .then((res: ResultsTable[]) => {

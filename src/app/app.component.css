@@ -14,7 +14,27 @@
   }
 
   header {
-    background-color: #63002f;
+    background-color: #800020;
+    text-align: center;
+    height: 120px;
+  }
+
+  #logo {
+    float: left;
+    width: 100px;
+  }
+
+  #title {
+    display: inline;
+    line-height: 5;
+    color: white;
+    font-family: Roboto "Helvetica Neue", sans-serif;
+    font-size: 20px;
+    word-wrap: break-word;
+  }
+
+  #admin {
+    display: none;
   }
 
   #container {
@@ -61,12 +81,6 @@
     float: right;
     margin-right: 10px;
   }
-
-  #admin {
-    color: white;
-    float: right;
-    margin-right: 10px;
-  }
 }
 
 /* for PC view*/
@@ -86,6 +100,28 @@
 
   header {
     background-color: #800020;
+    text-align: center;
+    height: 120px;
+  }
+
+  #logo {
+    float: left;
+    width: 100px;
+  }
+
+  #title {
+    display: inline;
+    line-height: 3;
+    color: white;
+    font-family: Roboto "Helvetica Neue", sans-serif;
+    font-size: 30px;
+  }
+
+  #admin {
+    color: white;
+    float: right;
+    margin-right: 15px;
+    margin-top: 10px;
   }
 
   #container {
@@ -119,13 +155,6 @@
 
   #menu-icon {
     display: none;
-  }
-
-  #admin {
-    color: white;
-    float: right;
-    margin-right: 15px;
-    margin-top: 10px;
   }
 
   #mobile-space {

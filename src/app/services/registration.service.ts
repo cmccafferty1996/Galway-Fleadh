@@ -49,6 +49,7 @@ export class RegistrationService {
   }
 
   saveEntries(entries) {
-    return this.http.put('http://localhost:8080/controller/updateEntries', entries).toPromise();
+    return this.http.put('http://localhost:8080/controller/updateEntries', entries,
+      {responseType: 'text'}).toPromise();
   }
 }

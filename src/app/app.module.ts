@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { ManageResultsComponent } from './manage-results/manage-results.component';
 import { ManageRegistrationComponent } from './manage-registration/manage-registration.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { SnackbarContentComponent } from './snackbar-content/snackbar-content.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
     LoginComponent,
     ManageResultsComponent,
     ManageRegistrationComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    SnackbarContentComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +39,6 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmModalComponent]
+  entryComponents: [ConfirmModalComponent, SnackbarContentComponent]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatDialog, MatSnackBar } from '@angular/material';
 import { Branch } from '../models/branch';
 import { Category } from '../models/category';
 import { Competition } from '../models/competition';
@@ -9,6 +9,7 @@ import { RegistrationService } from '../services/registration.service';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { Entrant } from '../models/entrant';
 import { Router } from '@angular/router';
+import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
 
 export class RowElement {
   name: string;
@@ -47,7 +48,8 @@ export class ManageRegistrationComponent implements OnInit {
   enableSave: boolean = false;
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
 
-  constructor(public dialog: MatDialog, private service: RegistrationService, private router: Router ) { }
+  constructor(public dialog: MatDialog, private service: RegistrationService,
+    private router: Router, private snackbar: MatSnackBar) { }
 
   ngOnInit() {
     this.location = [];
@@ -114,13 +116,27 @@ export class ManageRegistrationComponent implements OnInit {
           this.entries[i].registered = row.isRegistered;
         });
         this.service.saveEntries(this.entries)
-          .then((res) => console.log(res))
+          .then((res) => {
+            this.openSnackbar('green-snackbar', 'Registration successful');
+          })
+          .catch((err) => {
+            console.log('theres an error', err);
+            this.openSnackbar('red-snackbar', 'Error saving registration');
+          })
           .finally(() => {
             this.tableData = [];
             this.showCompetitions = false;
             this.enableSave = false;
           });
       }
+    });
+  }
+
+  openSnackbar(css, message) {
+    this.snackbar.openFromComponent(SnackbarContentComponent, {
+      duration: 5000,
+      data: {message},
+      panelClass: [css]
     });
   }
 

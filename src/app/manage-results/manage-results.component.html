@@ -27,13 +27,25 @@
     </mat-form-field>
     <br>
 
-    <button mat-button (click)="inputResults()" [disabled]="!compitition && !category">Input Results</button>
+    <button mat-button (click)="inputResults()" [disabled]="!competition && !category">Input Results</button>
 
-    <button mat-button (click)="onSubmit()" id="view-btn" [disabled]="!compitition && !category">View Results</button>
+    <button mat-button (click)="onSubmit()" id="view-btn" [disabled]="!competition && !category">View Results</button>
   </mat-card-content>
 </mat-card>
 <br>
+<mat-card *ngIf="showResultsError">
+  <mat-card-content id="error-text">
+    Results could not be found for {{category.age_group}} {{competition.competition_name}}. <br>
+    Please try again later or go to the fleadh office.
+  </mat-card-content>
+</mat-card>
+
 <mat-card *ngIf="showResults">
+  <mat-card-header>
+    <mat-card-title>
+      Results for {{category.age_group}} {{competition.competition_name}}
+    </mat-card-title>
+  </mat-card-header>
   <mat-card-content id="table">
     <table mat-table [dataSource]="dataSource">
       <!-- Place Column -->
@@ -62,10 +74,14 @@
 
 <mat-card *ngIf="manageResults">
   <mat-card-title>Enter Results for {{category.age_group}} {{competition.competition_name}}</mat-card-title>
+  <span *ngIf="duplicatedResults" id="error-text">
+    Error saving results, competitor entered for more than one place! Please review
+  </span>
   <mat-card-content id="places">
     1st Place:
     <mat-form-field id="first">
       <mat-select [formControl]="categoryControl" (selectionChange)="placeSelected($event.value, '1')">
+        <mat-option>--</mat-option>
         <mat-option *ngFor="let name of names" [value]="name">
           {{name.entrant_name}}
         </mat-option>
@@ -74,6 +90,7 @@
     2nd Place:
     <mat-form-field id="first">
       <mat-select [formControl]="categoryControl" (selectionChange)="placeSelected($event.value, '2')">
+        <mat-option>--</mat-option>
         <mat-option *ngFor="let name of names" [value]="name">
           {{name.entrant_name}}
         </mat-option>
@@ -82,6 +99,7 @@
     3rd Place:
     <mat-form-field id="first">
       <mat-select [formControl]="categoryControl" (selectionChange)="placeSelected($event.value, '3')">
+        <mat-option>--</mat-option>
         <mat-option *ngFor="let name of names" [value]="name">
           {{name.entrant_name}}
         </mat-option>
@@ -90,6 +108,7 @@
     Recommended:
     <mat-form-field id="first">
       <mat-select [formControl]="categoryControl" (selectionChange)="placeSelected($event.value, 'R')">
+        <mat-option>--</mat-option>
         <mat-option *ngFor="let name of names" [value]="name">
           {{name.entrant_name}}
         </mat-option>

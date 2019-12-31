@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatSnackBar } from '@angular/material';
 import { ResultsTable } from '../view-results/view-results.component';
 import { Competition } from '../models/competition';
 import { Category } from '../models/category';
 import { ResultsService } from '../services/results.service';
 import { Entrant } from '../models/entrant';
 import { Router } from '@angular/router';
+import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
 
 @Component({
   selector: 'app-manage-results',
@@ -25,13 +26,15 @@ export class ManageResultsComponent implements OnInit {
   today = new Date();
   showResults = false;
   onSubmitClicked = false;
+  duplicatedResults = false;
+  showResultsError = false;
   results: ResultsTable[];
   winners: Map<String, Entrant> = new Map<String, Entrant>();
   manageResults = false;
   displayedColumns: string[] = ['name', 'branch', 'place'];
   dataSource = new MatTableDataSource<Object>(this.results);
 
-  constructor(private service: ResultsService, private router: Router) { }
+  constructor(private service: ResultsService, private router: Router, private snackbar: MatSnackBar) { }
 
   ngOnInit() {
     this.categories = [];
@@ -62,6 +65,7 @@ export class ManageResultsComponent implements OnInit {
   }
 
   placeSelected(name, place) {
+    this.duplicatedResults = false;
     this.winners.set(place, name);
   }
 
@@ -70,6 +74,7 @@ export class ManageResultsComponent implements OnInit {
     this.onSubmitClicked = true;
     this.manageResults = false;
     this.showResults = false;
+    this.showResultsError = false;
     this.service.getResultsByCompetition(this.competition.id)
       .then((res: ResultsTable[]) => {
         res.forEach((winner) => {
@@ -77,6 +82,9 @@ export class ManageResultsComponent implements OnInit {
         });
         this.dataSource = new MatTableDataSource<ResultsTable>(this.results);
         this.showResults = true;
+      })
+      .catch((err) => {
+        this.showResultsError = true;
       });
   }
 
@@ -89,10 +97,26 @@ export class ManageResultsComponent implements OnInit {
       recommended: this.getEntrantIdCheckIfNull(this.winners.get("R")),
     }
     if (this.areResultsUnique()) {
-      this.service.saveResults(params);
+      this.service.saveResults(params)
+        .then((res) => {
+          console.log(res);
+          this.openSnackbar('green-snackbar', 'Results saved successful');
+        })
+        .catch((err) => {
+          console.log('theres an error', err);
+          this.openSnackbar('red-snackbar', 'Error saving results');
+        });
     } else {
-      console.log('error not unique ', this.winners);
+      this.duplicatedResults = true;
     }
+  }
+
+  openSnackbar(css, message) {
+    this.snackbar.openFromComponent(SnackbarContentComponent, {
+      duration: 5000,
+      data: {message},
+      panelClass: [css]
+    });
   }
 
   initializeTable() {

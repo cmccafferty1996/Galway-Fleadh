@@ -42,7 +42,7 @@ export class ManageRegistrationComponent implements OnInit {
   competition: Competition;
   today = new Date();
   showCompetitions = false;
-  displayedColumns: string[] = ['name', 'registered'];
+  displayedColumns: string[] = ['Name', 'Register'];
   tableData: RowElement[];
   entries: Entries[];
   enableSave: boolean = false;
@@ -117,11 +117,12 @@ export class ManageRegistrationComponent implements OnInit {
         });
         this.service.saveEntries(this.entries)
           .then((res) => {
-            this.openSnackbar('green-snackbar', 'Registration successful');
+            console.log(res);
+            this.openSnackbar('green-snackbar', 'Changes saved successful');
           })
           .catch((err) => {
             console.log('theres an error', err);
-            this.openSnackbar('red-snackbar', 'Error saving registration');
+            this.openSnackbar('red-snackbar', 'Error saving changes');
           })
           .finally(() => {
             this.tableData = [];

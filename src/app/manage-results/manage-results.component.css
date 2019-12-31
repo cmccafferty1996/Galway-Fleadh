@@ -1,67 +1,84 @@
 @media (max-width: 900px) {
     
-    mat-card-content {
-        margin-left: 16px;
-    }
-    button {
-        border: solid grey 2px;
-        background-color: green;
-        color: white;
-        font-family: 'Oxygen';
-    }
-    #view-btn {
-        margin-left: 10px;
-    }
-    #table {
-        margin-left: 0px;
-    }
-    table {
-        border: solid grey 2px;
-        width: 100%;
-    }
-    #first {
-        text-align: center
-    }
-    #cancel {
-        background-color: red;
-        margin-top: 10px;
-        margin-right: 5%;
-    }
+  mat-card-content {
+    margin-left: 16px;
+  }
 
-    #save {
-        margin-left: 10%;
-    }
+  button {
+    border: solid grey 2px;
+    background-color: green;
+    color: white;
+    font-family: 'Oxygen';
+  }
+
+  #view-btn {
+    margin-left: 10px;
+  }
+
+  #error-text {
+    color: red;
+  }
+
+  #table {
+    margin-left: 0px;
+  }
+
+  table {
+    border: solid grey 2px;
+    width: 100%;
+  }
+  #first {
+    text-align: center
+  }
+
+  #cancel {
+    background-color: red;
+    margin-top: 10px;
+    margin-right: 5%;
+  }
+
+  #save {
+    margin-left: 10%;
+  }
 }
 
 @media (min-width: 902px) {
 
-    mat-card-content {
-        margin-left: 16px;
-    }
-    button {
-        border: solid grey 2px;
-        background-color: green;
-        color: white;
-        font-family: 'Oxygen';
-    }
+  mat-card-content {
+    margin-left: 16px;
+  }
 
-    #view-btn {
-        margin-left: 10px;
-    }
+  button {
+    border: solid grey 2px;
+    background-color: green;
+    color: white;
+    font-family: 'Oxygen';
+  }
 
-    table {
-        border: solid grey 2px;
-        width: 30%;
-    }
-    #place {
-        width: 60px;
-    }
-    #first {
-        text-align: center
-    }
-    #cancel {
-        background-color: red;
-        margin-top: 10px;
-        margin-right: 5%;
-    }
+  #view-btn {
+    margin-left: 10px;
+  }
+
+  #error-text {
+    color: red;
+  }
+
+  table {
+    border: solid grey 2px;
+    width: 30%;
+  }
+
+  #place {
+    width: 60px;
+  }
+
+  #first {
+    text-align: center
+  }
+
+  #cancel {
+    background-color: red;
+    margin-top: 10px;
+    margin-right: 5%;
+  }
 }

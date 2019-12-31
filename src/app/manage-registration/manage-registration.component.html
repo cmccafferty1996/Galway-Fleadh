@@ -48,17 +48,22 @@
   </mat-card>
   <br>
   <mat-card *ngIf="showCompetitions">
+    <mat-card-header>
+      <mat-card-title>
+        Entries for {{category.age_group}} {{competition.competition_name}} from {{branch.branchName}}
+      </mat-card-title>
+    </mat-card-header>
     <mat-card-content id="table">
       <table mat-table [dataSource]="dataSource">
         <!-- Name Column -->
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="Name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
           <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
     
         <!-- Registered Column -->
-        <ng-container matColumnDef="registered">
-          <th mat-header-cell *matHeaderCellDef id="checkBox"> Registered </th>
+        <ng-container matColumnDef="Register">
+          <th mat-header-cell *matHeaderCellDef id="checkBox"> Register</th>
           <td mat-cell *matCellDef="let element; let i = index" id="checkBox">
             <mat-checkbox (change)="shouldEnableSave($event, i)" [(ngModel)]="element.isRegistered"></mat-checkbox>
           </td>

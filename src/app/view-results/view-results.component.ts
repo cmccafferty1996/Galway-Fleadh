@@ -34,6 +34,9 @@ export class ViewResultsComponent implements OnInit {
   today = new Date();
   showResults = false;
   onSubmitClicked = false;
+  showResultsError = false;
+  abadonShip = false;
+  loadComplete = false;
   displayedColumns: string[] = ['place', 'name', 'branch'];
   results: ResultsTable[];
   dataSource = new MatTableDataSource<ResultsTable>(this.results);
@@ -44,11 +47,19 @@ export class ViewResultsComponent implements OnInit {
     this.categories = [];
     this.results = [];
     this.service.getAllCategories()
-      .then((res: Category[]) => this.categories = res);
+      .then((res: Category[]) => {
+        this.categories = res;
+        this.loadComplete = true;
+      })
+      .catch((err) => {
+        this.abadonShip = true;
+        console.log('Error getting categories ', err);
+      })
   }
 
   changeCategory(cat) {
     this.category = cat;
+    this.competition = null;
     this.initializeTable();
     this.service.getCompetitionByAgeGroup(this.category.id)
       .then((res) => this.competitions = res);
@@ -62,6 +73,7 @@ export class ViewResultsComponent implements OnInit {
   onSubmit() {
     this.onSubmitClicked = true;
     this.showResults = false;
+    this.showResultsError = false;
     this.service.getResultsByCompetition(this.competition.id)
       .then((res: ResultsTable[]) => {
         res.forEach((winner) => {
@@ -69,6 +81,9 @@ export class ViewResultsComponent implements OnInit {
         });
         this.dataSource = new MatTableDataSource<ResultsTable>(this.results);
         this.showResults = true;
+      })
+      .catch(() => {
+        this.showResultsError = true;
       });
   }
 
@@ -76,5 +91,6 @@ export class ViewResultsComponent implements OnInit {
     this.showResults = false;
     this.onSubmitClicked = false;
     this.results = [];
+    this.showResultsError = false;
   }
 }

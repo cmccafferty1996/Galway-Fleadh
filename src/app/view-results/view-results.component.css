@@ -9,6 +9,9 @@
         color: white;
         font-family: 'Oxygen';
     }
+    #error-text {
+        color: red;
+    }
     #table {
         margin-left: 0px;
     }
@@ -28,6 +31,9 @@
         background-color: green;
         color: white;
         font-family: 'Oxygen';
+    }
+    #error-text {
+        color: red;
     }
     table {
         border: solid grey 2px;

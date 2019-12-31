@@ -2,32 +2,28 @@
   <span id="header-text">{{data.title}}</span>
 </div>
 <div id="modal-content">
-  <span *ngIf="registerEntrants.length > 0">Register</span>
+  <!-- <span *ngIf="registerEntrants.length > 0">Register</span> -->
   <mat-accordion *ngIf="registerEntrants.length > 0">
     <mat-expansion-panel class="example-accordion" [expanded]="true">
       <mat-expansion-panel-header>
-        <mat-panel-title>Name</mat-panel-title>
-        <mat-panel-description>Branch</mat-panel-description>
+        <mat-panel-title>Register</mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-selection-list id="reg-list" *ngFor="let entrant of registerEntrants">
         <span id="name">{{entrant.name}}</span>
-        <span id="branch">{{data.branch}}</span>
       </mat-selection-list>
     </mat-expansion-panel>
   </mat-accordion>
 
-  <span *ngIf="unregisterEntrants.length > 0">Unregister</span>
+  <!-- <span *ngIf="unregisterEntrants.length > 0">Unregister</span> -->
   <mat-accordion *ngIf="unregisterEntrants.length > 0">
     <mat-expansion-panel class="example-accordion" [expanded]="true">
       <mat-expansion-panel-header>
-        <mat-panel-title>Name</mat-panel-title>
-        <mat-panel-description>Branch</mat-panel-description>
+        <mat-panel-title>Unregister</mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-selection-list id="reg-list" *ngFor="let entrant of unregisterEntrants">
         <span id="name">{{entrant.name}}</span>
-        <span id="branch">{{data.branch}}</span>
       </mat-selection-list>
     </mat-expansion-panel>
   </mat-accordion>

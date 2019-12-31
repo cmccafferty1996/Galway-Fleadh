@@ -1,3 +1,6 @@
+<mat-spinner *ngIf="!abadonShip && !loadComplete"></mat-spinner>
+<div *ngIf="abadonShip">Internal error, please go to the Fleadh office to see competition results</div>
+<div *ngIf="!abadonShip && loadComplete">
 <mat-card class="example-card">
   <mat-card-header>
     <mat-card-title>View Competition Results</mat-card-title>
@@ -20,19 +23,30 @@
     <mat-form-field id="competition" *ngIf="category">
       <mat-label>Competition</mat-label>
       <mat-select (selectionChange)="changeCompetition($event.value)">
-        <mat-option *ngFor="let competition of competitions" [value]="competition">
-          {{competition.competition_name}}
+        <mat-option *ngFor="let comp of competitions" [value]="comp">
+          {{comp.competition_name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     
     <br>
-    <button mat-button (click)="onSubmit()" [disabled]="!compitition && !category">View Results</button>
+    <button mat-button (click)="onSubmit()" [disabled]="!competition">View Results</button>
   </mat-card-content>
 </mat-card>
 <br>
-<mat-spinner *ngIf="onSubmitClicked && !showResults"></mat-spinner>
+<mat-spinner *ngIf="onSubmitClicked && !showResults && !showResultsError"></mat-spinner>
+<mat-card *ngIf="showResultsError">
+  <mat-card-content id="error-text">
+    Results could not be found for {{category.age_group}} {{competition.competition_name}}. <br>
+    Please try again later or go to the fleadh office.
+  </mat-card-content>
+</mat-card>
 <mat-card *ngIf="showResults">
+  <mat-card-header>
+    <mat-card-title>
+      Results for {{category.age_group}} {{competition.competition_name}}
+    </mat-card-title>
+  </mat-card-header>
   <mat-card-content id="table">
     <table mat-table [dataSource]="dataSource">
       <!-- Place Column -->
@@ -58,3 +72,4 @@
     </table>
   </mat-card-content>
 </mat-card>
+</div>

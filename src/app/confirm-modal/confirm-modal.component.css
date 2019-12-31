@@ -36,11 +36,6 @@
     display: flex;
   }
 
-  #branch {
-    flex-grow: 2;
-    display: flex;
-  }
-
   #buttons {
     float: right;
     margin-right: 15px;
@@ -49,9 +44,9 @@
     margin-top: 10px;
   }
 
-  #add {
+  #register {
     color: white;
-    background: #468ee5;
+    background-color: #468ee5;
   }
 
   #cancel {
@@ -68,6 +63,7 @@
     color: white;
     font-size: 20px;
     vertical-align: middle;
+    text-align: center;
   }
 
   #modal-content {
@@ -97,11 +93,6 @@
     display: flex;
   }
 
-  #branch {
-    flex-grow: 2;
-    display: flex;
-  }
-
   #buttons {
     float: right;
     margin-right: 15px;
@@ -110,9 +101,9 @@
     margin-top: 10px;
   }
 
-  #add {
+  #register {
     color: white;
-    background: #468ee5;
+    background-color: #468ee5;
   }
 
   #cancel {

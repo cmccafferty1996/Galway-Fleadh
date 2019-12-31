@@ -43,7 +43,9 @@ export class RegisterComponent implements OnInit {
   competition: Competition;
   today = new Date();
   showCompetitions = false;
-  displayedColumns: string[] = ['name', 'registered'];
+  abadonShip = false;
+  loadComplete = false;
+  displayedColumns: string[] = ['Name', 'Register'];
   tableData: RowElement[];
   entries: Entries[];
   enableSave: boolean = false;
@@ -59,7 +61,14 @@ export class RegisterComponent implements OnInit {
     this.tableData = [];
     this.entries = [];
     this.service.getAllBranchNames()
-      .then((res) => this.branches = res);
+      .then((res) => {
+        this.branches = res;
+        this.loadComplete = true;
+      })
+      .catch((err) => {
+        this.abadonShip = true;
+        console.log('No branches retrieved', err);
+      });
   }
 
   getLocation() {
@@ -122,6 +131,7 @@ export class RegisterComponent implements OnInit {
         });
         this.service.saveEntries(this.entries)
           .then((res) => {
+            console.log(res);
             this.openSnackbar('green-snackbar', 'Registration successful');
           })
           .catch((err) => {

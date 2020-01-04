@@ -135,6 +135,7 @@ export class ManageResultsComponent implements OnInit {
   inputResults() {
     this.manageResults = true;
     this.showResults = false;
+    this.showResultsError = false;
     this.results = [];
   }
 

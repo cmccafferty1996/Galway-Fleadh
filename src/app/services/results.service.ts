@@ -41,7 +41,8 @@ export class ResultsService {
   }
 
   saveResults(results) {
-    return this.http.put('http://localhost:8080/controller/update-results', results).toPromise()
-      .then((res) => console.log(res));
+    return this.http.put('http://localhost:8080/controller/update-results', results, 
+      {responseType: 'text'}).toPromise()
+        .then((res) => console.log(res));
   }
 }

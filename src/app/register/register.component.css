@@ -3,8 +3,7 @@
         margin-left: 16px;
     }
     button {
-        border: solid grey 2px;
-        background-color: green;
+        background-color: #468ee5;
         color: white;
         font-family: 'Oxygen';
     }
@@ -23,9 +22,14 @@
     }
     #cancel {
         background-color: red;
-        margin-top: 10px;
-        margin-left: 5%;
+        margin-top: 15px;
         margin-right: 32%;
+    }
+    #bottom-cancel {
+        background-color: red;
+        margin-top: 15px;
+        margin-right: 32%;
+        margin-left: 16px;
     }
 }
 
@@ -34,8 +38,7 @@
         margin-left: 16px;
     }
     button {
-        border: solid grey 2px;
-        background-color: green;
+        background-color: #468ee5;
         color: white;
         font-family: 'Oxygen';
     }
@@ -49,9 +52,13 @@
     #checkBox {
         text-align: center;
     }
-    #cancel {
+    #cancel, #bottom-cancel {
         background-color: red;
         margin-top: 10px;
         margin-right: 8%;
+    }
+
+    #bottom-cancel {
+        margin-top: 25px;
     }
 }

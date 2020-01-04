@@ -7,9 +7,9 @@
     margin-right: 15px;
   }
   button {
-    border: solid grey 2px;
-    background-color: green;
+    background-color: #468ee5;
     color: white;
+    margin-left: 16px;
     font-family: 'Oxygen';
   }
 
@@ -34,10 +34,9 @@
     margin-right: 15px;
   }
   #login {
-    border: solid grey 2px;
-    background-color: green;
+    background-color: #468ee5;
     color: white;
-    text-align: center;
+    line-height: 1;
     font-family: 'Oxygen';
     height: 30px;
     width: 100px;

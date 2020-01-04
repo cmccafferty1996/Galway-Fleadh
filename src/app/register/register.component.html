@@ -43,8 +43,8 @@
     </mat-form-field>
 
     <br>
-    <button mat-button id="cancel" (click)="router.navigate(['/home'])">Cancel</button>
-    <button mat-button (click)="onSubmit()" 
+    <button mat-raised-button id="cancel" (click)="router.navigate(['/home'])">Cancel</button>
+    <button mat-raised-button (click)="onSubmit()" 
             [disabled]="!(branch && competition && category)">Submit</button>
   </mat-card-content>
 </mat-card>
@@ -86,8 +86,8 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <button mat-button (click)="router.navigate(['/home'])" id="cancel">Cancel</button>
-    <button mat-button id="save" [disabled]="!enableSave" (click)="saveEntries()">Save</button>
+    <button mat-raised-button (click)="router.navigate(['/home'])" id="bottom-cancel">Cancel</button>
+    <button mat-raised-button id="save" [disabled]="!enableSave" (click)="saveEntries()">Save</button>
   </mat-card-content>
 </mat-card>
 </div>

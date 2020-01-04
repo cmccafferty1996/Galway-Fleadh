@@ -1,13 +1,9 @@
 @media (max-width: 900px) {
-    #loc {
-        background-color: aqua;
-    }
     mat-card-content {
         margin-left: 16px;
     }
     button {
-        border: solid grey 2px;
-        background-color: green;
+        background-color: #468ee5;
         color: white;
         font-family: 'Oxygen';
     }
@@ -21,24 +17,24 @@
     #checkBox {
         text-align: center;
     }
-    #cancel {
+    #cancel, #bottom-cancel {
         background-color: red;
         margin-top: 10px;
-        margin-left: 5%;
         margin-right: 32%;
+    }
+
+    #bottom-cancel {
+        margin-left: 5%;
+        margin-top: 25px;
     }
 }
 
 @media (min-width: 902px) {
-    #loc {
-        background-color: red;
-    }
     mat-card-content {
         margin-left: 16px;
     }
     button {
-        border: solid grey 2px;
-        background-color: green;
+        background-color: #468ee5;
         color: white;
         font-family: 'Oxygen';
     }
@@ -49,10 +45,13 @@
     #checkBox {
         text-align: center;
     }
-    #cancel {
+    #cancel, #bottom-cancel {
         background-color: red;
         margin-top: 10px;
-        margin-left: 1.5%;
-        margin-right: 12%;
+        margin-right: 8%;
+    }
+
+    #bottom-cancel {
+        margin-top: 25px;
     }
 }

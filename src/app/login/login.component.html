@@ -11,7 +11,7 @@
     <mat-form-field id="password">
       <input matInput type="password" [disabled]="isLoggedIn" placeholder="Password" [(ngModel)]="password">
     </mat-form-field>
-    <button mat-button id="login" [disabled]="isLoggedIn" (click)="onSubmit()">Login</button>
+    <button mat-raised-button id="login" [disabled]="isLoggedIn" (click)="onSubmit()">Login</button>
   </mat-card-content>
 </mat-card>
 <br>

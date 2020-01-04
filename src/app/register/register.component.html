@@ -77,8 +77,8 @@
       <!-- Registered Column -->
       <ng-container matColumnDef="Register">
         <th mat-header-cell *matHeaderCellDef id="checkBox"> Register</th>
-        <td mat-cell *matCellDef="let element" id="checkBox">
-          <mat-checkbox (change)="shouldEnableSave($event)" 
+        <td mat-cell *matCellDef="let element, let i = index" id="checkBox">
+          <mat-checkbox (change)="shouldEnableSave($event, i)" 
             [disabled]="!element.isEditable" [(ngModel)]="element.isRegistered"></mat-checkbox>
         </td>
       </ng-container>

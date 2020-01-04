@@ -15,11 +15,15 @@ export class RowElement {
   name: string;
   isRegistered: boolean;
   isEditable: boolean;
+  isChanged: boolean;
+  counter: number;
 
   constructor(n: string, reg: boolean) {
     this.name = n;
     this.isRegistered = reg;
     this.isEditable = !reg;
+    this.isChanged = false;
+    this.counter = 1;
   }
 }
 
@@ -156,9 +160,10 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  shouldEnableSave($event) {
-    const registered = this.tableData.filter((entrant) => entrant.isRegistered == true);
-    this.enableSave = (registered.length > 0);
+  shouldEnableSave($event, i) {
+    this.tableData[i].counter++;
+    this.tableData[i].isChanged = !this.isOdd(this.tableData[i].counter);
+    this.enableSave = this.tableData.filter((entrant) => entrant.isChanged == true).length > 0;
   }
 
   private isCompDateToday(compDate) {
@@ -168,6 +173,10 @@ export class RegisterComponent implements OnInit {
       result = true;
     }
     return result;
+  }
+
+  private isOdd(num) {
+    return Boolean(num % 2);
   }
 
   private branchFiltering(entries: Entries[]) {

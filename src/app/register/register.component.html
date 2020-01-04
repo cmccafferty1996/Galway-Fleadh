@@ -49,6 +49,12 @@
   </mat-card-content>
 </mat-card>
 <br>
+<mat-card *ngIf="isTooEarlyToRegister">
+  <mat-card-content id="error-text">
+    Registration is not yet open for {{category.age_group}} {{competition.competition_name}}.
+    Registration is open on the day of the competition.
+  </mat-card-content>
+</mat-card>
 <mat-card *ngIf="showCompetitions">
   <mat-card-header>
     <mat-card-title>

@@ -1,7 +1,4 @@
 @media (max-width: 900px) {
-    #loc {
-        background-color: aqua;
-    }
     mat-card-content {
         margin-left: 16px;
     }
@@ -10,6 +7,9 @@
         background-color: green;
         color: white;
         font-family: 'Oxygen';
+    }
+    #error-text {
+        color: red;
     }
     #table {
         margin-left: 0px;
@@ -30,9 +30,6 @@
 }
 
 @media (min-width: 902px) {
-    #loc {
-        background-color: red;
-    }
     mat-card-content {
         margin-left: 16px;
     }
@@ -45,6 +42,9 @@
     table {
         border: solid grey 2px;
         width: 30%;
+    }
+    #error-text {
+        color: red;
     }
     #checkBox {
         text-align: center;

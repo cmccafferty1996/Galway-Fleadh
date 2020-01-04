@@ -30,7 +30,6 @@ export class RowElement {
 })
 
 export class RegisterComponent implements OnInit {
-  location: number[];
   branchControl = new FormControl('', [Validators.required]);
   categoryControl = new FormControl('', [Validators.required]);
   compControl = new FormControl('', [Validators.required]);
@@ -45,10 +44,11 @@ export class RegisterComponent implements OnInit {
   showCompetitions = false;
   abadonShip = false;
   loadComplete = false;
+  enableSave: boolean = false;
+  isTooEarlyToRegister = false;
   displayedColumns: string[] = ['Name', 'Register'];
   tableData: RowElement[];
   entries: Entries[];
-  enableSave: boolean = false;
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
 
   constructor(public dialog: MatDialog, 
@@ -56,10 +56,9 @@ export class RegisterComponent implements OnInit {
     private snackbar: MatSnackBar) { }
 
   ngOnInit() {
-    this.location = [];
-    this.getLocation();
     this.tableData = [];
     this.entries = [];
+    this.today.setHours(0, 0, 0, 0);
     this.service.getAllBranchNames()
       .then((res) => {
         this.branches = res;
@@ -71,17 +70,10 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.location.push(position.coords.latitude);
-        this.location.push(position.coords.longitude);
-      })
-    }
-  }
-
   changeBranch(branch) {
     this.branch = branch;
+    this.showCompetitions = false;
+    this.isTooEarlyToRegister = false;
     if (!this.catagories) {
       this.service.getAllCategories()
       .then((res) => this.catagories = res);
@@ -90,21 +82,30 @@ export class RegisterComponent implements OnInit {
 
   changeCategory(cat) {
     this.category = cat;
+    this.showCompetitions = false;
+    this.isTooEarlyToRegister = false;
     this.service.getCompetitionByAgeGroup(this.category.id)
       .then((res) => this.competitions = res);
   }
 
   changeCompetition(comp) {
     this.competition = comp;
+    this.showCompetitions = false;
+    this.isTooEarlyToRegister = false;
   }
 
   onSubmit() {
+    if (this.showCompetitions) return;
     this.tableData = [];
     this.entries = [];
-    this.service.getEntries(this.competition.id)
-      .then((res) => {
-        this.branchFiltering(res);
-      });
+    if (this.isCompDateToday(this.competition.competition_date)) {
+      this.service.getEntries(this.competition.id)
+        .then((res) => {
+          this.branchFiltering(res);
+        });
+    } else {
+      this.isTooEarlyToRegister = true;
+    }
   }
 
   saveEntries() {
@@ -158,6 +159,15 @@ export class RegisterComponent implements OnInit {
   shouldEnableSave($event) {
     const registered = this.tableData.filter((entrant) => entrant.isRegistered == true);
     this.enableSave = (registered.length > 0);
+  }
+
+  private isCompDateToday(compDate) {
+    const date = new Date(compDate);
+    let result = false;
+    if (date.getMonth() >= this.today.getMonth() && date.getDate() >= this.today.getDate()) {
+      result = true;
+    }
+    return result;
   }
 
   private branchFiltering(entries: Entries[]) {

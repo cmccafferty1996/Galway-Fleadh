@@ -34,7 +34,7 @@ export class ManageResultsComponent implements OnInit {
   displayedColumns: string[] = ['name', 'branch', 'place'];
   dataSource = new MatTableDataSource<Object>(this.results);
 
-  constructor(private service: ResultsService, private router: Router, private snackbar: MatSnackBar) { }
+  constructor(private service: ResultsService, public router: Router, private snackbar: MatSnackBar) { }
 
   ngOnInit() {
     this.categories = [];

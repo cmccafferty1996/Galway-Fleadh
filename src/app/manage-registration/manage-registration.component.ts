@@ -51,7 +51,7 @@ export class ManageRegistrationComponent implements OnInit {
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
 
   constructor(public dialog: MatDialog, private service: RegistrationService,
-    private router: Router, private snackbar: MatSnackBar) { }
+    public router: Router, private snackbar: MatSnackBar) { }
 
   ngOnInit() {
     this.location = [];
@@ -73,6 +73,7 @@ export class ManageRegistrationComponent implements OnInit {
 
   changeBranch(branch) {
     this.branch = branch;
+    this.showCompetitions = false;
     if (!this.catagories) {
       this.service.getAllCategories()
       .then((res) => this.catagories = res);
@@ -81,12 +82,14 @@ export class ManageRegistrationComponent implements OnInit {
 
   changeCategory(cat) {
     this.category = cat;
+    this.showCompetitions = false;
     this.service.getCompetitionByAgeGroup(this.category.id)
       .then((res) => this.competitions = res);
   }
 
   changeCompetition(comp) {
     this.competition = comp;
+    this.showCompetitions = false;
   }
 
   onSubmit() {

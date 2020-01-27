@@ -95,24 +95,20 @@
         </mat-option>
       </mat-select>
     </mat-form-field><br>
+    <div *ngIf="names.length > 2">
     3rd Place:
-    <mat-form-field id="first">
-      <mat-select [formControl]="categoryControl" (selectionChange)="placeSelected($event.value, '3')">
-        <mat-option>--</mat-option>
-        <mat-option *ngFor="let name of names" [value]="name">
-          {{name.entrant_name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field><br>
+      <mat-form-field id="first">
+        <mat-select [formControl]="categoryControl" (selectionChange)="placeSelected($event.value, '3')">
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let name of names" [value]="name">
+            {{name.entrant_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div><br>
     Recommended:
-    <mat-form-field id="first">
-      <mat-select [formControl]="categoryControl" (selectionChange)="placeSelected($event.value, 'R')">
-        <mat-option>--</mat-option>
-        <mat-option *ngFor="let name of names" [value]="name">
-          {{name.entrant_name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field><br>
+    <mat-checkbox [(ngModel)]="isRecommended"></mat-checkbox><br>
+
     <button mat-raised-button id="cancel" (click)="router.navigate(['/home'])">Cancel</button>
     <button mat-raised-button id="save" (click)="saveResults()">Save</button>
   </mat-card-content>

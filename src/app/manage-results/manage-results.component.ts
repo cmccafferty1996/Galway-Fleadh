@@ -28,6 +28,7 @@ export class ManageResultsComponent implements OnInit {
   onSubmitClicked = false;
   duplicatedResults = false;
   showResultsError = false;
+  isRecommended = false;
   results: ResultsTable[];
   winners: Map<String, Entrant> = new Map<String, Entrant>();
   manageResults = false;
@@ -94,13 +95,14 @@ export class ManageResultsComponent implements OnInit {
       first: this.getEntrantIdCheckIfNull(this.winners.get("1")),
       second: this.getEntrantIdCheckIfNull(this.winners.get("2")),
       third: this.getEntrantIdCheckIfNull(this.winners.get("3")),
-      recommended: this.getEntrantIdCheckIfNull(this.winners.get("R")),
+      recommended: this.getRecommended(),
     }
     if (this.areResultsUnique()) {
       this.service.saveResults(params)
         .then((res) => {
           console.log(res);
           this.openSnackbar('green-snackbar', 'Results saved successful');
+          this.manageResults = false;
         })
         .catch((err) => {
           console.log('theres an error', err);
@@ -129,7 +131,6 @@ export class ManageResultsComponent implements OnInit {
     this.winners.set('1', null);
     this.winners.set('2', null);
     this.winners.set('3', null);
-    this.winners.set('R', null);
   }
 
   inputResults() {
@@ -137,6 +138,15 @@ export class ManageResultsComponent implements OnInit {
     this.showResults = false;
     this.showResultsError = false;
     this.results = [];
+  }
+
+  private getRecommended() {
+    if (!this.isRecommended || this.names.length < 2) return null;
+    if (this.winners.get("3") === null) {
+      return this.getEntrantIdCheckIfNull(this.winners.get("2"));
+    } else {
+      return this.getEntrantIdCheckIfNull(this.winners.get("3"));
+    }
   }
 
   private getEntrantIdCheckIfNull(entrant: Entrant) {

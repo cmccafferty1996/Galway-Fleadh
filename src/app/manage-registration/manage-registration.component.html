@@ -2,7 +2,7 @@
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>Manage Registration For Competitions</mat-card-title>
-      <mat-card-subtitle>Please select branch, category and competition to make changes</mat-card-subtitle>
+      <mat-card-subtitle>Please select branch, age group and competition to make changes</mat-card-subtitle>
     </mat-card-header>
   
     <mat-card-content>
@@ -25,7 +25,7 @@
             {{category.age_group}}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="categoryControl.hasError('required')">Please choose a category</mat-error>
+        <mat-error *ngIf="categoryControl.hasError('required')">Please choose an age group</mat-error>
       </mat-form-field>
   
       <br>

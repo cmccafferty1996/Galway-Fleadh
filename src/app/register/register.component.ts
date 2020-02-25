@@ -169,7 +169,7 @@ export class RegisterComponent implements OnInit {
   private isCompDateToday(compDate) {
     const date = new Date(compDate);
     let result = false;
-    if (date.getMonth() >= this.today.getMonth() && date.getDate() >= this.today.getDate()) {
+    if (this.today >= date) {
       result = true;
     }
     return result;

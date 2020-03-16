@@ -13,6 +13,16 @@
     font-family: 'Oxygen';
   }
 
+  #logout {
+    background-color: red;
+    color: white;
+    line-height: 1;
+    font-family: 'Oxygen';
+    height: 30px;
+    width: 100px;
+    margin-left: 0px;
+  }
+
   #success {
     color: green;
     margin-left: 16px;
@@ -42,6 +52,15 @@
     width: 100px;
   }
 
+  #logout {
+    background-color: red;
+    color: white;
+    line-height: 1;
+    font-family: 'Oxygen';
+    height: 30px;
+    width: 100px;
+  }
+
   #success {
     color: green;
     margin-left: 16px;
@@ -50,5 +69,9 @@
   #failed {
     color: red;
     margin-left: 16px;
+  }
+
+  #mobile-space {
+    display: none;
   }
 }

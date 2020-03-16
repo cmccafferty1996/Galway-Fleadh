@@ -46,4 +46,12 @@ export class LoginComponent implements OnInit {
         }
       });
   }
+
+  logOut() {
+    this.loginFailed = false;
+    this.login.updateLoginState(false, "");
+    console.log('here', this.isLoggedIn);
+    this.username = "";
+    this.password = "";
+  }
 }

@@ -62,7 +62,10 @@ export class ViewResultsComponent implements OnInit {
     this.competition = null;
     this.initializeTable();
     this.service.getCompetitionByAgeGroup(this.category.id)
-      .then((res) => this.competitions = res);
+      .then((res) => {
+        this.competitions = res;
+        this.competitions.sort((a, b) => a.competition_name > b.competition_name ? 1 : -1);
+      });
   }
 
   changeCompetition(comp) {

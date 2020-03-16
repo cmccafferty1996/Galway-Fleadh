@@ -30,11 +30,11 @@ export class LoginService {
   }
 
   getUserByUserName(username) {
-    return this.http.get(`http://localhost:8080/controller/admin-user?username=${username}`).toPromise();
+    return this.http.get(`http://galwayfleadh.ie:49372/controller/admin-user?username=${username}`).toPromise();
   }
 
   updateLastLogon(user) {
-    return this.http.get(`http://localhost:8080/controller/update-logon?username=${user}`,
+    return this.http.get(`http://galwayfleadh.ie:49372/controller/update-logon?username=${user}`,
       {responseType: 'text'}).toPromise();
   }
 }

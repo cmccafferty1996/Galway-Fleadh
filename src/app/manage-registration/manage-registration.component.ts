@@ -31,7 +31,6 @@ export class RowElement {
   styleUrls: ['./manage-registration.component.css']
 })
 export class ManageRegistrationComponent implements OnInit {
-  location: number[];
   branchControl = new FormControl('', [Validators.required]);
   categoryControl = new FormControl('', [Validators.required]);
   compControl = new FormControl('', [Validators.required]);
@@ -54,21 +53,13 @@ export class ManageRegistrationComponent implements OnInit {
     public router: Router, private snackbar: MatSnackBar) { }
 
   ngOnInit() {
-    this.location = [];
-    this.getLocation();
     this.tableData = [];
     this.entries = [];
     this.service.getAllBranchNames()
-      .then((res) => this.branches = res);
-  }
-
-  getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.location.push(position.coords.latitude);
-        this.location.push(position.coords.longitude);
-      })
-    }
+      .then((res) => {
+        this.branches = res;
+        this.branches.sort((a, b) => a.branchName > b.branchName ? 1 : -1);
+      });
   }
 
   changeBranch(branch) {
@@ -84,7 +75,10 @@ export class ManageRegistrationComponent implements OnInit {
     this.category = cat;
     this.showCompetitions = false;
     this.service.getCompetitionByAgeGroup(this.category.id)
-      .then((res) => this.competitions = res);
+      .then((res) => {
+        this.competitions = res;
+        this.competitions.sort((a, b) => a.competition_name > b.competition_name ? 1 : -1);
+      });
   }
 
   changeCompetition(comp) {
@@ -171,6 +165,7 @@ export class ManageRegistrationComponent implements OnInit {
         });
     });
     Promise.all(promise).then(() => {
+      this.tableData.sort((a, b) => a.name > b.name ? 1 : -1);
       this.dataSource = new MatTableDataSource<RowElement>(this.tableData);
       this.showCompetitions = true;
     });

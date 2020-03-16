@@ -66,6 +66,7 @@ export class RegisterComponent implements OnInit {
     this.service.getAllBranchNames()
       .then((res) => {
         this.branches = res;
+        this.branches.sort((a, b) => a.branchName > b.branchName ? 1 : -1);
         this.loadComplete = true;
       })
       .catch((err) => {
@@ -89,7 +90,10 @@ export class RegisterComponent implements OnInit {
     this.showCompetitions = false;
     this.isTooEarlyToRegister = false;
     this.service.getCompetitionByAgeGroup(this.category.id)
-      .then((res) => this.competitions = res);
+      .then((res) => {
+        this.competitions = res;
+        this.competitions.sort((a, b) => a.competition_name > b.competition_name ? 1 : -1);
+      });
   }
 
   changeCompetition(comp) {
@@ -194,6 +198,7 @@ export class RegisterComponent implements OnInit {
         });
     });
     Promise.all(promise).then(() => {
+      this.tableData.sort((a, b) => a.name > b.name ? 1 : -1);
       this.dataSource = new MatTableDataSource<RowElement>(this.tableData);
       this.showCompetitions = true;
     });

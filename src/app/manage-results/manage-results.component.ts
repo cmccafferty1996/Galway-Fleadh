@@ -53,7 +53,10 @@ export class ManageResultsComponent implements OnInit {
     this.manageResults = false;
     this.category = cat;
     this.service.getCompetitionByAgeGroup(this.category.id)
-    .then((res) => this.competitions = res);
+    .then((res) => {
+      this.competitions = res;
+      this.competitions.sort((a, b) => a.competition_name > b.competition_name ? 1 : -1);
+    });
   }
 
   changeCompetition(comp) {
@@ -62,7 +65,10 @@ export class ManageResultsComponent implements OnInit {
     this.manageResults = false;
     this.competition = comp;
     this.service.getNames(this.competition.id)
-      .then((res: Entrant[]) => this.names = res);
+      .then((res: Entrant[]) => {
+        this.names = res;
+        this.names.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
+      });
   }
 
   placeSelected(name, place) {

@@ -54,9 +54,9 @@ export class AppComponent {
             icon: 'event_note',
             index: 2
         }, {
-            label: 'Login',
+            label: 'Log Out',
             link: './login',
-            icon: 'perm_identity',
+            icon: 'keyboard_tab',
             index: 3
         }
       ];

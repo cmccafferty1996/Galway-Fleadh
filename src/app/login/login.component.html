@@ -1,4 +1,4 @@
-<mat-card class="example-card">
+<mat-card class="example-card" *ngIf="!isLoggedIn">
   <mat-card-header>
     <mat-card-title>Login</mat-card-title>
     <mat-card-subtitle>Login for admin access - to manage registration and competition results</mat-card-subtitle>
@@ -17,7 +17,9 @@
 <br>
 <mat-card *ngIf="isLoggedIn">
   <mat-card-content id="success">
-    Login successful! You now have admin access!
+    Login successful! You now have admin access!  
+    <br id="mobile-space"><br id="mobile-space">
+    <button mat-raised-button id="logout" (click)="logOut()">LogOut</button>
   </mat-card-content>
 </mat-card>
 <mat-card *ngIf="loginFailed">

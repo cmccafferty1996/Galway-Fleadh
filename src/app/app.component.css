@@ -58,6 +58,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 23%;
+    height: auto;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     height: -webkit-fill-available;
@@ -145,6 +147,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 173px !important;
+    height: auto;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }

@@ -84,6 +84,7 @@ export class ViewResultsComponent implements OnInit {
         });
         this.dataSource = new MatTableDataSource<ResultsTable>(this.results);
         this.showResults = true;
+        window.scrollTo(0, document.body.scrollHeight);
       })
       .catch(() => {
         this.showResultsError = true;

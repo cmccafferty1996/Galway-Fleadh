@@ -149,7 +149,7 @@
     left: 50%;
     width: 173px !important;
     height: auto;
-    -ms-transform: translate(-50%, -50%);
+    /* -ms-transform: translate(-80%, -80%);*/
     transform: translate(-50%, -50%);
   }
 

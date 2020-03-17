@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource, MatDialog, MatSnackBar } from '@angular/material';
 import { RegistrationService } from '../services/registration.service';
@@ -10,6 +10,7 @@ import { Entries } from '../models/entries';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { Router } from '@angular/router';
 import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
+import { DOCUMENT } from '@angular/common'; 
 
 export class RowElement {
   name: string;
@@ -57,7 +58,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(public dialog: MatDialog, 
     private service: RegistrationService, private router: Router,
-    private snackbar: MatSnackBar) { }
+    private snackbar: MatSnackBar, @Inject(DOCUMENT) document) { }
 
   ngOnInit() {
     this.tableData = [];
@@ -201,6 +202,7 @@ export class RegisterComponent implements OnInit {
       this.tableData.sort((a, b) => a.name > b.name ? 1 : -1);
       this.dataSource = new MatTableDataSource<RowElement>(this.tableData);
       this.showCompetitions = true;
+      window.scrollTo(0, document.body.scrollHeight);
     });
   }
 }

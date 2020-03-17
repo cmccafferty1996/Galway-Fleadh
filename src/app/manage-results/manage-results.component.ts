@@ -89,6 +89,7 @@ export class ManageResultsComponent implements OnInit {
         });
         this.dataSource = new MatTableDataSource<ResultsTable>(this.results);
         this.showResults = true;
+        window.scrollTo(0, document.body.scrollHeight);
       })
       .catch((err) => {
         this.showResultsError = true;
@@ -144,6 +145,7 @@ export class ManageResultsComponent implements OnInit {
     this.showResults = false;
     this.showResultsError = false;
     this.results = [];
+    window.scrollTo(0, document.body.scrollHeight);
   }
 
   private getRecommended() {

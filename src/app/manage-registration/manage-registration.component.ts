@@ -168,6 +168,7 @@ export class ManageRegistrationComponent implements OnInit {
       this.tableData.sort((a, b) => a.name > b.name ? 1 : -1);
       this.dataSource = new MatTableDataSource<RowElement>(this.tableData);
       this.showCompetitions = true;
+      window.scrollTo(0, document.body.scrollHeight);
     });
   }
 }

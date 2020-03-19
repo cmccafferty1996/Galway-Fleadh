@@ -16,12 +16,14 @@ export class RowElement {
   isRegistered: boolean;
   isChanged: boolean;
   counter: number;
+  id: number;
 
-  constructor(n: string, reg: boolean) {
+  constructor(n: string, reg: boolean, id: number) {
     this.name = n;
     this.isRegistered = reg;
     this.isChanged = false;
     this.counter = 1;
+    this.id = id;
   }
 }
 
@@ -104,15 +106,15 @@ export class ManageRegistrationComponent implements OnInit {
         ageGroup: this.category.age_group,
         competition: this.competition.competition_name,
         entrants: this.tableData.filter((entrant) => entrant.isChanged == true),
-        isManageReg: true,
-        branch: this.branch.branchName
+        isManageReg: true
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.tableData.forEach((row, i) => {
-          this.entries[i].registered = row.isRegistered;
+        this.tableData.forEach((row) => {
+          const index = this.entries.findIndex(entrant => entrant.entrant == row.id);
+          this.entries[index].registered = row.isRegistered;
         });
         this.service.saveEntries(this.entries)
           .then((res) => {
@@ -158,7 +160,7 @@ export class ManageRegistrationComponent implements OnInit {
           if (res2) {
             if (res2.branch === this.branch.id) {
               this.entries.push(entrant);
-              temp = new RowElement(res2.entrant_name, entrant.registered);
+              temp = new RowElement(res2.entrant_name, entrant.registered, entrant.entrant);
               this.tableData.push(temp);
             }
           }

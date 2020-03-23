@@ -1,4 +1,4 @@
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   #username {
     margin-left: 20px
   }
@@ -34,7 +34,7 @@
   }
 }
 
-@media (min-width: 902px) {
+@media (min-width: 1025px) {
   #username {
     margin-left: 16px;
     margin-right: 15px;

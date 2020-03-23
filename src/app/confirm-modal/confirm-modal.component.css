@@ -1,4 +1,4 @@
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   #modal-header {
     background: #800020;
     height: 75px;
@@ -65,7 +65,7 @@
   }
 }
 
-@media (min-width: 902px) {
+@media (min-width: 1025px) {
   #modal-header {
     background: #800020;
     height: 75px;

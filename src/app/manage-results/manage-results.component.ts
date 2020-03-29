@@ -32,7 +32,7 @@ export class ManageResultsComponent implements OnInit {
   results: ResultsTable[];
   winners: Map<String, Entrant> = new Map<String, Entrant>();
   manageResults = false;
-  displayedColumns: string[] = ['name', 'branch', 'place'];
+  displayedColumns: string[] = ['place', 'name', 'branch'];
   dataSource = new MatTableDataSource<Object>(this.results);
 
   constructor(private service: ResultsService, public router: Router, private snackbar: MatSnackBar) { }
@@ -64,11 +64,6 @@ export class ManageResultsComponent implements OnInit {
     this.initializeMap();
     this.manageResults = false;
     this.competition = comp;
-    this.service.getNames(this.competition.id)
-      .then((res: Entrant[]) => {
-        this.names = res;
-        this.names.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
-      });
   }
 
   placeSelected(name, place) {
@@ -141,11 +136,19 @@ export class ManageResultsComponent implements OnInit {
   }
 
   inputResults() {
-    this.manageResults = true;
+    if (this.manageResults == true) return;
+    this.names = [];
     this.showResults = false;
     this.showResultsError = false;
+    this.initializeMap();
     this.results = [];
-    window.scrollTo(0, document.body.scrollHeight);
+    this.service.getNames(this.competition.id)
+      .then((res: Entrant[]) => {
+        this.names = res;
+        this.names.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
+        this.manageResults = true;
+        window.scrollTo(0, document.body.scrollHeight);
+      });
   }
 
   private getRecommended() {

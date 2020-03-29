@@ -4,6 +4,7 @@
 
 mat-card-title {
   font-size: 50px !important;
+  font-family: "open-sans";
 }
 
 mat-card-header {

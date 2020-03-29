@@ -6,6 +6,7 @@
     font-size: 20px;
     vertical-align: middle;
     text-align: center;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
   }
 
   .modal-content-unreg {
@@ -14,7 +15,7 @@
     min-height: 300px;
     margin-top: 15px;
     border-bottom: solid grey 1px;
-    font-size: 12px;
+    font-size: 15px;
   }
 
   .modal-content {
@@ -23,15 +24,20 @@
     min-height: 270px;
     margin-top: 15px;
     border-bottom: solid grey 1px;
-    font-size: 12px;
+    font-size: 15px;
   }
 
   span {
-    font-family: Roboto "Helvetica Neue", sans-serif;
-    font-size: 12px;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
     font-weight: 400;
     margin-left: 15px;
     line-height: 75px;
+  }
+
+  #about-text {
+    display: inline-block;
+    margin-top: 10px;
+    line-height: 30px;
   }
 
   #reg-list {
@@ -70,9 +76,10 @@
     background: #800020;
     height: 75px;
     color: white;
-    font-size: 20px;
+    font-size: 25px;
     vertical-align: middle;
     text-align: center;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
   }
 
   .modal-content-unreg {
@@ -81,6 +88,7 @@
     min-height: 350px;
     margin-top: 15px;
     border-bottom: solid grey 1px;
+    font-size: 15px;
   }
 
   .modal-content {
@@ -89,11 +97,11 @@
     min-height: 250px;
     margin-top: 15px;
     border-bottom: solid grey 1px;
+    font-size: 15px;
   }
 
   span {
-    font-family: Roboto "Helvetica Neue", sans-serif;
-    font-size: 15px;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
     font-weight: 400;
     margin-left: 15px;
     line-height: 75px;

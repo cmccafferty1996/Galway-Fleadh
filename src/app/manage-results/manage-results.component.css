@@ -4,6 +4,10 @@
     margin-left: 16px;
   }
 
+  mat-card-title {
+    font-size: 20px;
+  }
+
   button {
     background-color: #468ee5;
     color: white;
@@ -22,10 +26,21 @@
     margin-left: 0px;
   }
 
+  .place-text, .place-title {
+    width: 55px;
+  }
+
+  .mat-cell {
+    word-wrap: break-word;
+    font-size: 12px;
+  }
+
   table {
     border: solid grey 2px;
     width: 100%;
+    table-layout: fixed;
   }
+
   #first {
     text-align: center
   }
@@ -59,6 +74,10 @@
 
   #error-text {
     color: red;
+  }
+
+  .mat-header-cell, .mat-cell {
+    padding-right: 24px;
   }
 
   table {

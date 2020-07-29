@@ -12,7 +12,7 @@
       <mat-label>Branch</mat-label>
       <mat-select [formControl]="branchControl" required (selectionChange)="changeBranch($event.value)">
         <mat-option *ngFor="let branch of branches" [value]="branch">
-          {{branch.branchName}}
+          {{branch.branch_name}}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="branchControl.hasError('required')">Please choose your branch</mat-error>
@@ -59,7 +59,7 @@
 <mat-card *ngIf="showCompetitions">
   <mat-card-header>
     <mat-card-title>
-      Entries for {{category.age_group}} {{competition.competition_name}} from {{branch.branchName}}
+      Entries for {{category.age_group}} {{competition.competition_name}} from {{branch.branch_name}}
     </mat-card-title>
     <mat-card-subtitle>
       Click the box to register for this competition. 

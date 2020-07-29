@@ -1,9 +1,9 @@
 export class Branch {
     id: number;
-    branchName: string;
+    branch_name: string;
 
     constructor(id: number, name: string) {
         this.id = id;
-        this.branchName = name;
+        this.branch_name = name;
     }
 }

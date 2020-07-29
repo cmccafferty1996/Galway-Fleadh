@@ -6,11 +6,11 @@ import { Branch } from '../models/branch';
 import { Entrant } from '../models/entrant';
 import { Category } from '../models/category';
 import { Competition } from '../models/competition';
-import { Entries } from '../models/entries';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { Router } from '@angular/router';
 import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
 import { DOCUMENT } from '@angular/common'; 
+import { Entry } from '../models/entry';
 
 export class RowElement {
   name: string;
@@ -55,7 +55,7 @@ export class RegisterComponent implements OnInit {
   isTooEarlyToRegister = false;
   displayedColumns: string[] = ['Name', 'Register'];
   tableData: RowElement[];
-  entries: Entries[];
+  entries: Entry[];
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
 
   constructor(public dialog: MatDialog, 
@@ -69,7 +69,7 @@ export class RegisterComponent implements OnInit {
     this.service.getAllBranchNames()
       .then((res) => {
         this.branches = res;
-        this.branches.sort((a, b) => a.branchName > b.branchName ? 1 : -1);
+        this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
         this.loadComplete = true;
       })
       .catch((err) => {
@@ -138,7 +138,7 @@ export class RegisterComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.tableData.forEach((row) => {
-          const index = this.entries.findIndex(entrant => entrant.entrant == row.id);
+          const index = this.entries.findIndex(entry => entry.id == row.id);
           this.entries[index].registered = row.isRegistered;
         });
         this.service.saveEntries(this.entries)
@@ -186,15 +186,17 @@ export class RegisterComponent implements OnInit {
     return Boolean(num % 2);
   }
 
-  private branchFiltering(entries: Entries[]) {
+  private branchFiltering(entries: Entry[]) {
     let temp: RowElement;
-    let promise = entries.map((entrant) => {
-      return this.service.getEntrantById(entrant.entrant)
+    let promise = entries.map((entry) => {
+      return this.service.getEntrantById(entry.entrant)
         .then((res2: Entrant) => {
           if (res2) {
             if (res2.branch === this.branch.id) {
-              this.entries.push(entrant);
-              temp = new RowElement(res2.entrant_name, entrant.registered, entrant.entrant);
+              this.entries.push(entry);
+              const name = entry.instrumentList ?
+                entry.entrantName + " " + entry.instrumentList : entry.entrantName;
+              temp = new RowElement(name, entry.registered, entry.id);
               this.tableData.push(temp);
             }
           }

@@ -30,11 +30,11 @@ export class LoginService {
   }
 
   getUserByUserName(username) {
-    return this.http.get(`http://galwayfleadh.ie:49372/controller/admin-user?username=${username}`).toPromise();
+    return this.http.get(`https://localhost:44372/api/comhaltas/admin-user?username=${username}`).toPromise();
   }
 
   updateLastLogon(user) {
-    return this.http.get(`http://galwayfleadh.ie:49372/controller/update-logon?username=${user}`,
+    return this.http.get(`https://localhost:44372/api/comhaltas/update-logon?username=${user}`,
       {responseType: 'text'}).toPromise();
   }
 }

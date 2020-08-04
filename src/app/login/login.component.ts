@@ -32,18 +32,27 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.login.getUserByUserName(this.username)
-      .then((user: AdminUser) => {
-        if (user === null) {
+      .then((pass : string) => {
+        if (pass === null) {
           this.loginFailed = true;
         } else {
-          if (this.password !== user.password) {
+          const passwordDecoded = atob(pass);
+          const start = passwordDecoded.substring(0, 2);
+          const end = passwordDecoded.substr(-2, 2);
+          const middle = passwordDecoded.substr(2, passwordDecoded.length - 4);
+          const finalPassword = end+middle+start;
+          if (this.password !== finalPassword) {
             this.loginFailed = true;
           } else {
             this.login.updateLoginState(true, this.username);
             this.loginFailed = false;
-            this.login.updateLastLogon(user.userName);
+            this.login.updateLastLogon(this.username);
           }
         }
+      })
+      .catch((err) => {
+        this.loginFailed = true;
+        console.log('Login error:', err);
       });
   }
 

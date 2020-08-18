@@ -9,11 +9,13 @@ export class ResultsTable {
 
   place: String;
   name: String;
+  instruments: String;
   branch: String;
 
-  constructor(pl: String, nm: String, br: String) {
+  constructor(pl: String, nm: String, instr: String, br: String) {
     this.place = pl;
     this.name = nm;
+    this.instruments = instr;
     this.branch = br;
   }
 }

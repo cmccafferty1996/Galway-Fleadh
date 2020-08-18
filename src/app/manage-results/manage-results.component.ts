@@ -5,9 +5,9 @@ import { ResultsTable } from '../view-results/view-results.component';
 import { Competition } from '../models/competition';
 import { Category } from '../models/category';
 import { ResultsService } from '../services/results.service';
-import { Entrant } from '../models/entrant';
 import { Router } from '@angular/router';
 import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
+import { Entry } from '../models/entry';
 
 @Component({
   selector: 'app-manage-results',
@@ -22,7 +22,7 @@ export class ManageResultsComponent implements OnInit {
   competition: Competition;
   categories: Category[];
   competitions: Competition[];
-  names: Entrant[];
+  names: Entry[];
   today = new Date();
   showResults = false;
   onSubmitClicked = false;
@@ -30,7 +30,7 @@ export class ManageResultsComponent implements OnInit {
   showResultsError = false;
   isRecommended = false;
   results: ResultsTable[];
-  winners: Map<String, Entrant> = new Map<String, Entrant>();
+  winners: Map<String, Entry> = new Map<String, Entry>();
   manageResults = false;
   displayedColumns: string[] = ['place', 'name', 'branch'];
   dataSource = new MatTableDataSource<Object>(this.results);
@@ -143,9 +143,9 @@ export class ManageResultsComponent implements OnInit {
     this.initializeMap();
     this.results = [];
     this.service.getNames(this.competition.id)
-      .then((res: Entrant[]) => {
+      .then((res: Entry[]) => {
         this.names = res;
-        this.names.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
+        this.names.sort((a, b) => a.entrantName > b.entrantName ? 1 : -1);
         this.manageResults = true;
         window.scrollTo(0, document.body.scrollHeight);
       });
@@ -160,11 +160,11 @@ export class ManageResultsComponent implements OnInit {
     }
   }
 
-  private getEntrantIdCheckIfNull(entrant: Entrant) {
-    if (entrant === null) {
+  private getEntrantIdCheckIfNull(entry: Entry) {
+    if (entry === null) {
       return null;
     } else {
-      return entrant.id;
+      return entry.id;
     }
   }
 

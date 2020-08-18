@@ -58,7 +58,10 @@
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element"> 
+          {{element.name}}
+          <span *ngIf="element.instruments"><br>{{element.instruments}}</span>
+        </td>
       </ng-container>
 
       <!-- Branch Column -->

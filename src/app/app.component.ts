@@ -15,12 +15,16 @@ export class AppComponent {
   isLoggedIn = false;
   subscription: Subscription;
   user: string;
+  today: Date;
+  year: number;
 
   constructor(private router: Router, private login: LoginService) {
   }
 
   ngOnInit(): void {
     this.user = "";
+    this.today = new Date();
+    this.year = this.today.getFullYear();
     this.subscription = this.login.isLoggedIn$.subscribe((res) => {
       this.isLoggedIn = res.isLoggedIn;
       this.user = res.user;
@@ -33,6 +37,11 @@ export class AppComponent {
 
   ngOnDestroy() {
     this.subscription && this.subscription.unsubscribe();
+  }
+
+  logOut() {
+    this.login.updateLoginState(false, "");
+    this.router.navigate(['/home']);
   }
 
   setNavLinks(res) {
@@ -53,11 +62,6 @@ export class AppComponent {
             link: './manage-results',
             icon: 'event_note',
             index: 2
-        }, {
-            label: 'Log Out',
-            link: './login',
-            icon: 'keyboard_tab',
-            index: 3
         }
       ];
     } else {

@@ -1,8 +1,11 @@
 <div id="container">
   <header>
       <img id ="logo" alt="Angular Logo" src="./assets/Fleadh-Logo.png">
-      <h1 id="title">Galway Fleadh 2020 Registration</h1>
-      <div id="admin" *ngIf="isLoggedIn">{{user}} logged in</div>
+      <h1 id="title">Galway Fleadh {{year}} Registration</h1>
+      <div id="admin" *ngIf="isLoggedIn">
+        {{user}} logged in <br>
+        <a id="sign-out-text" (click)="logOut()"><u>Sign out</u></a>
+      </div>
   </header>
   <nav mat-tab-nav-bar id="navBar">
     <a mat-tab-link
@@ -23,6 +26,10 @@
         routerLinkActive #rla="routerLinkActive">
           <mat-icon>{{link.icon}}</mat-icon>
           <span>{{link.label}}</span>
+        </button>
+        <button mat-menu-item *ngIf="isLoggedIn" (click)="logOut()">
+          <mat-icon>keyboard_tab</mat-icon> 
+          <span>Sign Out</span>
         </button>
       </mat-menu>
       <br><br id="mobile-space"><br id="mobile-space">

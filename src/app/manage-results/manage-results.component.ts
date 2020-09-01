@@ -162,7 +162,7 @@ export class ManageResultsComponent implements OnInit {
 
   private getEntrantIdCheckIfNull(entry: Entry) {
     if (entry === null) {
-      return null;
+      return 0;
     } else {
       return entry.id;
     }

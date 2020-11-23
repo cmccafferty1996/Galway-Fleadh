@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
   enableSave: boolean = false;
   isTooEarlyToRegister = false;
   displayedColumns: string[] = ['Name', 'Register'];
-  tableData: RowElement[];
+  tableData: RowElement[] = [];
   entries: Entry[];
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
 

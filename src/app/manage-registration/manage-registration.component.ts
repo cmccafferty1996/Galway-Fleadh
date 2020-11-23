@@ -46,7 +46,7 @@ export class ManageRegistrationComponent implements OnInit {
   today = new Date();
   showCompetitions = false;
   displayedColumns: string[] = ['Name', 'Register'];
-  tableData: RowElement[];
+  tableData: RowElement[] = [];
   entries: Entry[];
   enableSave: boolean = false;
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
@@ -161,7 +161,7 @@ export class ManageRegistrationComponent implements OnInit {
             if (res2.branch === this.branch.id) {
               this.entries.push(entry);
               const name = entry.instrumentList ?
-                entry.entrantName + entry.instrumentList : entry.entrantName;
+                entry.entrantName + " " + entry.instrumentList : entry.entrantName;
               temp = new RowElement(name, entry.registered, entry.id);
               this.tableData.push(temp);
             }

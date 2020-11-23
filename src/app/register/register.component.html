@@ -71,13 +71,13 @@
     <table mat-table [dataSource]="dataSource">
       <!-- Name Column -->
       <ng-container matColumnDef="Name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <th mat-header-cell *matHeaderCellDef><b>Name</b></th>
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
   
       <!-- Registered Column -->
       <ng-container matColumnDef="Register">
-        <th mat-header-cell *matHeaderCellDef id="checkBox"> Register</th>
+        <th mat-header-cell *matHeaderCellDef id="checkBox"><b>Register</b></th>
         <td mat-cell *matCellDef="let element, let i = index" id="checkBox">
           <mat-checkbox (change)="shouldEnableSave($event, i)" 
             [disabled]="!element.isEditable" [(ngModel)]="element.isRegistered"></mat-checkbox>

@@ -56,6 +56,11 @@
     Registration is open on the day of the competition.
   </mat-card-content>
 </mat-card>
+<mat-card *ngIf="isTooFarFromVenue">
+  <mat-card-content id="error-text">
+    You must be at the competition venue (NUIG) to register for this competition.
+  </mat-card-content>
+</mat-card>
 <mat-card *ngIf="showCompetitions">
   <mat-card-header>
     <mat-card-title>
@@ -67,7 +72,10 @@
       Please go to the fleadh office if there is a mistake.
     </mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content id="table">
+  <mat-card-content id="error-text" *ngIf="tableData.length == 0">
+    No entries found for this competition. Check your search options again!
+  </mat-card-content>
+  <mat-card-content id="table" *ngIf="tableData.length != 0">
     <table mat-table [dataSource]="dataSource">
       <!-- Name Column -->
       <ng-container matColumnDef="Name">

@@ -30,6 +30,16 @@ export class RowElement {
   }
 }
 
+export class CoOrdinate {
+  latitude: number;
+  longitude: number;
+
+  constructor(lat: number, long: number) {
+    this.latitude = lat;
+    this.longitude = long;
+  }
+}
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -53,10 +63,12 @@ export class RegisterComponent implements OnInit {
   loadComplete = false;
   enableSave: boolean = false;
   isTooEarlyToRegister = false;
+  isTooFarFromVenue = false;
   displayedColumns: string[] = ['Name', 'Register'];
   tableData: RowElement[] = [];
   entries: Entry[];
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
+  venue: CoOrdinate;
 
   constructor(public dialog: MatDialog, 
     private service: RegistrationService, private router: Router,
@@ -66,6 +78,7 @@ export class RegisterComponent implements OnInit {
     this.tableData = [];
     this.entries = [];
     this.today.setHours(0, 0, 0, 0);
+    this.venue = new CoOrdinate(53.279, -9.062);
     this.service.getAllBranchNames()
       .then((res) => {
         this.branches = res;
@@ -82,6 +95,7 @@ export class RegisterComponent implements OnInit {
     this.branch = branch;
     this.showCompetitions = false;
     this.isTooEarlyToRegister = false;
+    this.isTooFarFromVenue = false;
     if (!this.catagories) {
       this.service.getAllCategories()
       .then((res) => this.catagories = res);
@@ -92,6 +106,7 @@ export class RegisterComponent implements OnInit {
     this.category = cat;
     this.showCompetitions = false;
     this.isTooEarlyToRegister = false;
+    this.isTooFarFromVenue = false;
     this.service.getCompetitionByAgeGroup(this.category.id)
       .then((res) => {
         this.competitions = res;
@@ -103,6 +118,7 @@ export class RegisterComponent implements OnInit {
     this.competition = comp;
     this.showCompetitions = false;
     this.isTooEarlyToRegister = false;
+    this.isTooFarFromVenue = false;
   }
 
   onSubmit() {
@@ -110,9 +126,24 @@ export class RegisterComponent implements OnInit {
     this.tableData = [];
     this.entries = [];
     if (this.isCompDateToday(this.competition.competition_date)) {
-      this.service.getEntries(this.competition.id)
-        .then((res) => {
-          this.branchFiltering(res);
+      this.isUserAtTheVenue()
+        .then((result) => {
+          if (result) {
+            this.isTooFarFromVenue = false;
+            this.service.getEntries(this.competition.id)
+              .then((res) => {
+                this.branchFiltering(res);
+              });
+          } else {
+            this.isTooFarFromVenue = true;
+          }
+        })
+        .catch((err) => {
+          console.log('Error in getCurrentPosition: '+err);
+          this.service.getEntries(this.competition.id)
+            .then((res) => {
+              this.branchFiltering(res);
+            });
         });
     } else {
       this.isTooEarlyToRegister = true;
@@ -180,6 +211,32 @@ export class RegisterComponent implements OnInit {
       result = true;
     }
     return result;
+  }
+
+  private isUserAtTheVenue(): Promise<boolean> {
+    if (!navigator && !navigator.geolocation) return Promise.resolve(true); // can't get location just return true
+
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const R = 6371; // Radius of the earth in km
+        const dLat = this.deg2rad(position.coords.latitude - this.venue.latitude);
+        const dLon = this.deg2rad(position.coords.longitude - this.venue.longitude);
+  
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(this.deg2rad(position.coords.latitude)) * Math.cos(this.deg2rad(this.venue.latitude)) * 
+          Math.sin(dLon/2) * Math.sin(dLon/2);
+  
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        const d = R * c; // Distance in km
+        resolve(d > 5.0);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+
+  private deg2rad(deg) {
+    return deg * (Math.PI/180)
   }
 
   private isOdd(num) {

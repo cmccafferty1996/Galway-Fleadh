@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatTableDataSource, MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
 import { RegistrationService } from '../services/registration.service';
 import { Branch } from '../models/branch';
 import { Entrant } from '../models/entrant';
@@ -228,7 +230,7 @@ export class RegisterComponent implements OnInit {
   
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
         const d = R * c; // Distance in km
-        resolve(d > 5.0);
+        resolve(d < 5.0);
       }, (err) => {
         reject(err);
       });

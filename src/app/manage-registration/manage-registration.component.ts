@@ -71,7 +71,10 @@ export class ManageRegistrationComponent implements OnInit {
     this.showCompetitions = false;
     if (!this.catagories) {
       this.service.getAllCategories()
-      .then((res) => this.catagories = res);
+      .then((res) => {
+        this.catagories = res;
+        this.catagories.sort((a, b) => a.category > b.category ? 1 : -1);
+      });
     }
   }
 
@@ -81,7 +84,7 @@ export class ManageRegistrationComponent implements OnInit {
     this.service.getCompetitionByAgeGroup(this.category.id)
       .then((res) => {
         this.competitions = res;
-        this.competitions.sort((a, b) => a.competition_name > b.competition_name ? 1 : -1);
+        this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
       });
   }
 
@@ -140,6 +143,8 @@ export class ManageRegistrationComponent implements OnInit {
     this.snackbar.openFromComponent(SnackbarContentComponent, {
       duration: 5000,
       data: {message},
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center',
       panelClass: [css]
     });
   }

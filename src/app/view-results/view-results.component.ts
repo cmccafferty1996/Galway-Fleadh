@@ -40,7 +40,7 @@ export class ViewResultsComponent implements OnInit {
   abadonShip = false;
   loadComplete = false;
   displayedColumns: string[] = ['place', 'name', 'branch'];
-  results: ResultsTable[];
+  results: ResultsTable[] = [];
   dataSource = new MatTableDataSource<ResultsTable>(this.results);
 
   constructor(private service: ResultsService) { }
@@ -66,7 +66,7 @@ export class ViewResultsComponent implements OnInit {
     this.service.getCompetitionByAgeGroup(this.category.id)
       .then((res) => {
         this.competitions = res;
-        this.competitions.sort((a, b) => a.competition_name > b.competition_name ? 1 : -1);
+        this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
       });
   }
 

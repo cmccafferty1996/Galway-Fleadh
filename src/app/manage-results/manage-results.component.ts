@@ -30,7 +30,7 @@ export class ManageResultsComponent implements OnInit {
   duplicatedResults = false;
   showResultsError = false;
   isRecommended = false;
-  results: ResultsTable[];
+  results: ResultsTable[] = [];
   winners: Map<String, Entry> = new Map<String, Entry>();
   manageResults = false;
   displayedColumns: string[] = ['place', 'name', 'branch'];
@@ -56,7 +56,7 @@ export class ManageResultsComponent implements OnInit {
     this.service.getCompetitionByAgeGroup(this.category.id)
     .then((res) => {
       this.competitions = res;
-      this.competitions.sort((a, b) => a.competition_name > b.competition_name ? 1 : -1);
+      this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
     });
   }
 
@@ -120,6 +120,8 @@ export class ManageResultsComponent implements OnInit {
     this.snackbar.openFromComponent(SnackbarContentComponent, {
       duration: 5000,
       data: {message},
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center',
       panelClass: [css]
     });
   }

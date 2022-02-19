@@ -12,6 +12,10 @@ mat-dialog-container {
     color: white;
 }
 
+.cdk-overlay-pane {
+    margin-bottom: calc(35vh - 50px)!important;
+}
+
 .red-snackbar {
     background-color: red;
     color: white;

@@ -98,9 +98,14 @@ export class RegisterComponent implements OnInit {
     this.showCompetitions = false;
     this.isTooEarlyToRegister = false;
     this.isTooFarFromVenue = false;
+    this.competition = null;
+    this.category = null;
     if (!this.catagories) {
       this.service.getAllCategories()
-      .then((res) => this.catagories = res);
+      .then((res) => {
+        this.catagories = res;
+        this.catagories.sort((a, b) => a.category > b.category ? 1 : -1);
+      });
     }
   }
 
@@ -109,10 +114,11 @@ export class RegisterComponent implements OnInit {
     this.showCompetitions = false;
     this.isTooEarlyToRegister = false;
     this.isTooFarFromVenue = false;
+    this.competition = null;
     this.service.getCompetitionByAgeGroup(this.category.id)
       .then((res) => {
         this.competitions = res;
-        this.competitions.sort((a, b) => a.competition_name > b.competition_name ? 1 : -1);
+        this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
       });
   }
 
@@ -195,6 +201,8 @@ export class RegisterComponent implements OnInit {
   openSnackbar(css, message) {
     this.snackbar.openFromComponent(SnackbarContentComponent, {
       duration: 5000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center',
       data: {message},
       panelClass: [css]
     });

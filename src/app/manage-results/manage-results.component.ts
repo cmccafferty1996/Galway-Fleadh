@@ -51,6 +51,7 @@ export class ManageResultsComponent implements OnInit {
   changeCategory(cat) {
     this.initializeTable();
     this.initializeMap();
+    this.competition = null;
     this.manageResults = false;
     this.category = cat;
     this.service.getCompetitionByAgeGroup(this.category.id)
@@ -108,7 +109,7 @@ export class ManageResultsComponent implements OnInit {
           this.manageResults = false;
         })
         .catch((err) => {
-          console.log('theres an error', err);
+          console.log('Theres an error', err);
           this.openSnackbar('red-snackbar', 'Error saving results');
         });
     } else {
@@ -145,6 +146,7 @@ export class ManageResultsComponent implements OnInit {
     this.showResultsError = false;
     this.initializeMap();
     this.results = [];
+    this.isRecommended = false;
     this.service.getNames(this.competition.id)
       .then((res: Entry[]) => {
         this.names = res;

@@ -71,6 +71,7 @@ export class RegisterComponent implements OnInit {
   entries: Entry[];
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
   venue: CoOrdinate;
+  venueDistance: number;
 
   constructor(public dialog: MatDialog, 
     private service: RegistrationService, private router: Router,
@@ -80,7 +81,16 @@ export class RegisterComponent implements OnInit {
     this.tableData = [];
     this.entries = [];
     this.today.setHours(0, 0, 0, 0);
-    this.venue = new CoOrdinate(53.279, -9.062);
+    this.service.getVenueLocation()
+      .then((res) => {
+        this.venue = new CoOrdinate(res[0].latitude, res[0].longitude);
+        this.venueDistance = res[0].distance;
+      })
+      .catch((err) => {
+        this.venue = null;
+        this.venueDistance = -1;
+        console.log('Error getting venue location', err);
+      });
     this.service.getAllBranchNames()
       .then((res) => {
         this.branches = res;
@@ -225,6 +235,7 @@ export class RegisterComponent implements OnInit {
 
   private isUserAtTheVenue(): Promise<boolean> {
     if (!navigator && !navigator.geolocation) return Promise.resolve(true); // can't get location just return true
+    if (this.venue === null || this.venueDistance === -1) return Promise.resolve(true); // parameters not set
 
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -238,7 +249,7 @@ export class RegisterComponent implements OnInit {
   
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
         const d = R * c; // Distance in km
-        resolve(d < 5.0);
+        resolve(d < this.venueDistance);
       }, (err) => {
         reject(err);
       });

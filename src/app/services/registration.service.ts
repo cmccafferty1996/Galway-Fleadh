@@ -5,6 +5,7 @@ import { Entrant } from '../models/entrant';
 import { Category } from '../models/category';
 import { Competition } from '../models/competition';
 import { Entry } from '../models/entry';
+import { VenueLocation } from '../models/venue-location';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,13 @@ export class RegistrationService {
   getAllCategories() {
     return this.http.get('https://localhost:44372/api/comhaltas/age-groups').toPromise()
       .then((res: Category[]) => {
+        return res;
+      });
+  }
+
+  getVenueLocation() {
+    return this.http.get('https://localhost:44372/api/comhaltas/location').toPromise()
+      .then((res: VenueLocation[]) => {
         return res;
       });
   }

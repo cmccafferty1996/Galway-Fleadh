@@ -123,7 +123,6 @@ export class ManageRegistrationComponent implements OnInit {
         });
         this.service.saveEntries(this.entries)
           .then((res) => {
-            console.log(res);
             this.openSnackbar('green-snackbar', 'Changes saved successful');
           })
           .catch((err) => {

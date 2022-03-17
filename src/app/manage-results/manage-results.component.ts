@@ -104,7 +104,6 @@ export class ManageResultsComponent implements OnInit {
     if (this.areResultsUnique()) {
       this.service.saveResults(params)
         .then((res) => {
-          console.log(res);
           this.openSnackbar('green-snackbar', 'Results saved successful');
           this.manageResults = false;
         })

@@ -69,6 +69,10 @@
     background: #d5d5d5;
     margin-right: 1pc;
   }
+
+  .modal-names {
+    line-height: 22px;
+  }
 }
 
 @media (min-width: 1025px) {
@@ -135,5 +139,9 @@
     color: 686c70;
     background: #d5d5d5;
     margin-right: 1pc;
+  }
+
+  .modal-names {
+    line-height: 22px;
   }
 }

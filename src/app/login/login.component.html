@@ -17,13 +17,16 @@
 <br>
 <mat-card *ngIf="isLoggedIn">
   <mat-card-content id="success">
-    Login successful! You now have admin access!  
-    <br><br>
-    You can now manage results and registration, click on the page in the tab/menu
+    Login successful! You now have admin access to manage results and registration.
   </mat-card-content>
 </mat-card>
 <mat-card *ngIf="loginFailed">
   <mat-card-content id="failed">
     Login failed! Try again!
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="!loginFailed && isIncorrectAccess">
+  <mat-card-content id="failed">
+    User {{username}} does not have access to input competition results or manage registration.
   </mat-card-content>
 </mat-card>

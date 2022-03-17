@@ -3,15 +3,13 @@
 </div>
 <span id="about-text">Confirm registration for {{data.ageGroup}} {{data.competition}}</span>
 <div [ngClass]="(unregisterEntrants.length > 0 && registerEntrants.length > 0) ? 'modal-content-unreg' : 'modal-content'">
-  <!-- <span *ngIf="registerEntrants.length > 0">Register</span> -->
   <mat-accordion *ngIf="registerEntrants.length > 0">
     <mat-expansion-panel class="example-accordion" [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>Register</mat-panel-title>
       </mat-expansion-panel-header>
-
       <mat-selection-list id="reg-list" *ngFor="let entrant of registerEntrants">
-        <span id="name">{{entrant.name}}</span>
+        <span class="modal-names" id="name">{{entrant.name}}</span>
       </mat-selection-list>
     </mat-expansion-panel>
   </mat-accordion>
@@ -23,9 +21,8 @@
       <mat-expansion-panel-header>
         <mat-panel-title>Unregister</mat-panel-title>
       </mat-expansion-panel-header>
-
       <mat-selection-list id="reg-list" *ngFor="let entrant of unregisterEntrants">
-        <span id="name">{{entrant.name}}</span>
+        <span class="modal-names" id="name">{{entrant.name}}</span>
       </mat-selection-list>
     </mat-expansion-panel>
   </mat-accordion>

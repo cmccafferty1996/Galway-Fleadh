@@ -6,7 +6,7 @@
     font-size: 20px;
     vertical-align: middle;
     text-align: center;
-    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-family: sans-serif;
   }
 
   .modal-content-unreg {
@@ -27,10 +27,14 @@
     font-size: 15px;
   }
 
+  #about-text {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
   span {
-    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-family: sans-serif;
     font-weight: 400;
-    margin-left: 15px;
     line-height: 75px;
   }
 
@@ -83,7 +87,7 @@
     font-size: 25px;
     vertical-align: middle;
     text-align: center;
-    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-family: sans-serif;
   }
 
   .modal-content-unreg {
@@ -104,10 +108,14 @@
     font-size: 15px;
   }
 
+  #about-text {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
   span {
-    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-family: sans-serif;
     font-weight: 400;
-    margin-left: 15px;
     line-height: 75px;
   }
 

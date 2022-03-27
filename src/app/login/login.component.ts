@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
             this.isIncorrectAccess = true;
             this.loginFailed = false;
           } else {
-            this.login.updateLoginState(true, this.username);
+            this.login.updateLoginState(true, user.first_name+" "+user.surname);
             this.loginFailed = false;
             this.isIncorrectAccess = false;
             this.login.updateLastLogon(this.username);

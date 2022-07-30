@@ -45,4 +45,11 @@ export class ResultsService {
       {responseType: 'text'}).toPromise()
         .then((res) => console.log(res));
   }
+
+  deleteResult(comp) {
+    return this.http.delete(`https://localhost:44372/api/comhaltas/delete-result?comp=${comp}`).toPromise()
+    .then((res: string) => {
+      return res;
+    });
+  }
 }

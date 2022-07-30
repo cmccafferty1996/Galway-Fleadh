@@ -9,6 +9,8 @@ import { ResultsService } from '../services/results.service';
 import { Router } from '@angular/router';
 import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
 import { Entry } from '../models/entry';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-manage-results',
@@ -26,17 +28,26 @@ export class ManageResultsComponent implements OnInit {
   names: Entry[];
   today = new Date();
   showResults = false;
-  onSubmitClicked = false;
   duplicatedResults = false;
   showResultsError = false;
+  showNoResultsMsg = false;
   isRecommended = false;
+  isLoading = false;
   results: ResultsTable[] = [];
   winners: Map<String, Entry> = new Map<String, Entry>();
+  firstPlace: Entry;
+  secondPlace: Entry;
+  thirdPlace: Entry;
   manageResults = false;
   displayedColumns: string[] = ['place', 'name', 'branch'];
   dataSource = new MatTableDataSource<Object>(this.results);
 
-  constructor(private service: ResultsService, public router: Router, private snackbar: MatSnackBar) { }
+  constructor(
+    private service: ResultsService,
+    public router: Router,
+    private snackbar: MatSnackBar,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     this.categories = [];
@@ -51,6 +62,8 @@ export class ManageResultsComponent implements OnInit {
   changeCategory(cat) {
     this.initializeTable();
     this.initializeMap();
+    this.showResultsError = false;
+    this.showNoResultsMsg = false;
     this.competition = null;
     this.manageResults = false;
     this.category = cat;
@@ -68,37 +81,17 @@ export class ManageResultsComponent implements OnInit {
     this.competition = comp;
   }
 
-  placeSelected(name, place) {
+  placeSelected(name: Entry, place: string) {
     this.duplicatedResults = false;
     this.winners.set(place, name);
-  }
-
-  onSubmit() {
-    if (this.results.length > 0) return;
-    this.onSubmitClicked = true;
-    this.manageResults = false;
-    this.showResults = false;
-    this.showResultsError = false;
-    this.service.getResultsByCompetition(this.competition.id)
-      .then((res: ResultsTable[]) => {
-        res.forEach((winner) => {
-          this.results.push(winner);
-        });
-        this.dataSource = new MatTableDataSource<ResultsTable>(this.results);
-        this.showResults = true;
-        window.scrollTo(0, document.body.scrollHeight);
-      })
-      .catch((err) => {
-        this.showResultsError = true;
-      });
   }
 
   saveResults() {
     const params = {
       competition: this.competition.id,
-      first: this.getEntrantIdCheckIfNull(this.winners.get("1")),
-      second: this.getEntrantIdCheckIfNull(this.winners.get("2")),
-      third: this.getEntrantIdCheckIfNull(this.winners.get("3")),
+      first: this.getEntrantIdCheckIfNull(this.winners.get('1')),
+      second: this.getEntrantIdCheckIfNull(this.winners.get('2')),
+      third: this.getEntrantIdCheckIfNull(this.winners.get('3')),
       recommended: this.getRecommended(),
     }
     if (this.areResultsUnique()) {
@@ -106,6 +99,7 @@ export class ManageResultsComponent implements OnInit {
         .then((res) => {
           this.openSnackbar('green-snackbar', 'Results saved successful');
           this.manageResults = false;
+          this.results = [];
         })
         .catch((err) => {
           console.log('Theres an error', err);
@@ -128,7 +122,6 @@ export class ManageResultsComponent implements OnInit {
 
   initializeTable() {
     this.showResults = false;
-    this.onSubmitClicked = false;
     this.results = [];
   }
 
@@ -136,13 +129,19 @@ export class ManageResultsComponent implements OnInit {
     this.winners.set('1', null);
     this.winners.set('2', null);
     this.winners.set('3', null);
+    this.firstPlace = null;
+    this.secondPlace = null;
+    this.thirdPlace = null;
   }
 
-  inputResults() {
-    if (this.manageResults == true) return;
+  searchResults() {
+    if (this.results.length > 0) return;
+    this.isLoading = true;
     this.names = [];
     this.showResults = false;
     this.showResultsError = false;
+    this.showNoResultsMsg = false;
+    this.manageResults = false;
     this.initializeMap();
     this.results = [];
     this.isRecommended = false;
@@ -150,17 +149,99 @@ export class ManageResultsComponent implements OnInit {
       .then((res: Entry[]) => {
         this.names = res;
         this.names.sort((a, b) => a.entrantName > b.entrantName ? 1 : -1);
-        this.manageResults = true;
-        window.scrollTo(0, document.body.scrollHeight);
+        this.service.getResultsByCompetition(this.competition.id)
+          .then((res2: ResultsTable[]) => {
+            this.prepopulateResults(res2);
+            res2.forEach((winner) => {
+              this.results.push(winner);
+            });
+            this.dataSource = new MatTableDataSource<ResultsTable>(this.results);
+            this.showResults = true;
+            this.isLoading = false;
+            window.scrollTo(0, document.body.scrollHeight);
+          })
+          .catch((err) => {
+            if (err.status === 404) {
+              this.showResultsError = false;
+              this.showNoResultsMsg = true;
+            } else {
+              this.showResultsError = true;
+              this.showNoResultsMsg = false;
+            }
+            this.isLoading = false;
+          });
+      })
+      .catch((err) => {
+        this.isLoading = false;
+        this.showResultsError = true;
       });
+  }
+
+  prepopulateResults(compResults: ResultsTable[]) {
+    const first = compResults.find((el) => el.place === '1');
+    if (first) this.firstPlace = this.names.find((entry) => entry.entrantName === first.name);
+    if (this.firstPlace) this.winners.set('1', this.firstPlace);
+
+    const second = compResults.find((el) => el.place === '2 R' || el.place === '2');
+    if (second) this.secondPlace = this.names.find((entry) => entry.entrantName === second.name);
+    if (this.secondPlace) {
+      this.winners.set('2', this.secondPlace);
+      if (second.place.includes('R')) this.isRecommended = true;
+    }
+
+    const third = compResults.find((el) => el.place === '3' || el.place === '3 R');
+    if (third) this.thirdPlace = this.names.find((entry) => entry.entrantName === third.name);
+    if (this.thirdPlace) {
+      this.winners.set('3', this.thirdPlace);
+      if (third.place.includes('R')) this.isRecommended = true;
+    }
+  }
+
+  openEditMode() {
+    this.showResults = false;
+    this.showResultsError = false;
+    this.showNoResultsMsg = false;
+    this.manageResults = true;
+  }
+
+  deleteResultForComp() {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      width: '750px',
+      height: '200px',
+      data: {
+        title: 'Confirm Delete',
+        ageGroup: this.category.age_group,
+        competition: this.competition.competition_name,
+        isDelete: true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service.deleteResult(this.competition.id)
+        .then((message) => {
+          this.manageResults = false;
+          this.showResults = false;
+          this.results = [];
+          this.openSnackbar('green-snackbar', message);
+        })
+        .catch((err) => {
+          if (err.status === 404 || err.status === 400) {
+            this.openSnackbar('red-snackbar', err.error.Message);
+          } else {
+            this.openSnackbar('red-snackbar', 'Unknown error deleting the results.');
+          }
+        });
+      }
+    });
   }
 
   private getRecommended() {
     if (!this.isRecommended || this.names.length < 2) return null;
     if (this.winners.get("3") === null) {
-      return this.getEntrantIdCheckIfNull(this.winners.get("2"));
+      return this.getEntrantIdCheckIfNull(this.winners.get('2'));
     } else {
-      return this.getEntrantIdCheckIfNull(this.winners.get("3"));
+      return this.getEntrantIdCheckIfNull(this.winners.get('3'));
     }
   }
 
@@ -177,11 +258,17 @@ export class ManageResultsComponent implements OnInit {
     let values = Array.from(this.winners.values());
     for (i=0; i < values.length - 1; i++) {
       for (y=i + 1; y < values.length; y++) {
-        if (this.getEntrantIdCheckIfNull(values[i]) === this.getEntrantIdCheckIfNull(values[y])) {
+        if ((this.getEntrantIdCheckIfNull(values[i]) === this.getEntrantIdCheckIfNull(values[y]))
+          && values[i] !== null) {
           return false;
         }
       }
     }
     return true;
+  }
+
+  compareEntry(e1: Entry, e2: Entry): boolean {
+    if (e1 === undefined || e2 === undefined) return false;
+    return e1.id === e2.id;
   }
 }

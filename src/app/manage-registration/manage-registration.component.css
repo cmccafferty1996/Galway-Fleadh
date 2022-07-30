@@ -41,13 +41,16 @@
         border-bottom-width: 1px;
         border-bottom-style: solid;
     }
+    #error-text {
+        color: red;
+    }
     #checkBox {
         text-align: center;
     }
     #cancel, #bottom-cancel {
         background-color: red;
         margin-top: 10px;
-        margin-right: 32%;
+        margin-right: 10%;
     }
 
     #bottom-cancel {
@@ -92,10 +95,13 @@
     #checkBox {
         text-align: center;
     }
+    #error-text {
+        color: red;
+    }
     #cancel, #bottom-cancel {
         background-color: red;
         margin-top: 10px;
-        margin-right: 8%;
+        margin-right: 3%;
     }
 
     #bottom-cancel {

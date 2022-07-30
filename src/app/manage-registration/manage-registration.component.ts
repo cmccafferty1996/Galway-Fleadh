@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,6 +12,7 @@ import { Entrant } from '../models/entrant';
 import { Router } from '@angular/router';
 import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
 import { Entry } from '../models/entry';
+import { MatSelect } from '@angular/material/select';
 
 export class RowElement {
   name: string;
@@ -53,6 +54,8 @@ export class ManageRegistrationComponent implements OnInit {
   enableSave: boolean = false;
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
 
+  @ViewChild('catRef') catRef: MatSelect;
+
   constructor(public dialog: MatDialog, private service: RegistrationService,
     public router: Router, private snackbar: MatSnackBar) { }
 
@@ -69,6 +72,9 @@ export class ManageRegistrationComponent implements OnInit {
   changeBranch(branch) {
     this.branch = branch;
     this.showCompetitions = false;
+    this.competition = null;
+    this.category = null;
+    if (this.catRef) this.catRef.options.forEach((el) => el.deselect());
     if (!this.catagories) {
       this.service.getAllCategories()
       .then((res) => {
@@ -81,11 +87,14 @@ export class ManageRegistrationComponent implements OnInit {
   changeCategory(cat) {
     this.category = cat;
     this.showCompetitions = false;
-    this.service.getCompetitionByAgeGroup(this.category.id)
-      .then((res) => {
-        this.competitions = res;
-        this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
-      });
+    this.competition = null;
+    if (this.category) {
+      this.service.getCompetitionByAgeGroup(this.category.id)
+        .then((res) => {
+          this.competitions = res;
+          this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
+        });
+    }
   }
 
   changeCompetition(comp) {

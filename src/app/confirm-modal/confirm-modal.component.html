@@ -1,8 +1,8 @@
 <div id="modal-header">
   <span id="header-text">{{data.title}}</span>
 </div>
-<span id="about-text">Confirm registration for {{data.ageGroup}} {{data.competition}}</span>
-<div [ngClass]="(unregisterEntrants.length > 0 && registerEntrants.length > 0) ? 'modal-content-unreg' : 'modal-content'">
+<span *ngIf="!isDelete" id="about-text">Confirm registration for {{data.ageGroup}} {{data.competition}}</span>
+<div *ngIf="!isDelete" [ngClass]="(unregisterEntrants.length > 0 && registerEntrants.length > 0) ? 'modal-content-unreg' : 'modal-content'">
   <mat-accordion *ngIf="registerEntrants.length > 0">
     <mat-expansion-panel class="example-accordion" [expanded]="true">
       <mat-expansion-panel-header>
@@ -26,6 +26,12 @@
       </mat-selection-list>
     </mat-expansion-panel>
   </mat-accordion>
+</div>
+
+<div class="delete-text">
+  <span *ngIf="isDelete" id="about-text">
+    Are you sure you want to delete results entered for {{data.ageGroup}} {{data.competition}}?
+  </span>
 </div>
 
 <div id="buttons">

@@ -12,6 +12,7 @@ export class ConfirmModalComponent implements OnInit {
   buttonText = 'Register';
   registerEntrants: Entrant[];
   unregisterEntrants: Entrant[];
+  isDelete = false;
 
   constructor(public dialogRef: MatDialogRef<ConfirmModalComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -20,9 +21,14 @@ export class ConfirmModalComponent implements OnInit {
     this.unregisterEntrants = [];
     if (this.data.isManageReg) {
       this.buttonText = 'Update';
+    } else if (this.data.isDelete) {
+      this.isDelete = true;
+      this.buttonText = 'Delete';
     }
-    this.registerEntrants = this.data.entrants.filter((entrant) => entrant.isRegistered== true);
-    this.unregisterEntrants = this.data.entrants.filter((entrant) => entrant.isRegistered== false);
+    if (this.data.entrants) {
+      this.registerEntrants = this.data.entrants.filter((entrant) => entrant.isRegistered== true);
+      this.unregisterEntrants = this.data.entrants.filter((entrant) => entrant.isRegistered== false);
+    }
   }
 
   close(param?): void {

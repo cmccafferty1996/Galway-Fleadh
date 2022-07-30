@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
 import { DOCUMENT } from '@angular/common'; 
 import { Entry } from '../models/entry';
+import { MatSelect } from '@angular/material/select';
 
 export class RowElement {
   name: string;
@@ -50,7 +51,6 @@ export class CoOrdinate {
 
 export class RegisterComponent implements OnInit {
   branchControl = new FormControl('', [Validators.required]);
-  categoryControl = new FormControl('', [Validators.required]);
   compControl = new FormControl('', [Validators.required]);
   selectFormControl = new FormControl('', Validators.required);
   branches: Branch[];
@@ -72,6 +72,8 @@ export class RegisterComponent implements OnInit {
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
   venue: CoOrdinate;
   venueDistance: number;
+
+  @ViewChild('catRef') catRef: MatSelect;
 
   constructor(public dialog: MatDialog, 
     private service: RegistrationService, private router: Router,
@@ -110,6 +112,7 @@ export class RegisterComponent implements OnInit {
     this.isTooFarFromVenue = false;
     this.competition = null;
     this.category = null;
+    if (this.catRef) this.catRef.options.forEach((el) => el.deselect());
     if (!this.catagories) {
       this.service.getAllCategories()
       .then((res) => {
@@ -125,11 +128,13 @@ export class RegisterComponent implements OnInit {
     this.isTooEarlyToRegister = false;
     this.isTooFarFromVenue = false;
     this.competition = null;
-    this.service.getCompetitionByAgeGroup(this.category.id)
-      .then((res) => {
-        this.competitions = res;
-        this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
-      });
+    if (this.category) {
+      this.service.getCompetitionByAgeGroup(this.category.id)
+        .then((res) => {
+          this.competitions = res;
+          this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
+        });
+    }
   }
 
   changeCompetition(comp) {

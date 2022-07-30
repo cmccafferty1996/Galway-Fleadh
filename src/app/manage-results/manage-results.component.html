@@ -20,26 +20,32 @@
     <mat-form-field id="competition" *ngIf="category">
       <mat-label>Competition</mat-label>
       <mat-select (selectionChange)="changeCompetition($event.value)">
-        <mat-option *ngFor="let competition of competitions" [value]="competition">
-          {{competition.competition_name}}
+        <mat-option *ngFor="let comp of competitions" [value]="comp">
+          {{comp.competition_name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <br>
-
-    <button mat-raised-button (click)="inputResults()" [disabled]="!competition">Input Results</button>
-    <button mat-raised-button (click)="onSubmit()" id="view-btn" [disabled]="!competition">View Results</button>
+    <button mat-raised-button (click)="searchResults()" [disabled]="!competition">Search Results</button>
   </mat-card-content>
 </mat-card>
 <br>
-<mat-card *ngIf="showResultsError">
-  <mat-card-content id="error-text">
+<mat-card *ngIf="showNoResultsMsg">
+  <mat-card-content>
     Results could not be found for {{category.age_group}} {{competition.competition_name}}. <br>
-    Please try again later or go to the fleadh office.
+    Click 'Input Results' below to add results for this competition.<br>
+    <button mat-raised-button id="inputResults" (click)="openEditMode()">Input Results</button>
   </mat-card-content>
 </mat-card>
+<mat-card *ngIf="showResultsError">
+  <mat-card-content id="error-text">
+    Error retrieving results could not be found for {{category.age_group}} {{competition.competition_name}}. <br>
+    Please contact the Fleadh office.
+  </mat-card-content>
+</mat-card>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
 
-<mat-card *ngIf="showResults">
+<mat-card *ngIf="showResults && !isLoading">
   <mat-card-header>
     <mat-card-title>
       Results for {{category.age_group}} {{competition.competition_name}}
@@ -71,10 +77,12 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <button mat-raised-button id="edit" (click)="openEditMode()">Edit</button>
+    <button mat-raised-button id="delete" (click)="deleteResultForComp()">Delete</button>
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="manageResults">
+<mat-card *ngIf="manageResults && !isLoading">
   <mat-card-title>Enter Results for {{category.age_group}} {{competition.competition_name}}</mat-card-title>
   <span *ngIf="duplicatedResults" id="error-text">
     Error saving results, competitor entered for more than one place! Please review
@@ -82,7 +90,7 @@
   <mat-card-content id="places">
     1st Place:
     <mat-form-field id="first">
-      <mat-select [formControl]="categoryControl" (selectionChange)="placeSelected($event.value, '1')">
+      <mat-select [compareWith]="compareEntry" [(ngModel)]="firstPlace" (selectionChange)="placeSelected($event.value, '1')">
         <mat-option>--</mat-option>
         <mat-option *ngFor="let name of names" [value]="name">
           {{name.entrantName}}
@@ -91,7 +99,7 @@
     </mat-form-field><br>
     2nd Place:
     <mat-form-field id="first">
-      <mat-select [formControl]="categoryControl" (selectionChange)="placeSelected($event.value, '2')">
+      <mat-select [compareWith]="compareEntry" [(ngModel)]="secondPlace" (selectionChange)="placeSelected($event.value, '2')">
         <mat-option>--</mat-option>
         <mat-option *ngFor="let name of names" [value]="name">
           {{name.entrantName}}
@@ -101,17 +109,21 @@
     <div *ngIf="names.length > 2">
     3rd Place:
       <mat-form-field id="first">
-        <mat-select [formControl]="categoryControl" (selectionChange)="placeSelected($event.value, '3')">
+        <mat-select [compareWith]="compareEntry" [(ngModel)]="thirdPlace" (selectionChange)="placeSelected($event.value, '3')">
           <mat-option>--</mat-option>
           <mat-option *ngFor="let name of names" [value]="name">
             {{name.entrantName}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div><br>
-    Recommended:
-    <mat-checkbox [(ngModel)]="isRecommended"></mat-checkbox><br>
+    </div>
+    <br>
+    <div>
+      Recommended:
+      <mat-checkbox [(ngModel)]="isRecommended"></mat-checkbox>
+    </div>
 
+    <br>
     <button mat-raised-button id="cancel" (click)="router.navigate(['/home'])">Cancel</button>
     <button mat-raised-button id="save" (click)="saveResults()">Save</button>
   </mat-card-content>

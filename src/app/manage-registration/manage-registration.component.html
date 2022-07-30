@@ -20,12 +20,11 @@
   
       <mat-form-field id="category" *ngIf="branch">
         <mat-label>Age Group</mat-label>
-        <mat-select [formControl]="categoryControl" required (selectionChange)="changeCategory($event.value)">
-          <mat-option *ngFor="let category of catagories" [value]="category">
-            {{category.age_group}}
+        <mat-select #catRef (selectionChange)="changeCategory($event.value)">
+          <mat-option *ngFor="let cat of catagories" [value]="cat">
+            {{cat.age_group}}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="categoryControl.hasError('required')">Please choose an age group</mat-error>
       </mat-form-field>
   
       <br>
@@ -53,7 +52,10 @@
         Entries for {{category.age_group}} {{competition.competition_name}} from {{branch.branch_name}}
       </mat-card-title>
     </mat-card-header>
-    <mat-card-content id="table">
+    <mat-card-content id="error-text" *ngIf="tableData.length == 0">
+      No entries found for this competition. Check your search options again!
+    </mat-card-content>
+    <mat-card-content id="table" *ngIf="tableData.length > 0">
       <table mat-table [dataSource]="dataSource">
         <!-- Name Column -->
         <ng-container matColumnDef="Name">

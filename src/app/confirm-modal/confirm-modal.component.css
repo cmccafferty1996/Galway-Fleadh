@@ -63,6 +63,14 @@
     margin-top: 10px;
   }
 
+  .register-buttons {
+    margin-top: 10px;
+  }
+
+  .delete-buttons {
+    margin-top: 70px;
+  }
+
   #register {
     color: white;
     background-color: #468ee5;
@@ -113,6 +121,10 @@
     margin-right: 10px;
   }
 
+  .delete-text {
+    text-align: center;
+  }
+
   span {
     font-family: sans-serif;
     font-weight: 400;
@@ -135,7 +147,14 @@
     margin-right: 15px;
     vertical-align: baseline;
     margin-bottom: 10px;
+  }
+
+  .register-buttons {
     margin-top: 10px;
+  }
+
+  .delete-buttons {
+    margin-top: 70px;
   }
 
   #register {

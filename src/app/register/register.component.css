@@ -50,12 +50,12 @@
     #cancel {
         background-color: red;
         margin-top: 15px;
-        margin-right: 32%;
+        margin-right: 10%;
     }
     #bottom-cancel {
         background-color: red;
         margin-top: 15px;
-        margin-right: 32%;
+        margin-right: 10%;
         margin-left: 16px;
     }
 }
@@ -102,7 +102,7 @@
     #cancel, #bottom-cancel {
         background-color: red;
         margin-top: 10px;
-        margin-right: 8%;
+        margin-right: 3%;
     }
     #bottom-cancel {
         margin-top: 25px;

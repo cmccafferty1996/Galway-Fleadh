@@ -70,7 +70,16 @@
     text-align: center
   }
 
-  #cancel {
+  #edit {
+    margin-right: 20px;
+    margin-top: 15px;
+  }
+
+  #inputResults {
+    margin-top: 16px;
+  }
+
+  #cancel, #delete {
     background-color: red;
     margin-top: 10px;
     margin-right: 5%;
@@ -144,7 +153,16 @@
     text-align: center
   }
 
-  #cancel {
+  #edit {
+    margin-right: 20px;
+    margin-top: 15px;
+  }
+
+  #inputResults {
+    margin-top: 16px;
+  }
+
+  #cancel, #delete {
     background-color: red;
     margin-top: 10px;
     margin-right: 5%;

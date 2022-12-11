@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   password;
   loginFailed = false;
   isLoggedIn = false;
+  isMissingInput = false;
   isIncorrectAccess = false;
   subscription: Subscription;
 
@@ -32,6 +33,14 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.username === undefined || this.username ==='' || 
+      this.password === undefined || this.password ==='') {
+        this.loginFailed = false;
+        this.isIncorrectAccess = false;
+        this.isMissingInput = true;
+        return;
+    }
+    this.isMissingInput = false;
     this.login.getUserByUserName(this.username)
       .then((user : AdminUser) => {
         if (user.password === null) {

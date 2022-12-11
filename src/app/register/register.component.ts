@@ -14,6 +14,7 @@ import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.c
 import { DOCUMENT } from '@angular/common'; 
 import { Entry } from '../models/entry';
 import { MatSelect } from '@angular/material/select';
+import { County } from '../models/County';
 
 export class RowElement {
   name: string;
@@ -50,12 +51,16 @@ export class CoOrdinate {
 })
 
 export class RegisterComponent implements OnInit {
+  countyControl = new FormControl('', [Validators.required]);
   branchControl = new FormControl('', [Validators.required]);
+  ageGroupControl = new FormControl('', [Validators.required]);
   compControl = new FormControl('', [Validators.required]);
   selectFormControl = new FormControl('', Validators.required);
+  counties: County[];
   branches: Branch[];
   catagories: Category[];
   competitions: Competition[];
+  county: County;
   branch: Branch;
   category: Category;
   competition: Competition;
@@ -74,6 +79,7 @@ export class RegisterComponent implements OnInit {
   venueDistance: number;
 
   @ViewChild('catRef') catRef: MatSelect;
+  @ViewChild('branchRef') branchRef: MatSelect;
 
   constructor(public dialog: MatDialog, 
     private service: RegistrationService, private router: Router,
@@ -83,7 +89,20 @@ export class RegisterComponent implements OnInit {
     this.tableData = [];
     this.entries = [];
     this.today.setHours(0, 0, 0, 0);
-    this.service.getVenueLocation()
+    this.service.getAllCountyNames()
+      .then((res) => {
+        this.counties = res;
+        this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
+        this.loadComplete = true;
+      })
+      .catch((err) => {
+        this.abadonShip = true;
+        console.log('No counties retrieved', err);
+      });
+  }
+
+  getVenueLocation() {
+    this.service.getVenueLocation(this.county.id)
       .then((res) => {
         this.venue = new CoOrdinate(res[0].latitude, res[0].longitude);
         this.venueDistance = res[0].distance;
@@ -93,16 +112,23 @@ export class RegisterComponent implements OnInit {
         this.venueDistance = -1;
         console.log('Error getting venue location', err);
       });
-    this.service.getAllBranchNames()
+  }
+
+  changeCounty(county) {
+    this.county = county;
+    this.showCompetitions = false;
+    this.isTooEarlyToRegister = false;
+    this.isTooFarFromVenue = false;
+    this.branch = null;
+    this.competition = null;
+    this.category = null;
+    if (this.branchRef) this.branchRef.options.forEach((el) => el.deselect());
+    this.service.getAllBranchNames(this.county.id)
       .then((res) => {
         this.branches = res;
         this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
-        this.loadComplete = true;
-      })
-      .catch((err) => {
-        this.abadonShip = true;
-        console.log('No branches retrieved', err);
       });
+    this.getVenueLocation();
   }
 
   changeBranch(branch) {
@@ -153,7 +179,7 @@ export class RegisterComponent implements OnInit {
         .then((result) => {
           if (result) {
             this.isTooFarFromVenue = false;
-            this.service.getEntries(this.competition.id)
+            this.service.getEntries(this.competition.id, this.county.id)
               .then((res) => {
                 this.branchFiltering(res);
               });
@@ -163,7 +189,7 @@ export class RegisterComponent implements OnInit {
         })
         .catch((err) => {
           console.log('Error in getCurrentPosition: '+err);
-          this.service.getEntries(this.competition.id)
+          this.service.getEntries(this.competition.id, this.county.id)
             .then((res) => {
               this.branchFiltering(res);
             });
@@ -181,6 +207,7 @@ export class RegisterComponent implements OnInit {
         title: 'Confirm Registration', 
         ageGroup: this.category.age_group,
         competition: this.competition.competition_name,
+        county: this.county.county_name,
         entrants: this.tableData.filter((entrant) => {
           if (entrant.isRegistered && entrant.isEditable) {
             return entrant;

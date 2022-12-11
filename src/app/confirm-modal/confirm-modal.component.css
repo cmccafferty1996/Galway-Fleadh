@@ -27,21 +27,25 @@
     font-size: 15px;
   }
 
-  #about-text {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-
   span {
     font-family: sans-serif;
     font-weight: 400;
     line-height: 75px;
   }
 
+  #sub-header {
+    text-align: center;
+  }
+
   #about-text {
     display: inline-block;
     margin-top: 10px;
     line-height: 30px;
+  }
+
+  .accordion-heading {
+    color: #800020;
+    font-family: sans-serif;
   }
 
   #reg-list {
@@ -55,35 +59,37 @@
     display: flex;
   }
 
-  #buttons {
+  .buttons, .delete-buttons {
     float: right;
     margin-right: 15px;
     vertical-align: baseline;
     margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top: 15px;
   }
 
   .register-buttons {
     margin-top: 10px;
   }
 
-  .delete-buttons {
-    margin-top: 70px;
-  }
-
-  #register {
+  .register, .delete {
     color: white;
     background-color: #468ee5;
+    margin-bottom: 10px;
   }
 
-  #cancel {
+  .cancel, .cancel-delete {
     color: 686c70;
     background: #d5d5d5;
     margin-right: 1pc;
+    margin-bottom: 10px;
   }
 
   .modal-names {
     line-height: 22px;
+  }
+
+  .delete-text {
+    text-align: center;
   }
 }
 
@@ -101,7 +107,7 @@
   .modal-content-unreg {
     margin-left: 15px;
     margin-right: 15px;
-    min-height: 350px;
+    min-height: 300px;
     margin-top: 15px;
     border-bottom: solid grey 1px;
     font-size: 15px;
@@ -116,9 +122,13 @@
     font-size: 15px;
   }
 
-  #about-text {
-    margin-left: 10px;
-    margin-right: 10px;
+  #sub-header {
+    text-align: center;
+  }
+
+  .accordion-heading {
+    color: #800020;
+    font-family: sans-serif;
   }
 
   .delete-text {
@@ -142,27 +152,43 @@
     display: flex;
   }
 
-  #buttons {
+  .buttons {
     float: right;
     margin-right: 15px;
     vertical-align: baseline;
     margin-bottom: 10px;
+    margin-top: 15px;
+  }
+
+  .delete-buttons {
+    float: right;
+    margin-right: 15px;
+    vertical-align: baseline;
   }
 
   .register-buttons {
     margin-top: 10px;
   }
 
-  .delete-buttons {
-    margin-top: 70px;
+  .register {
+    color: white;
+    background-color: #468ee5;
+    margin-bottom: 15px;
   }
 
-  #register {
+  .delete {
     color: white;
     background-color: #468ee5;
   }
 
-  #cancel {
+  .cancel {
+    color: 686c70;
+    background: #d5d5d5;
+    margin-right: 1pc;
+    margin-bottom: 15px;
+  }
+
+  .cancel-delete {
     color: 686c70;
     background: #d5d5d5;
     margin-right: 1pc;

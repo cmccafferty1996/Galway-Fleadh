@@ -1,8 +1,9 @@
 export class Results {
-  id: Number;
-  competition: Number;
-  first: Number;
-  second: Number;
-  third: Number;
-  recommended: Number;
+  id: number;
+  competition: number;
+  first: number;
+  second: number;
+  third: number;
+  recommended: number;
+  county: number;
 }

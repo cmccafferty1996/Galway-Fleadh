@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Category } from '../models/category';
 import { ResultsService } from '../services/results.service';
 import { Competition } from '../models/competition';
+import { County } from '../models/County';
+import { MatSelect } from '@angular/material/select';
 
 export class ResultsTable {
 
@@ -26,11 +28,13 @@ export class ResultsTable {
   styleUrls: ['./view-results.component.css']
 })
 export class ViewResultsComponent implements OnInit {
-
+  countyControl = new FormControl('', [Validators.required]);
   categoryControl = new FormControl('', [Validators.required]);
   selectFormControl = new FormControl('', Validators.required);
+  county: County;
   category: Category;
   competition: Competition;
+  counties: County[];
   categories: Category[];
   competitions: Competition[];
   today = new Date();
@@ -43,27 +47,45 @@ export class ViewResultsComponent implements OnInit {
   results: ResultsTable[] = [];
   dataSource = new MatTableDataSource<ResultsTable>(this.results);
 
+  @ViewChild('catRef') catRef: MatSelect;
+
   constructor(private service: ResultsService) { }
 
   ngOnInit() {
+    this.counties = [];
     this.categories = [];
     this.results = [];
-    this.service.getAllCategories()
-      .then((res: Category[]) => {
-        this.categories = res;
+    this.service.getAllCountyNames()
+      .then((res: County[]) => {
+        this.counties = res;
         this.loadComplete = true;
       })
       .catch((err) => {
         this.abadonShip = true;
-        console.log('Error getting categories ', err);
+        console.log('Error getting counties ', err);
       })
+  }
+
+  changeCounty(county) {
+    this.county = county;
+    this.initializeTable();
+    this.competition = null;
+    this.category = null;
+    if (this.catRef) this.catRef.options.forEach((el) => el.deselect());
+    if (!this.categories || this.categories.length === 0) {
+      this.service.getAllCategories()
+        .then((res) => {
+          this.categories = res;
+          this.categories.sort((a, b) => a.category > b.category ? 1 : -1);
+        });
+    }
   }
 
   changeCategory(cat) {
     this.category = cat;
     this.competition = null;
     this.initializeTable();
-    this.service.getCompetitionByAgeGroup(this.category.id)
+    if (this.category) this.service.getCompetitionByAgeGroup(this.category.id)
       .then((res) => {
         this.competitions = res;
         this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
@@ -79,7 +101,7 @@ export class ViewResultsComponent implements OnInit {
     this.onSubmitClicked = true;
     this.showResults = false;
     this.showResultsError = false;
-    this.service.getResultsByCompetition(this.competition.id)
+    this.service.getResults(this.competition.id, this.county.id)
       .then((res: ResultsTable[]) => {
         res.forEach((winner) => {
           this.results.push(winner);

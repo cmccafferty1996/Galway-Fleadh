@@ -1,4 +1,15 @@
-<div>
+<mat-spinner *ngIf="!isLoggedIn && !isLoginCheckDone"></mat-spinner>
+<div class="no-access" *ngIf="!isLoggedIn && isLoginCheckDone">
+  <mat-card class="example-card">
+    <mat-card-content>
+      <img id="image" mat-card-image src="../../assets/padlock-icon-lock.jpg" alt="Home Photo"><br><br>
+      <span class="unathenticated-message">
+        User must be logged in to manage registration. If you are an admin user please <a href='/login'>login</a>
+      </span>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div *ngIf="isLoggedIn && isLoginCheckDone">
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>Manage Registration For Competitions</mat-card-title>
@@ -6,9 +17,21 @@
     </mat-card-header>
   
     <mat-card-content>
-      <mat-form-field id="branch">
+      <mat-form-field id="county">
+        <mat-label>County</mat-label>
+        <mat-select [formControl]="countyControl" required (selectionChange)="changeCounty($event.value)">
+          <mat-option *ngFor="let county of counties" [value]="county">
+            {{county.county_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="countyControl.hasError('required')">Please choose your county</mat-error>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field id="branch" *ngIf="county">
         <mat-label>Branch</mat-label>
-        <mat-select [formControl]="branchControl" required (selectionChange)="changeBranch($event.value)">
+        <mat-select [formControl]="branchControl" required #branchRef (selectionChange)="changeBranch($event.value)">
           <mat-option *ngFor="let branch of branches" [value]="branch">
             {{branch.branch_name}}
           </mat-option>
@@ -20,7 +43,7 @@
   
       <mat-form-field id="category" *ngIf="branch">
         <mat-label>Age Group</mat-label>
-        <mat-select #catRef (selectionChange)="changeCategory($event.value)">
+        <mat-select [formControl]="ageGroupControl" required #catRef (selectionChange)="changeCategory($event.value)">
           <mat-option *ngFor="let cat of catagories" [value]="cat">
             {{cat.age_group}}
           </mat-option>

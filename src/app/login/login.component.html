@@ -9,7 +9,7 @@
       <input matInput placeholder="Username" [disabled]="isLoggedIn" [(ngModel)]="username">
     </mat-form-field>
     <mat-form-field id="password">
-      <input matInput type="password" [disabled]="isLoggedIn" placeholder="Password" [(ngModel)]="password">
+      <input matInput (keydown.enter)="onSubmit()" type="password" [disabled]="isLoggedIn" placeholder="Password" [(ngModel)]="password">
     </mat-form-field>
     <button mat-raised-button id="login" [disabled]="isLoggedIn" (click)="onSubmit()">Login</button>
   </mat-card-content>
@@ -28,5 +28,10 @@
 <mat-card *ngIf="!loginFailed && isIncorrectAccess">
   <mat-card-content id="failed">
     User {{username}} does not have access to input competition results or manage registration.
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="isMissingInput">
+  <mat-card-content id="failed">
+    Missing username or password. Please enter an admin username and password.
   </mat-card-content>
 </mat-card>

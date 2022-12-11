@@ -6,4 +6,5 @@ export class Entry {
   entrant: number;
   entrantName: string;
   instrumentList: string;
+  county: number;
 }

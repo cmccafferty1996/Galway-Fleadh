@@ -4,6 +4,7 @@ import { Competition } from '../models/competition';
 import { Category } from '../models/category';
 import { ResultsTable } from '../view-results/view-results.component';
 import { Entry } from '../models/entry';
+import { County } from '../models/County';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,13 @@ export class ResultsService {
 
   constructor(private http: HttpClient) { }
 
+  getAllCountyNames() {
+    return this.http.get('https://localhost:44372/api/comhaltas/counties').toPromise()
+      .then((counties: County[]) => {
+        return counties;
+      });
+  }
+
   getAllCategories() {
     return this.http.get('https://localhost:44372/api/comhaltas/age-groups').toPromise()
       .then((res: Category[]) => {
@@ -19,8 +27,8 @@ export class ResultsService {
       });
   }
 
-  getNames(comp) {
-    return this.http.get(`https://localhost:44372/api/comhaltas/entries?comp=${comp}`).toPromise()
+  getNames(comp, county) {
+    return this.http.get(`https://localhost:44372/api/comhaltas/entries?comp=${comp}&county=${county}`).toPromise()
       .then((res: Entry[]) => {
         return res;
       });
@@ -33,8 +41,8 @@ export class ResultsService {
       });
   }
 
-  getResultsByCompetition(comp) {
-    return this.http.get(`https://localhost:44372/api/comhaltas/results?comp=${comp}`).toPromise()
+  getResults(comp, county) {
+    return this.http.get(`https://localhost:44372/api/comhaltas/results?comp=${comp}&county=${county}`).toPromise()
       .then((res: ResultsTable[]) => {
         return res;
       });
@@ -46,8 +54,8 @@ export class ResultsService {
         .then((res) => console.log(res));
   }
 
-  deleteResult(comp) {
-    return this.http.delete(`https://localhost:44372/api/comhaltas/delete-result?comp=${comp}`).toPromise()
+  deleteResult(comp, county) {
+    return this.http.delete(`https://localhost:44372/api/comhaltas/delete-result?comp=${comp}&county=${county}`).toPromise()
     .then((res: string) => {
       return res;
     });

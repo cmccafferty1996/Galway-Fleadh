@@ -6,6 +6,7 @@ import { Category } from '../models/category';
 import { Competition } from '../models/competition';
 import { Entry } from '../models/entry';
 import { VenueLocation } from '../models/venue-location';
+import { County } from '../models/County';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,15 @@ export class RegistrationService {
 
   constructor(private http: HttpClient) { }
 
-  getAllBranchNames() {
-    return this.http.get('https://localhost:44372/api/comhaltas/branches').toPromise()
+  getAllCountyNames() {
+    return this.http.get('https://localhost:44372/api/comhaltas/counties').toPromise()
+      .then((counties: County[]) => {
+        return counties;
+      });
+  }
+
+  getAllBranchNames(county: number) {
+    return this.http.get(`https://localhost:44372/api/comhaltas/branches?county=${county}`).toPromise()
       .then((branches: Branch[]) => {
         return branches;
       });
@@ -28,8 +36,8 @@ export class RegistrationService {
       });
   }
 
-  getVenueLocation() {
-    return this.http.get('https://localhost:44372/api/comhaltas/location').toPromise()
+  getVenueLocation(county: number) {
+    return this.http.get(`https://localhost:44372/api/comhaltas/location?county=${county}`).toPromise()
       .then((res: VenueLocation[]) => {
         return res;
       });
@@ -42,8 +50,8 @@ export class RegistrationService {
       });
   }
 
-  getEntries(comp) {
-    return this.http.get(`https://localhost:44372/api/comhaltas/entries?comp=${comp}`).toPromise()
+  getEntries(comp, county) {
+    return this.http.get(`https://localhost:44372/api/comhaltas/entries?comp=${comp}&county=${county}`).toPromise()
       .then((res: Entry[]) => {
         return res;
       });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,6 +11,11 @@ import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.c
 import { Entry } from '../models/entry';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { County } from '../models/County';
+import { MatSelect } from '@angular/material/select';
+import { Subscription } from 'rxjs';
+import { LoginService } from '../services/login.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-manage-results',
@@ -18,11 +23,13 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./manage-results.component.css']
 })
 export class ManageResultsComponent implements OnInit {
-  
+  countyControl = new FormControl('', [Validators.required]);
   categoryControl = new FormControl('', [Validators.required]);
   selectFormControl = new FormControl('', Validators.required);
+  county: County;
   category: Category;
   competition: Competition;
+  counties: County[];
   categories: Category[];
   competitions: Competition[];
   names: Entry[];
@@ -41,12 +48,18 @@ export class ManageResultsComponent implements OnInit {
   manageResults = false;
   displayedColumns: string[] = ['place', 'name', 'branch'];
   dataSource = new MatTableDataSource<Object>(this.results);
+  isLoggedIn = false;
+  isLoginCheckDone = false;
+  subscription: Subscription;
+
+  @ViewChild('catRef') catRef: MatSelect;
 
   constructor(
     private service: ResultsService,
     public router: Router,
     private snackbar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private login: LoginService
   ) { }
 
   ngOnInit() {
@@ -55,8 +68,32 @@ export class ManageResultsComponent implements OnInit {
     this.results = [];
     this.names = [];
     this.initializeMap();
-    this.service.getAllCategories()
-      .then((res: Category[]) => this.categories = res);
+    this.subscription = this.login.isLoggedIn$.subscribe((res) => {
+      this.isLoggedIn = res.isLoggedIn;
+      this.isLoginCheckDone = true;
+      if (this.isLoggedIn) {
+        this.service.getAllCountyNames()
+          .then((res: County[]) => {
+            this.counties = res;
+            this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1)
+          });
+      }
+    });
+  }
+
+  changeCounty(county) {
+    this.county = county;
+    this.initializeTable();
+    this.competition = null;
+    this.category = null;
+    if (this.catRef) this.catRef.options.forEach((el) => el.deselect());
+    if (!this.categories || this.categories.length === 0) {
+      this.service.getAllCategories()
+        .then((res) => {
+          this.categories = res;
+          this.categories.sort((a, b) => a.category > b.category ? 1 : -1);
+        });
+    }
   }
 
   changeCategory(cat) {
@@ -67,7 +104,7 @@ export class ManageResultsComponent implements OnInit {
     this.competition = null;
     this.manageResults = false;
     this.category = cat;
-    this.service.getCompetitionByAgeGroup(this.category.id)
+    if (this.category) this.service.getCompetitionByAgeGroup(this.category.id)
     .then((res) => {
       this.competitions = res;
       this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
@@ -93,6 +130,7 @@ export class ManageResultsComponent implements OnInit {
       second: this.getEntrantIdCheckIfNull(this.winners.get('2')),
       third: this.getEntrantIdCheckIfNull(this.winners.get('3')),
       recommended: this.getRecommended(),
+      county: this.county.id
     }
     if (this.areResultsUnique()) {
       this.service.saveResults(params)
@@ -145,11 +183,11 @@ export class ManageResultsComponent implements OnInit {
     this.initializeMap();
     this.results = [];
     this.isRecommended = false;
-    this.service.getNames(this.competition.id)
+    this.service.getNames(this.competition.id, this.county.id)
       .then((res: Entry[]) => {
         this.names = res;
         this.names.sort((a, b) => a.entrantName > b.entrantName ? 1 : -1);
-        this.service.getResultsByCompetition(this.competition.id)
+        this.service.getResults(this.competition.id, this.county.id)
           .then((res2: ResultsTable[]) => {
             this.prepopulateResults(res2);
             res2.forEach((winner) => {
@@ -212,13 +250,14 @@ export class ManageResultsComponent implements OnInit {
         title: 'Confirm Delete',
         ageGroup: this.category.age_group,
         competition: this.competition.competition_name,
-        isDelete: true
+        isDelete: true,
+        county: this.county.county_name
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.deleteResult(this.competition.id)
+        this.service.deleteResult(this.competition.id, this.county.id)
         .then((message) => {
           this.manageResults = false;
           this.showResults = false;
@@ -246,7 +285,8 @@ export class ManageResultsComponent implements OnInit {
   }
 
   private getEntrantIdCheckIfNull(entry: Entry) {
-    if (entry === null) {
+    console.log('Hey', entry);
+    if (entry === null || entry === undefined) {
       return 0;
     } else {
       return entry.id;
@@ -269,6 +309,7 @@ export class ManageResultsComponent implements OnInit {
 
   compareEntry(e1: Entry, e2: Entry): boolean {
     if (e1 === undefined || e2 === undefined) return false;
+    if (e1 === null || e2 === null) return false;
     return e1.id === e2.id;
   }
 }

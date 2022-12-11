@@ -13,6 +13,9 @@ import { Router } from '@angular/router';
 import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
 import { Entry } from '../models/entry';
 import { MatSelect } from '@angular/material/select';
+import { County } from '../models/County';
+import { Subscription } from 'rxjs';
+import { LoginService } from '../services/login.service';
 
 export class RowElement {
   name: string;
@@ -36,13 +39,16 @@ export class RowElement {
   styleUrls: ['./manage-registration.component.css']
 })
 export class ManageRegistrationComponent implements OnInit {
+  countyControl = new FormControl('', [Validators.required]);
   branchControl = new FormControl('', [Validators.required]);
-  categoryControl = new FormControl('', [Validators.required]);
+  ageGroupControl = new FormControl('', [Validators.required]);
   compControl = new FormControl('', [Validators.required]);
   selectFormControl = new FormControl('', Validators.required);
+  counties: County[];
   branches: Branch[];
   catagories: Category[];
   competitions: Competition[];
+  county: County;
   branch: Branch;
   category: Category;
   competition: Competition;
@@ -53,16 +59,41 @@ export class ManageRegistrationComponent implements OnInit {
   entries: Entry[];
   enableSave: boolean = false;
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
+  isLoggedIn = false;
+  isLoginCheckDone = false;
+  subscription: Subscription;
 
   @ViewChild('catRef') catRef: MatSelect;
+  @ViewChild('branchRef') branchRef: MatSelect;
 
   constructor(public dialog: MatDialog, private service: RegistrationService,
-    public router: Router, private snackbar: MatSnackBar) { }
+    public router: Router, private snackbar: MatSnackBar, private login: LoginService) { }
 
   ngOnInit() {
     this.tableData = [];
     this.entries = [];
-    this.service.getAllBranchNames()
+    this.subscription = this.login.isLoggedIn$.subscribe((res) => {
+      this.isLoggedIn = res.isLoggedIn;
+      this.isLoginCheckDone = true;
+      if (this.isLoggedIn) {
+        this.service.getAllCountyNames()
+          .then((res: County[]) => {
+            this.counties = res;
+            this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
+          });
+      }
+    });
+  }
+
+  changeCounty(county) {
+    this.county = county;
+    this.showCompetitions = false;
+    this.branches = null;
+    this.branch = null;
+    this.competition = null;
+    this.category = null;
+    if (this.branchRef) this.branchRef.options.forEach((el) => el.deselect());
+    this.service.getAllBranchNames(this.county.id)
       .then((res) => {
         this.branches = res;
         this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
@@ -105,7 +136,7 @@ export class ManageRegistrationComponent implements OnInit {
   onSubmit() {
     this.tableData = [];
     this.entries = [];
-    this.service.getEntries(this.competition.id)
+    this.service.getEntries(this.competition.id, this.county.id)
       .then((res) => {
         this.branchFiltering(res);
       });
@@ -120,7 +151,8 @@ export class ManageRegistrationComponent implements OnInit {
         ageGroup: this.category.age_group,
         competition: this.competition.competition_name,
         entrants: this.tableData.filter((entrant) => entrant.isChanged == true),
-        isManageReg: true
+        isManageReg: true,
+        county: this.county.county_name
       }
     });
 

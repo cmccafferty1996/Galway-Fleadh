@@ -45,11 +45,14 @@ export class ManageResultsComponent implements OnInit {
   firstPlace: Entry;
   secondPlace: Entry;
   thirdPlace: Entry;
+  fourthPlace: Entry;
+  fifthPlace: Entry;
   manageResults = false;
   displayedColumns: string[] = ['place', 'name', 'branch'];
   dataSource = new MatTableDataSource<Object>(this.results);
   isLoggedIn = false;
   isLoginCheckDone = false;
+  isComhraGaeilge = false;
   subscription: Subscription;
 
   @ViewChild('catRef') catRef: MatSelect;
@@ -116,6 +119,7 @@ export class ManageResultsComponent implements OnInit {
     this.initializeMap();
     this.manageResults = false;
     this.competition = comp;
+    this.isComhraGaeilge = this.competition.competition_name.toLocaleLowerCase().includes('gaeilge');
   }
 
   placeSelected(name: Entry, place: string) {
@@ -129,6 +133,8 @@ export class ManageResultsComponent implements OnInit {
       first: this.getEntrantIdCheckIfNull(this.winners.get('1')),
       second: this.getEntrantIdCheckIfNull(this.winners.get('2')),
       third: this.getEntrantIdCheckIfNull(this.winners.get('3')),
+      fourth: this.getEntrantIdCheckIfNull(this.winners.get('4')),
+      fifth: this.getEntrantIdCheckIfNull(this.winners.get('5')),
       recommended: this.getRecommended(),
       county: this.county.id
     }
@@ -167,9 +173,13 @@ export class ManageResultsComponent implements OnInit {
     this.winners.set('1', null);
     this.winners.set('2', null);
     this.winners.set('3', null);
+    this.winners.set('4', null);
+    this.winners.set('5', null);
     this.firstPlace = null;
     this.secondPlace = null;
     this.thirdPlace = null;
+    this.fourthPlace = null;
+    this.fifthPlace = null;
   }
 
   searchResults() {
@@ -233,6 +243,20 @@ export class ManageResultsComponent implements OnInit {
       this.winners.set('3', this.thirdPlace);
       if (third.place.includes('R')) this.isRecommended = true;
     }
+
+    const fourth = compResults.find((el) => el.place === '4' || el.place === '4 R');
+    if (fourth) this.fourthPlace = this.names.find((entry) => entry.entrantName === fourth.name);
+    if (this.fourthPlace) {
+      this.winners.set('4', this.fourthPlace);
+      if (fourth.place.includes('R')) this.isRecommended = true;
+    }
+
+    const fifth = compResults.find((el) => el.place === '5' || el.place === '5 R');
+    if (fifth) this.fifthPlace = this.names.find((entry) => entry.entrantName === fifth.name);
+    if (this.fifthPlace) {
+      this.winners.set('5', this.fifthPlace);
+      if (fifth.place.includes('R')) this.isRecommended = true;
+    }
   }
 
   openEditMode() {
@@ -240,6 +264,7 @@ export class ManageResultsComponent implements OnInit {
     this.showResultsError = false;
     this.showNoResultsMsg = false;
     this.manageResults = true;
+    this.isComhraGaeilge = this.competition.competition_name.toLocaleLowerCase().includes('gaeilge');
   }
 
   deleteResultForComp() {
@@ -277,15 +302,19 @@ export class ManageResultsComponent implements OnInit {
 
   private getRecommended() {
     if (!this.isRecommended || this.names.length < 2) return null;
-    if (this.winners.get("3") === null) {
-      return this.getEntrantIdCheckIfNull(this.winners.get('2'));
-    } else {
+
+    if (this.winners.get("5") !== null) {
+      return this.getEntrantIdCheckIfNull(this.winners.get('5'));
+    } else if (this.winners.get("4") !== null) {
+      return this.getEntrantIdCheckIfNull(this.winners.get('4'));
+    } else if (this.winners.get("3") !== null) {
       return this.getEntrantIdCheckIfNull(this.winners.get('3'));
+    } else {
+      return this.getEntrantIdCheckIfNull(this.winners.get('2'));
     }
   }
 
   private getEntrantIdCheckIfNull(entry: Entry) {
-    console.log('Hey', entry);
     if (entry === null || entry === undefined) {
       return 0;
     } else {

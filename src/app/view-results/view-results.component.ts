@@ -43,6 +43,7 @@ export class ViewResultsComponent implements OnInit {
   showResultsError = false;
   abadonShip = false;
   loadComplete = false;
+  isComhraGaeilge = false;
   displayedColumns: string[] = ['place', 'name', 'branch'];
   results: ResultsTable[] = [];
   dataSource = new MatTableDataSource<ResultsTable>(this.results);
@@ -58,6 +59,7 @@ export class ViewResultsComponent implements OnInit {
     this.service.getAllCountyNames()
       .then((res: County[]) => {
         this.counties = res;
+        this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
         this.loadComplete = true;
       })
       .catch((err) => {
@@ -94,6 +96,7 @@ export class ViewResultsComponent implements OnInit {
 
   changeCompetition(comp) {
     this.competition = comp;
+    this.isComhraGaeilge = this.competition.competition_name.toLocaleLowerCase().includes('gaeilge');
     this.initializeTable();
   }
 

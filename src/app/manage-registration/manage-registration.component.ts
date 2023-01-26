@@ -167,7 +167,7 @@ export class ManageRegistrationComponent implements OnInit {
             this.openSnackbar('green-snackbar', 'Changes saved successful');
           })
           .catch((err) => {
-            console.log('theres an error', err);
+            console.log('Theres an error', err);
             this.openSnackbar('red-snackbar', 'Error saving changes');
           })
           .finally(() => {

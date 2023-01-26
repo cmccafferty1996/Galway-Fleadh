@@ -174,7 +174,7 @@ export class RegisterComponent implements OnInit {
     if (this.showCompetitions) return;
     this.tableData = [];
     this.entries = [];
-    if (this.isCompDateToday(this.competition.competition_date)) {
+    if (this.isCompDateToday(this.county.fleadh_date)) {
       this.isUserAtTheVenue()
         .then((result) => {
           if (result) {
@@ -224,11 +224,10 @@ export class RegisterComponent implements OnInit {
         });
         this.service.saveEntries(this.entries)
           .then((res) => {
-            console.log(res);
             this.openSnackbar('green-snackbar', 'Registration successful');
           })
           .catch((err) => {
-            console.log('theres an error', err);
+            console.log('Theres an error', err);
             this.openSnackbar('red-snackbar', 'Error saving registration');
           })
           .finally(() => {
@@ -257,6 +256,7 @@ export class RegisterComponent implements OnInit {
   }
 
   private isCompDateToday(compDate) {
+    if (compDate === null || compDate === undefined) return true;
     const date = new Date(compDate);
     let result = false;
     if (this.today >= date) {

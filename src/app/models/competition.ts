@@ -4,4 +4,5 @@ export class Competition {
   competition_number: number;
   competition_name: string;
   age_group: number;
+  comp_type: number;
 }

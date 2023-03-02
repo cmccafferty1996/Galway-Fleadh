@@ -46,7 +46,7 @@
     padding-bottom: 12px;
     font-size: 14px;
     text-align: left;
-    background-color: #800020;
+    background-color: #63002f;
     color: white;
   }
 
@@ -56,6 +56,10 @@
     padding-bottom: 8px;
     border-bottom-width: 1px;
     border-bottom-style: solid;
+  }
+
+  #sub-text {
+    color: rgba(0,0,0,.87);
   }
 }
 
@@ -98,7 +102,7 @@
       padding-bottom: 12px;
       font-size: 16px;
       text-align: left;
-      background-color: #800020;
+      background-color: #63002f;
       color: white;
   }
 
@@ -108,5 +112,9 @@
     padding-bottom: 8px;
     border-bottom-width: 1px;
     border-bottom-style: solid;
+  }
+
+  #sub-text {
+    color: rgba(0,0,0,.87);
   }
 }

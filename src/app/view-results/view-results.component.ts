@@ -96,7 +96,7 @@ export class ViewResultsComponent implements OnInit {
 
   changeCompetition(comp) {
     this.competition = comp;
-    this.isComhraGaeilge = this.competition.competition_name.toLocaleLowerCase().includes('gaeilge');
+    this.isComhraGaeilge = this.competition.comp_type === 6;
     this.initializeTable();
   }
 

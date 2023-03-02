@@ -34,7 +34,7 @@
         padding-bottom: 12px;
         font-size: 14px;
         text-align: left;
-        background-color: #800020;
+        background-color: #63002f;
         color: white;
     }
     th.mat-header-cell, td.mat-cell {
@@ -90,7 +90,7 @@
         padding-bottom: 12px;
         font-size: 16px;
         text-align: left;
-        background-color: #800020;
+        background-color: #63002f;
         color: white;
     }
     #error-text {

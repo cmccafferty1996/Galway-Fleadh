@@ -45,7 +45,7 @@
         <mat-label>Age Group</mat-label>
         <mat-select [formControl]="ageGroupControl" required #catRef (selectionChange)="changeCategory($event.value)">
           <mat-option *ngFor="let cat of catagories" [value]="cat">
-            {{cat.age_group}}
+            {{cat.category}} {{cat.age_group}}
           </mat-option>
         </mat-select>
       </mat-form-field>

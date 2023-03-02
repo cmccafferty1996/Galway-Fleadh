@@ -119,7 +119,7 @@ export class ManageResultsComponent implements OnInit {
     this.initializeMap();
     this.manageResults = false;
     this.competition = comp;
-    this.isComhraGaeilge = this.competition.competition_name.toLocaleLowerCase().includes('gaeilge');
+    this.isComhraGaeilge = this.competition.comp_type === 6;
   }
 
   placeSelected(name: Entry, place: string) {
@@ -264,7 +264,7 @@ export class ManageResultsComponent implements OnInit {
     this.showResultsError = false;
     this.showNoResultsMsg = false;
     this.manageResults = true;
-    this.isComhraGaeilge = this.competition.competition_name.toLocaleLowerCase().includes('gaeilge');
+    this.isComhraGaeilge = this.competition.comp_type === 6;
   }
 
   deleteResultForComp() {

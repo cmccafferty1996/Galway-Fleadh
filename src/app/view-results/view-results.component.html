@@ -24,7 +24,7 @@
       <mat-label>Age Group</mat-label>
       <mat-select [formControl]="categoryControl" required #catRef (selectionChange)="changeCategory($event.value)">
         <mat-option *ngFor="let category of categories" [value]="category">
-          {{category.age_group}}
+          {{category.category}} {{category.age_group}}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="categoryControl.hasError('required')">Please choose an age group</mat-error>
@@ -58,7 +58,7 @@
     <mat-card-title>
       Results for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}
     </mat-card-title>
-    <mat-card-subtitle>Well done everyone!</mat-card-subtitle>
+    <mat-card-subtitle id="sub-text">Well done everyone! 🎉</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content id="table">
     <table mat-table [dataSource]="dataSource">

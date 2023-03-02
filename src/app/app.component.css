@@ -14,7 +14,7 @@
   }
 
   header {
-    background-color: #800020;
+    background-color: #63002f;
     text-align: center;
     height: 120px;
   }
@@ -23,6 +23,7 @@
     float: left;
     width: 100px;
     padding-left: 8px;
+    padding-top: 10px
   }
 
   #title {
@@ -45,7 +46,7 @@
   }
 
   footer {
-    background-color: rgb(38, 38, 36);;
+    background-color: rgb(38, 38, 36);
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -101,7 +102,7 @@
   }
 
   header {
-    background-color: #800020;
+    background-color: #63002f;
     text-align: center;
     height: 120px;
   }
@@ -110,6 +111,7 @@
     float: left;
     width: 100px;
     padding-left: 8px;
+    padding-top: 10px;
   }
 
   #title {

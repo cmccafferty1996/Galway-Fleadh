@@ -15,7 +15,6 @@ import { County } from '../models/County';
 import { MatSelect } from '@angular/material/select';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../services/login.service';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-manage-results',
@@ -53,6 +52,7 @@ export class ManageResultsComponent implements OnInit {
   isLoggedIn = false;
   isLoginCheckDone = false;
   isComhraGaeilge = false;
+  isSaveDisabled = true;
   subscription: Subscription;
 
   @ViewChild('catRef') catRef: MatSelect;
@@ -125,6 +125,12 @@ export class ManageResultsComponent implements OnInit {
   placeSelected(name: Entry, place: string) {
     this.duplicatedResults = false;
     this.winners.set(place, name);
+    this.isSaveDisabled = false;
+    let valueFound = false;
+    this.winners.forEach((val) => {
+      if (val !== null) valueFound = true;
+    });
+    this.isSaveDisabled = !valueFound;
   }
 
   saveResults() {
@@ -144,6 +150,7 @@ export class ManageResultsComponent implements OnInit {
           this.openSnackbar('green-snackbar', 'Results saved successful');
           this.manageResults = false;
           this.results = [];
+          this.searchResults();
         })
         .catch((err) => {
           console.log('Theres an error', err);
@@ -328,7 +335,7 @@ export class ManageResultsComponent implements OnInit {
     for (i=0; i < values.length - 1; i++) {
       for (y=i + 1; y < values.length; y++) {
         if ((this.getEntrantIdCheckIfNull(values[i]) === this.getEntrantIdCheckIfNull(values[y]))
-          && values[i] !== null) {
+          && values[i] !== null && values[y] !== null) {
           return false;
         }
       }

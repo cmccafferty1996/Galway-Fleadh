@@ -44,7 +44,7 @@
   }
 
   .accordion-heading {
-    color: #800020;
+    color: #63002f;
     font-family: sans-serif;
   }
 
@@ -95,7 +95,7 @@
 
 @media (min-width: 1025px) {
   #modal-header {
-    background: #800020;
+    background: #63002f;
     height: 75px;
     color: white;
     font-size: 25px;

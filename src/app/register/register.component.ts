@@ -297,18 +297,25 @@ export class RegisterComponent implements OnInit {
   }
 
   private branchFiltering(entries: Entry[]) {
-    let temp: RowElement;
     let promise = entries.map((entry) => {
       return this.service.getEntrantById(entry.entrant)
-        .then((res2: Entrant) => {
-          if (res2) {
-            if (res2.branch === this.branch.id) {
-              this.entries.push(entry);
-              const name = entry.instrumentList ?
-                entry.entrantName + " " + entry.instrumentList : entry.entrantName;
-              temp = new RowElement(name, entry.registered, entry.id);
-              this.tableData.push(temp);
-            }
+        .then((firstEntrant: Entrant) => {
+          if (firstEntrant && firstEntrant.branch === this.branch.id) {
+            this.pushTableData(entry);
+          } else if (entry.entrant2 && entry.entrant2 !== 0) {
+              return this.service.getEntrantById(entry.entrant2)
+                .then((secondEntrant: Entrant) => {
+                  if (secondEntrant && secondEntrant.branch === this.branch.id) {
+                    this.pushTableData(entry);
+                  } else if (entry.entrant3 && entry.entrant3 !== 0) {
+                    return this.service.getEntrantById(entry.entrant3)
+                      .then((thirdEntrant: Entrant) => {
+                        if (thirdEntrant && thirdEntrant.branch === this.branch.id) {
+                          this.pushTableData(entry);
+                        }
+                      });
+                  }
+                });
           }
         });
     });
@@ -318,5 +325,14 @@ export class RegisterComponent implements OnInit {
       this.showCompetitions = true;
       window.scrollTo(0, document.body.scrollHeight);
     });
+  }
+
+  private pushTableData(entry: Entry) {
+    let temp: RowElement;
+    this.entries.push(entry);
+    const name = entry.instrumentList ?
+      entry.entrantName + " " + entry.instrumentList : entry.entrantName;
+    temp = new RowElement(name, entry.registered, entry.id);
+    this.tableData.push(temp);
   }
 }

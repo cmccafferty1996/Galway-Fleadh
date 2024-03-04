@@ -5,20 +5,20 @@
   <mat-card-header>
     <mat-card-title>Register For Competitions</mat-card-title>
     <mat-card-subtitle>
-      Please select your county, branch, age group and competition.<br>
+      Please select your county/region, branch, age group and competition.<br>
       Please allow location if prompted, you must be at the venue to register.
     </mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
     <mat-form-field id="county">
-      <mat-label>County</mat-label>
+      <mat-label>County/Region</mat-label>
       <mat-select [formControl]="countyControl" required (selectionChange)="changeCounty($event.value)">
         <mat-option *ngFor="let county of counties" [value]="county">
           {{county.county_name}}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="countyControl.hasError('required')">Please choose your county</mat-error>
+      <mat-error *ngIf="countyControl.hasError('required')">Please choose your county/region</mat-error>
     </mat-form-field>
     
     <br>

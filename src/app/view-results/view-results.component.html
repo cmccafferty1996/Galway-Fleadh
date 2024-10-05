@@ -36,7 +36,7 @@
       <mat-label>Competition</mat-label>
       <mat-select (selectionChange)="changeCompetition($event.value)">
         <mat-option *ngFor="let comp of competitions" [value]="comp">
-          {{comp.competition_name}}
+          {{comp.competition_number}} {{comp.competition_name}}
         </mat-option>
       </mat-select>
     </mat-form-field>

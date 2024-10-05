@@ -15,6 +15,11 @@ import { ManageResultsComponent } from './manage-results/manage-results.componen
 import { ManageRegistrationComponent } from './manage-registration/manage-registration.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { SnackbarContentComponent } from './snackbar-content/snackbar-content.component';
+import { SlipsComponent } from './slips/slips.component';
+import { LateWithdrawalFormComponent } from './late-withdrawal-form/late-withdrawal-form.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { ManageSlipsComponent } from './manage-slips/manage-slips.component';
+import { SlipsPermitsModalComponent } from './slips-permits-modal/slips-permits-modal.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,11 @@ import { SnackbarContentComponent } from './snackbar-content/snackbar-content.co
     ManageResultsComponent,
     ManageRegistrationComponent,
     ConfirmModalComponent,
-    SnackbarContentComponent
+    SnackbarContentComponent,
+    SlipsComponent,
+    LateWithdrawalFormComponent,
+    ManageSlipsComponent,
+    SlipsPermitsModalComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +44,8 @@ import { SnackbarContentComponent } from './snackbar-content/snackbar-content.co
     MaterialsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent],

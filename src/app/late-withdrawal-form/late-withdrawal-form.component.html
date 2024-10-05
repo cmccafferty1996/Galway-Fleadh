@@ -1,0 +1,56 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Request {{formType}} Slip(s) for {{entrant.entrant_name}}
+    </mat-card-title>
+    <mat-card-subtitle>
+      This form is to be filled by competitors involved in a number of competitions at around the same time.
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource">
+        <!-- Category Column -->
+       <ng-container matColumnDef="Age Group">
+        <th mat-header-cell *matHeaderCellDef class="place-title"><b>Age Group</b></th>
+        <td mat-cell *matCellDef="let element" class="place-text"> {{element.ageGroup}} </td>
+      </ng-container>
+  
+      <!-- Competition Name Column --> 
+      <ng-container matColumnDef="Competition Name">
+        <th mat-header-cell *matHeaderCellDef><b>Competition Name</b></th>
+        <td mat-cell *matCellDef="let element"> 
+          {{element.competition}}
+        </td>
+      </ng-container>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="Late">
+        <th mat-header-cell *matHeaderCellDef ><b>{{formType}}</b></th>
+        <td mat-cell *matCellDef="let element, let i = index">
+          <mat-checkbox
+            (change)="onCheckBoxClicked($event, i)" 
+            [disabled]="(formType == 'Late') && !element.isChecked && (checkBoxCounter >= tableData.length - 1)" 
+            [(ngModel)]="element.isChecked">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <br>
+    <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+      <mat-form-field fxFlex class="form-fields" id="requester-name">
+        <mat-label>Notified By</mat-label>
+        <input matInput maxlength="60">
+      </mat-form-field>
+      <mat-form-field fxFlex class="form-fields" id="requester-number">
+        <mat-label>Contact Number</mat-label>
+        <input matInput [formControl]="phoneNoControl" required placeholder="08X-XXXXXXX">
+        <mat-error *ngIf="phoneNoControl.hasError('required')">Please enter a contact number</mat-error>
+        <mat-error *ngIf="phoneNoControl.hasError('pattern')">Please enter contact number in the correct format xxx-xxxxxxx</mat-error>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button (click)="onSubmit()">Submit</button>
+  </mat-card-content>
+</mat-card>

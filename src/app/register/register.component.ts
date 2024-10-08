@@ -91,19 +91,18 @@ export class RegisterComponent implements OnInit {
     this.tableData = [];
     this.entries = [];
     this.today.setHours(0, 0, 0, 0);
-    // this.service.getAllCountyNames()
-      // .then((res) => {
-        // this.counties = res;
-        this.counties = [new County(1, 'Galway', new Date()), new County(18, 'Mayo', new Date())];
+    this.service.getAllCountyNames()
+      .then((res) => {
+        this.counties = res;
+        // this.counties = [new County(1, 'Galway', new Date()), new County(18, 'Mayo', new Date())];
         this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
         this.county = UtilsService.getCountyFromLocalStorage(this.counties);
-        console.log('here', this.county);
         this.loadComplete = true;
-      // })
-      // .catch((err) => {
-      //   this.abadonShip = true;
-      //   console.log('No counties retrieved', err);
-      // });
+      })
+      .catch((err) => {
+        this.abadonShip = true;
+        console.log('No counties retrieved', err);
+      });
   }
 
   getVenueLocation() {

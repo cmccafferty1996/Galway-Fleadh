@@ -13,7 +13,12 @@
   <mat-card-content>
     <mat-form-field id="county">
       <mat-label>County/Region</mat-label>
-      <mat-select [formControl]="countyControl" required (selectionChange)="changeCounty($event.value)">
+      <mat-select [formControl]="countyControl"
+                  [compareWith]="compareCounty"
+                  [(ngModel)]="county"
+                  required 
+                  (selectionChange)="changeCounty($event.value)"
+        >
         <mat-option *ngFor="let county of counties" [value]="county">
           {{county.county_name}}
         </mat-option>

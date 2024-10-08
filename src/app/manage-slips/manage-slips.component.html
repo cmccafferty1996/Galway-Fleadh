@@ -100,11 +100,13 @@
           </td>
         </ng-container>
   
-        <!-- Other Competitions Column -->
-        <ng-container matColumnDef="Other Competitions">
-          <th mat-header-cell *matHeaderCellDef ><b>Other Competitions</b></th>
+        <!-- Open Slip Column -->
+        <ng-container matColumnDef="Open Slip">
+          <th mat-header-cell *matHeaderCellDef ><b>Open Slip</b></th>
           <td mat-cell *matCellDef="let element, let i = index">
-            <button mat-raised-button (click)="openDialog(element)">See More</button>
+            <button mat-icon-button (click)="openDialog(element)">
+              <mat-icon id="open-slip-icon">add</mat-icon>
+            </button>
           </td>
         </ng-container>
     

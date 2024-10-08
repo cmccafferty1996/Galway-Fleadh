@@ -40,7 +40,7 @@ export class ManageSlipsComponent implements OnInit {
   counties: County[];
   categories: Category[];
   competitions: Competition[];
-  lateSlipColumns: string[] = ['Competitor Name', 'Notified By', 'Contact Number', 'Other Competitions'];
+  lateSlipColumns: string[] = ['Competitor Name', 'Notified By', 'Contact Number', 'Open Slip'];
   nonCompeteSlipColumns: string[] = ['Competitor Name', 'Notified By'];
   tableData: LateSlipTableRow[] = [];
   dataSource = new MatTableDataSource<LateSlipTableRow>(this.tableData);

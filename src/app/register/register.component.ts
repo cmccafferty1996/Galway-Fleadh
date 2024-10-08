@@ -15,6 +15,7 @@ import { DOCUMENT } from '@angular/common';
 import { Entry } from '../models/entry';
 import { MatSelect } from '@angular/material/select';
 import { County } from '../models/County';
+import { UtilsService } from '../services/utils.service';
 
 export class RowElement {
   name: string;
@@ -80,6 +81,7 @@ export class RegisterComponent implements OnInit {
 
   @ViewChild('catRef') catRef: MatSelect;
   @ViewChild('branchRef') branchRef: MatSelect;
+  compareCounty = UtilsService.compareCounty;
 
   constructor(public dialog: MatDialog, 
     private service: RegistrationService, private router: Router,
@@ -93,6 +95,7 @@ export class RegisterComponent implements OnInit {
       .then((res) => {
         this.counties = res;
         this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
+        this.county = UtilsService.getCountyFromLocalStorage();
         this.loadComplete = true;
       })
       .catch((err) => {
@@ -116,6 +119,7 @@ export class RegisterComponent implements OnInit {
 
   changeCounty(county) {
     this.county = county;
+    localStorage.setItem('selectedCounty', JSON.stringify(this.county));
     this.showCompetitions = false;
     this.isTooEarlyToRegister = false;
     this.isTooFarFromVenue = false;

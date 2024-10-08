@@ -15,6 +15,7 @@ import { County } from '../models/County';
 import { MatSelect } from '@angular/material/select';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../services/login.service';
+import { UtilsService } from '../services/utils.service';
 
 @Component({
   selector: 'app-manage-results',
@@ -56,6 +57,8 @@ export class ManageResultsComponent implements OnInit {
   subscription: Subscription;
 
   @ViewChild('catRef') catRef: MatSelect;
+  compareEntry = UtilsService.compareEntry;
+  compareCounty = UtilsService.compareCounty;
 
   constructor(
     private service: ResultsService,
@@ -79,6 +82,7 @@ export class ManageResultsComponent implements OnInit {
           .then((res: County[]) => {
             this.counties = res;
             this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1)
+            this.county = UtilsService.getCountyFromLocalStorage();
           });
       }
     });
@@ -86,6 +90,7 @@ export class ManageResultsComponent implements OnInit {
 
   changeCounty(county) {
     this.county = county;
+    localStorage.setItem('selectedCounty', JSON.stringify(this.county));
     this.initializeTable();
     this.competition = null;
     this.category = null;
@@ -341,11 +346,5 @@ export class ManageResultsComponent implements OnInit {
       }
     }
     return true;
-  }
-
-  compareEntry(e1: Entry, e2: Entry): boolean {
-    if (e1 === undefined || e2 === undefined) return false;
-    if (e1 === null || e2 === null) return false;
-    return e1.id === e2.id;
   }
 }

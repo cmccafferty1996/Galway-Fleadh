@@ -16,6 +16,7 @@ import { MatSelect } from '@angular/material/select';
 import { County } from '../models/County';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../services/login.service';
+import { UtilsService } from '../services/utils.service';
 
 export class RowElement {
   name: string;
@@ -65,6 +66,7 @@ export class ManageRegistrationComponent implements OnInit {
 
   @ViewChild('catRef') catRef: MatSelect;
   @ViewChild('branchRef') branchRef: MatSelect;
+  compareCounty = UtilsService.compareCounty;
 
   constructor(public dialog: MatDialog, private service: RegistrationService,
     public router: Router, private snackbar: MatSnackBar, private login: LoginService) { }
@@ -80,6 +82,7 @@ export class ManageRegistrationComponent implements OnInit {
           .then((res: County[]) => {
             this.counties = res;
             this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
+            this.county = UtilsService.getCountyFromLocalStorage();
           });
       }
     });
@@ -87,6 +90,7 @@ export class ManageRegistrationComponent implements OnInit {
 
   changeCounty(county) {
     this.county = county;
+    localStorage.setItem('selectedCounty', JSON.stringify(this.county));
     this.showCompetitions = false;
     this.branches = null;
     this.branch = null;

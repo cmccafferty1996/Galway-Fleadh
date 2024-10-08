@@ -6,6 +6,7 @@ import { ResultsService } from '../services/results.service';
 import { Competition } from '../models/competition';
 import { County } from '../models/County';
 import { MatSelect } from '@angular/material/select';
+import { UtilsService } from '../services/utils.service';
 
 export class ResultsTable {
 
@@ -49,6 +50,7 @@ export class ViewResultsComponent implements OnInit {
   dataSource = new MatTableDataSource<ResultsTable>(this.results);
 
   @ViewChild('catRef') catRef: MatSelect;
+  compareCounty = UtilsService.compareCounty;
 
   constructor(private service: ResultsService) { }
 
@@ -60,6 +62,7 @@ export class ViewResultsComponent implements OnInit {
       .then((res: County[]) => {
         this.counties = res;
         this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
+        this.county = UtilsService.getCountyFromLocalStorage();
         this.loadComplete = true;
       })
       .catch((err) => {
@@ -70,6 +73,7 @@ export class ViewResultsComponent implements OnInit {
 
   changeCounty(county) {
     this.county = county;
+    localStorage.setItem('selectedCounty', JSON.stringify(this.county));
     this.initializeTable();
     this.competition = null;
     this.category = null;

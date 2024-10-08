@@ -62,7 +62,7 @@ export class ViewResultsComponent implements OnInit {
       .then((res: County[]) => {
         this.counties = res;
         this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
-        this.county = UtilsService.getCountyFromLocalStorage();
+        this.county = UtilsService.getCountyFromLocalStorage(this.counties);
         this.loadComplete = true;
       })
       .catch((err) => {

@@ -91,17 +91,19 @@ export class RegisterComponent implements OnInit {
     this.tableData = [];
     this.entries = [];
     this.today.setHours(0, 0, 0, 0);
-    this.service.getAllCountyNames()
-      .then((res) => {
-        this.counties = res;
+    // this.service.getAllCountyNames()
+      // .then((res) => {
+        // this.counties = res;
+        this.counties = [new County(1, 'Galway', new Date()), new County(18, 'Mayo', new Date())];
         this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
-        this.county = UtilsService.getCountyFromLocalStorage();
+        this.county = UtilsService.getCountyFromLocalStorage(this.counties);
+        console.log('here', this.county);
         this.loadComplete = true;
-      })
-      .catch((err) => {
-        this.abadonShip = true;
-        console.log('No counties retrieved', err);
-      });
+      // })
+      // .catch((err) => {
+      //   this.abadonShip = true;
+      //   console.log('No counties retrieved', err);
+      // });
   }
 
   getVenueLocation() {
@@ -119,7 +121,7 @@ export class RegisterComponent implements OnInit {
 
   changeCounty(county) {
     this.county = county;
-    localStorage.setItem('selectedCounty', JSON.stringify(this.county));
+    localStorage.setItem('selectedCounty', this.county.county_name);
     this.showCompetitions = false;
     this.isTooEarlyToRegister = false;
     this.isTooFarFromVenue = false;
@@ -127,12 +129,12 @@ export class RegisterComponent implements OnInit {
     this.competition = null;
     this.category = null;
     if (this.branchRef) this.branchRef.options.forEach((el) => el.deselect());
-    this.service.getAllBranchNames(this.county.id)
-      .then((res) => {
-        this.branches = res;
-        this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
-      });
-    this.getVenueLocation();
+    // this.service.getAllBranchNames(this.county.id)
+    //   .then((res) => {
+    //     this.branches = res;
+    //     this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
+    //   });
+    // this.getVenueLocation();
   }
 
   changeBranch(branch) {

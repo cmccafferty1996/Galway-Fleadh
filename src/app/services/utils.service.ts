@@ -18,12 +18,14 @@ export class UtilsService {
   public static compareCounty(c1: County, c2: County): boolean {
     if (c1 === undefined || c2 === undefined) return false;
     if (c1 === null || c2 === null) return false;
-    return c1.id === c2.id;
+    return c1.county_name === c2.county_name;
   }
 
-  public static getCountyFromLocalStorage(): County {
-    const countyAsString = localStorage.getItem('selectedCounty');
-    const storedCounty = JSON.parse(countyAsString) as County;
-    return storedCounty;
+  public static getCountyFromLocalStorage(counties: County[]): County {
+    const countyName = localStorage.getItem('selectedCounty');
+    if (countyName === null || countyName === undefined) {
+      return null;
+    }
+    return counties.find((c) => c.county_name === countyName);
   }
 }

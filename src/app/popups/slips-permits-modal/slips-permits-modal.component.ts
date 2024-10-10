@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Competition } from '../models/competition';
+import { Competition } from '../../models/competition';
 
 @Component({
   selector: 'app-slips-permits-modal',

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { County } from '../models/County';
+import { County } from '../../models/County';
 import { FormControl, Validators } from '@angular/forms';
-import { Branch } from '../models/branch';
-import { Entrant } from '../models/entrant';
+import { Branch } from '../../models/branch';
+import { Entrant } from '../../models/entrant';
 import { MatSelect } from '@angular/material/select';
 
 @Component({

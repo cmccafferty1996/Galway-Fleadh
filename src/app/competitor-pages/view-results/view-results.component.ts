@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { Category } from '../models/category';
-import { ResultsService } from '../services/results.service';
-import { Competition } from '../models/competition';
-import { County } from '../models/County';
+import { Category } from '../../models/category';
+import { ResultsService } from '../../services/results.service';
+import { Competition } from '../../models/competition';
+import { County } from '../../models/County';
 import { MatSelect } from '@angular/material/select';
-import { UtilsService } from '../services/utils.service';
+import { UtilsService } from '../../services/utils.service';
 
 export class ResultsTable {
 

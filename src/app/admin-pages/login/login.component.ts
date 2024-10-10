@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../../services/login.service';
 import { Subscription } from 'rxjs';
-import { AdminUser } from '../models/AdminUser';
+import { AdminUser } from '../../models/AdminUser';
 
 @Component({
   selector: 'app-login',

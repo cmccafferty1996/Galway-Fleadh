@@ -2,20 +2,20 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
-import { ResultsTable } from '../view-results/view-results.component';
-import { Competition } from '../models/competition';
-import { Category } from '../models/category';
-import { ResultsService } from '../services/results.service';
+import { ResultsTable } from '../../competitor-pages/view-results/view-results.component';
+import { Competition } from '../../models/competition';
+import { Category } from '../../models/category';
+import { ResultsService } from '../../services/results.service';
 import { Router } from '@angular/router';
-import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
-import { Entry } from '../models/entry';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { SnackbarContentComponent } from '../../popups/snackbar-content/snackbar-content.component';
+import { Entry } from '../../models/entry';
+import { ConfirmModalComponent } from '../../popups/confirm-modal/confirm-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { County } from '../models/County';
+import { County } from '../../models/County';
 import { MatSelect } from '@angular/material/select';
 import { Subscription } from 'rxjs';
-import { LoginService } from '../services/login.service';
-import { UtilsService } from '../services/utils.service';
+import { LoginService } from '../../services/login.service';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-manage-results',

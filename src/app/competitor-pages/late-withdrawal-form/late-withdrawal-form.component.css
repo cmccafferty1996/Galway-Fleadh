@@ -43,10 +43,21 @@
         padding-bottom: 8px;
         border-bottom-width: 1px;
         border-bottom-style: solid;
+    }
+    td.mat-cell {
         text-align: center;
     }
     .form-fields {
         max-width: fit-content;
+    }
+    .group-text {
+        text-wrap: wrap;
+    }
+    #requester-name {
+        margin-bottom: 0px !important;
+    }
+    #requester-number {
+        margin-bottom: 10px !important;
     }
 }
 
@@ -91,5 +102,8 @@
     }
     .form-fields {
         max-width: fit-content;
+    }
+    .submit-slip {
+        margin-top: 10px;
     }
 }

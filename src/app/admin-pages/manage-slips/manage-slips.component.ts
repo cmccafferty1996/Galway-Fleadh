@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
-import { Competition } from '../models/competition';
-import { County } from '../models/County';
+import { Competition } from '../../models/competition';
+import { County } from '../../models/County';
 import { FormControl, Validators } from '@angular/forms';
-import { Category } from '../models/category';
+import { Category } from '../../models/category';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { SlipsPermitsModalComponent } from '../slips-permits-modal/slips-permits-modal.component';
+import { SlipsPermitsModalComponent } from '../../popups/slips-permits-modal/slips-permits-modal.component';
 
 export class LateSlipTableRow {
   name: string;
@@ -40,7 +40,8 @@ export class ManageSlipsComponent implements OnInit {
   counties: County[];
   categories: Category[];
   competitions: Competition[];
-  lateSlipColumns: string[] = ['Competitor Name', 'Notified By', 'Contact Number', 'Open Slip'];
+  // lateSlipColumns: string[] = ['Competitor Name', 'Notified By', 'Contact Number', 'Open Slip'];
+  lateSlipColumns: string[] = ['Competitor Name', 'Notified By', 'Contact Number'];
   nonCompeteSlipColumns: string[] = ['Competitor Name', 'Notified By'];
   tableData: LateSlipTableRow[] = [];
   dataSource = new MatTableDataSource<LateSlipTableRow>(this.tableData);

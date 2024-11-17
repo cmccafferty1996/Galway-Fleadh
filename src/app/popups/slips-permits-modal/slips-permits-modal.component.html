@@ -1,0 +1,74 @@
+<div id="modal-header">
+  <span id="header-text">{{data.title}}</span>
+</div>
+<div id="sub-header">
+  <span id="about-text">
+    This is the late slip for {{data.row.entrantNames}} in {{data.ageGroup}} {{data.competition}}.<br>
+    See below a list of their other competitions and notifier details.
+  </span>
+</div>
+
+<div class="modal-content">
+  <mat-accordion>
+    <mat-expansion-panel class="example-accordion" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="accordion-heading">Other competitions for {{data.row.entrantNames}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <table *ngIf="dataSource.data.length > 0" mat-table id="table" [dataSource]="dataSource">
+        <!-- Competition Name Column -->
+         <ng-container matColumnDef="Competition Name">
+          <th mat-header-cell *matHeaderCellDef class="place-title"><b>Competition Name</b></th>
+          <td mat-cell *matCellDef="let element" class="place-text">
+            {{element.ageGroup}} {{element.competition}}
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+      </table>
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+      <span *ngIf="!isLoading && showErrMessage">Error getting list of other competitions.</span>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <br>
+
+  <mat-accordion *ngIf="data.groups && data.groups.length > 0">
+    <mat-expansion-panel class="example-accordion" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="accordion-heading">Group entries for {{data.row.entrantNames}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <table *ngIf="groupDataSource.data.length > 0" mat-table id="table" [dataSource]="groupDataSource">
+        <!-- Competition Name Column -->
+         <ng-container matColumnDef="Competition Name">
+          <th mat-header-cell *matHeaderCellDef class="place-title"><b>Group Entry</b></th>
+          <td mat-cell *matCellDef="let element" class="place-text">
+            {{element.ageGroup}} {{element.competition}}
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+      </table>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<div class="other-info" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+  <mat-form-field fxFlex class="form-fields" id="requester-name">
+    <mat-label>Notified By</mat-label>
+    <input matInput value="{{data.row.submittedBy}}" readonly>
+  </mat-form-field>
+  <mat-form-field fxFlex class="form-fields" id="requester-number">
+    <mat-label>Contact Number</mat-label>
+    <input matInput readonly value="{{data.row.teleNo}}">
+  </mat-form-field>
+  <mat-form-field fxFlex class="form-fields" id="slip-time">
+    <mat-label>Create Time</mat-label>
+    <input matInput readonly value="{{data.row.createTime}}">
+  </mat-form-field>
+</div>
+
+<div class="buttons">
+  <button class="close" mat-raised-button (click)="close()">Close</button>
+</div>

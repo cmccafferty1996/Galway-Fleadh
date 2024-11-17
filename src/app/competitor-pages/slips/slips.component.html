@@ -1,0 +1,97 @@
+<mat-spinner *ngIf="!abadonShip && !loadComplete"></mat-spinner>
+<div *ngIf="abadonShip">Internal error, please go to the Fleadh office to see competition results</div>
+<div *ngIf="!abadonShip && loadComplete">
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Slips & Permits</mat-card-title>
+    <mat-card-subtitle>Please select slip/permit type followed by the county, branch and name of the entrant you are requesting the slip for</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-form-field id="form-type">
+      <mat-label>Slip or Permit Type</mat-label>
+      <mat-select [formControl]="slipControl" required (selectionChange)="changeSlip($event.value)">
+        <mat-option *ngFor="let slip of slips" [value]="slip">
+          {{slip}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="slipControl.hasError('required')">Please choose your slip type</mat-error>
+    </mat-form-field>
+    
+    <br>
+
+    <mat-form-field id="county" *ngIf="slip || county">
+      <mat-label>County</mat-label>
+      <mat-select [formControl]="countyControl"
+                  [compareWith]="compareCounty"
+                  [(ngModel)]="county"
+                  required #countyRef 
+                  (selectionChange)="changeCounty($event.value)">
+        <mat-option *ngFor="let county of counties" [value]="county">
+          {{county.county_name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="countyControl.hasError('required')">Please choose your county</mat-error>
+    </mat-form-field>
+    
+    <br>
+
+    <mat-form-field id="branch" *ngIf="county && slip">
+      <mat-label>Branch</mat-label>
+      <mat-select [formControl]="branchControl" required #branchRef (selectionChange)="changeBranch($event.value)">
+        <mat-option *ngFor="let branch of branches" [value]="branch">
+          {{branch.branch_name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="branchControl.hasError('required')">Please choose your branch</mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field id="entrant" *ngIf="branch">
+      <mat-label>Entrant</mat-label>
+      <mat-select [formControl]="entrantControl" required #entrantRef (selectionChange)="changeEntrant($event.value)">
+        <mat-option *ngFor="let ent of entrants" [value]="ent">
+          {{ent.entrant_name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="entrantControl.hasError('required')">Please choose entrant</mat-error>
+    </mat-form-field>
+    
+    <br>
+    <button mat-raised-button (click)="onSubmit()" [disabled]="!entrant">Next</button>
+  </mat-card-content>
+</mat-card>
+<br>
+
+<mat-card *ngIf="isTooEarly">
+  <mat-card-content id="error-text">
+    The {{county.county_name}} Fleadh has not started yet.
+    Slips & Permits can only be created on the day of the competition.
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="isTooFarFromVenue">
+  <mat-card-content id="error-text">
+    You must be at the competition venue to register for this competition.
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="isLocationDisabled">
+  <mat-card-content id="error-text">
+    You must enable your location to create slips & permits. <br>
+    Contact the Fleadh Office to re-enable location.
+  </mat-card-content>
+</mat-card>
+
+<late-withdrawal-form
+  *ngIf="showForm && slip != 'Recording Permit'"
+  [entrant]="entrant"
+  [branch]="branch"
+  [isLateForm]="slip == 'Late Slip'">
+</late-withdrawal-form>
+
+<photo-recording-permit 
+  *ngIf="showForm && slip == 'Recording Permit'"
+  [entrant]="entrant"
+  [branch]="branch">
+</photo-recording-permit>
+</div>

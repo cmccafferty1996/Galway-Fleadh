@@ -1,0 +1,178 @@
+<mat-spinner *ngIf="!isLoginCheckDone && !loadComplete"></mat-spinner>
+<div class="no-access" *ngIf="!isLoggedIn && isLoginCheckDone && loadComplete">
+  <mat-card class="example-card">
+    <mat-card-content>
+      <img id="image" mat-card-image src="../../assets/padlock-icon-lock.jpg" alt="Home Photo"><br><br>
+      <span class="unathenticated-message">
+        User must be logged in to manage results. If you are an admin user please <a href='/login'>login</a>
+      </span>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div *ngIf="isLoggedIn && isLoginCheckDone && loadComplete">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Manage Slips and Permits For Competitions</mat-card-title>
+      <mat-card-subtitle>Please select slip/permit type, county, age group & competition</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field id="form-type">
+        <mat-label>Slip or Permit Type</mat-label>
+        <mat-select [formControl]="slipControl" required (selectionChange)="changeSlip($event.value)">
+          <mat-option *ngFor="let slip of slips" [value]="slip">
+            {{slip.label}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="slipControl.hasError('required')">Please choose your slip type</mat-error>
+      </mat-form-field>
+      
+      <br>
+  
+      <mat-form-field id="county" *ngIf="slip || county">
+        <mat-label>County</mat-label>
+        <mat-select [formControl]="countyControl"
+                    [compareWith]="compareCounty"
+                    [(ngModel)]="county"
+                    required
+                    (selectionChange)="changeCounty($event.value)">
+          <mat-option *ngFor="let county of counties" [value]="county">
+            {{county.county_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="countyControl.hasError('required')">Please choose your county</mat-error>
+      </mat-form-field>
+      
+      <br>
+
+      <mat-form-field id="category" *ngIf="county">
+        <mat-label>Age Group</mat-label>
+        <mat-select [formControl]="categoryControl" required #catRef (selectionChange)="changeCategory($event.value)">
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{category.category}} {{category.age_group}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="categoryControl.hasError('required')">Please choose an age group</mat-error>
+      </mat-form-field>
+    
+      <br>
+    
+      <mat-form-field id="competition" *ngIf="category">
+        <mat-label>Competition</mat-label>
+        <mat-select #compRef (selectionChange)="changeCompetition($event.value)">
+          <mat-option *ngFor="let comp of competitions" [value]="comp">
+            {{comp.competition_number}} {{comp.competition_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button (click)="searchSlips()" [disabled]="!competition">Search</button>
+    </mat-card-content>
+  </mat-card>
+  <br>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card *ngIf="showSlips && slip.label == 'Late Slip'">
+    <mat-card-header>
+      <mat-card-title>
+        {{slip.label}}s for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}
+      </mat-card-title>
+      <mat-card-subtitle>
+        Click on the row for more information on the late slip for that competitor.
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content *ngIf="tableData.length == 0">
+      <span id="error-text">No {{slip.label}}s found</span>
+    </mat-card-content>
+    <mat-card-content>
+      <table *ngIf="tableData.length > 0" mat-table [dataSource]="dataSource">
+          <!-- Competitor Name Column -->
+         <ng-container matColumnDef="Competitor Name">
+          <th mat-header-cell *matHeaderCellDef class="place-title"><b>Competitor Name</b></th>
+          <td mat-cell *matCellDef="let element" class="place-text" (click)="openDialog(element)">
+            {{element.entrantNames}}
+          </td>
+        </ng-container>
+    
+        <!-- Notified By Column --> 
+        <ng-container matColumnDef="Notified By">
+          <th mat-header-cell *matHeaderCellDef><b>Notified By</b></th>
+          <td mat-cell *matCellDef="let element" (click)="openDialog(element)"> 
+            {{element.submittedBy}}
+          </td>
+        </ng-container>
+
+        <!-- Phone Number Column --> 
+        <ng-container matColumnDef="Contact Number">
+          <th mat-header-cell *matHeaderCellDef><b>Contact Number</b></th>
+          <td mat-cell *matCellDef="let element" (click)="openDialog(element)"> 
+            {{element.teleNo}}
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="lateSlipColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: lateSlipColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="showSlips && slip.label == 'Non-Compete Slip'">
+    <mat-card-header>
+      <mat-card-title>
+        {{slip.label}}s for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content *ngIf="tableData.length == 0">
+      <span id="error-text">No {{slip.label}}s found</span>
+    </mat-card-content>
+    <mat-card-content>
+      <table *ngIf="tableData.length > 0" mat-table [dataSource]="dataSource">
+          <!-- Competitor Name Column -->
+         <ng-container matColumnDef="Competitor Name">
+          <th mat-header-cell *matHeaderCellDef class="place-title"><b>Competitor Name</b></th>
+          <td mat-cell *matCellDef="let element" class="place-text"> {{element.entrantNames}} </td>
+        </ng-container>
+    
+        <!-- Notified By Column --> 
+        <ng-container matColumnDef="Notified By">
+          <th mat-header-cell *matHeaderCellDef><b>Notified By</b></th>
+          <td mat-cell *matCellDef="let element"> 
+            {{element.submittedBy}}
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="nonCompeteSlipColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: nonCompeteSlipColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="showSlips && slip.label == 'Recording Permit'">
+    <mat-card-header>
+      <mat-card-title>
+        {{slip.label}}s for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content *ngIf="tableData.length == 0">
+      <span id="error-text">No {{slip.label}}s found</span>
+    </mat-card-content>
+    <mat-card-content>
+      <table mat-table *ngIf="tableData.length > 0" [dataSource]="dataSource">
+          <!-- Competitor Name Column -->
+         <ng-container matColumnDef="Competitor Name">
+          <th mat-header-cell *matHeaderCellDef class="place-title"><b>Competitor Name</b></th>
+          <td mat-cell *matCellDef="let element" class="place-text"> {{element.entrantNames}} </td>
+        </ng-container>
+    
+        <!-- Notified By Column --> 
+        <ng-container matColumnDef="Requester Name">
+          <th mat-header-cell *matHeaderCellDef><b>Requester Name</b></th>
+          <td mat-cell *matCellDef="let element"> 
+            {{element.submittedBy}}
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="recordingPermitColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: recordingPermitColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

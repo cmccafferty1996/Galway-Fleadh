@@ -62,6 +62,11 @@ export class AppComponent {
             link: './manage-results',
             icon: 'event_note',
             index: 2
+        }, {
+          label: 'Manage Slips & Permits',
+          link: './manage-slips',
+          icon: 'description',
+          index: 3
         }
       ];
     } else {
@@ -82,10 +87,15 @@ export class AppComponent {
             icon: 'event_note',
             index: 2
         }, {
+            label: 'Slips & Permits',
+            link: './slips',
+            icon: 'description',
+            index: 3
+        }, {
             label: 'Login',
             link: './login',
             icon: 'perm_identity',
-            index: 3
+            index: 4
         }
       ];
     }

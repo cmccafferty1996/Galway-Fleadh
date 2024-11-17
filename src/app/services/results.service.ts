@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Competition } from '../models/competition';
 import { Category } from '../models/category';
-import { ResultsTable } from '../view-results/view-results.component';
+import { ResultsTable } from '../competitor-pages/view-results/view-results.component';
 import { Entry } from '../models/entry';
 import { County } from '../models/County';
 

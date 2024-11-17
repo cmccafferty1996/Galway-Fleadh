@@ -1,0 +1,37 @@
+<mat-card class="example-card" *ngIf="!isLoggedIn">
+  <mat-card-header>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-subtitle>Login for admin access - to manage registration, slips/permits and competition results</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-form-field id="username">
+      <input matInput placeholder="Username" [disabled]="isLoggedIn" [(ngModel)]="username">
+    </mat-form-field>
+    <mat-form-field id="password">
+      <input matInput (keydown.enter)="onSubmit()" type="password" [disabled]="isLoggedIn" placeholder="Password" [(ngModel)]="password">
+    </mat-form-field>
+    <button mat-raised-button id="login" [disabled]="isLoggedIn" (click)="onSubmit()">Login</button>
+  </mat-card-content>
+</mat-card>
+<br>
+<mat-card *ngIf="isLoggedIn">
+  <mat-card-content id="success">
+    Login successful! You now have admin access to manage results and registration.
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="loginFailed">
+  <mat-card-content id="failed">
+    Login failed! Try again!
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="!loginFailed && isIncorrectAccess">
+  <mat-card-content id="failed">
+    User {{username}} does not have access to input competition results or manage registration.
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="isMissingInput">
+  <mat-card-content id="failed">
+    Missing username or password. Please enter an admin username and password.
+  </mat-card-content>
+</mat-card>

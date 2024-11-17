@@ -1,0 +1,123 @@
+<mat-card>
+  <mat-spinner *ngIf="!loadComplete"></mat-spinner>
+  <mat-card-header *ngIf="loadComplete">
+    <mat-card-title>
+      Request {{formType}} Slip(s) for {{entrant.entrant_name}}
+    </mat-card-title>
+    <mat-card-subtitle>
+      Create one or more {{formType}} slips for {{entrant.entrant_name}} by selecting from the table of their
+      competitions below.
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content *ngIf="loadComplete">
+    <table mat-table [dataSource]="dataSource">
+        <!-- Category Column -->
+       <ng-container matColumnDef="Age Group">
+        <th mat-header-cell *matHeaderCellDef class="place-title"><b>Age Group</b></th>
+        <td mat-cell *matCellDef="let element" class="place-text">{{element.ageGroup}}</td>
+      </ng-container>
+
+      <!-- Competition Name Column --> 
+      <ng-container matColumnDef="Competition Name">
+        <th mat-header-cell *matHeaderCellDef><b>Competition Name</b></th>
+        <td mat-cell *matCellDef="let element"> 
+          {{element.competition}}
+        </td>
+      </ng-container>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="Late">
+        <th mat-header-cell *matHeaderCellDef><b>{{formType}}</b></th>
+        <td mat-cell *matCellDef="let element, let i = index">
+          <mat-checkbox
+            [disabled]="element.slipExists"
+            [(ngModel)]="element.isChecked"
+            (change)="onCheckBoxSelected()">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <br>
+    <div>
+      <mat-expansion-panel *ngIf="formType === 'Late'">
+        <mat-expansion-panel-header>
+          <span class="group-text">Expand if entrant will be late due to a group competition</span>
+        </mat-expansion-panel-header>
+        <mat-card-subtitle>
+          Select the age group and competition for the group that the entrant will be competing in at this time.
+        </mat-card-subtitle>
+        <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="10px">
+          <mat-form-field fxFlex class="form-fields" id="category">
+            <mat-label>Age Group</mat-label>
+            <mat-select #catRef (selectionChange)="changeCategory($event.value)">
+              <mat-option *ngFor="let cat of categories" [value]="cat">
+                {{cat.category}} {{cat.age_group}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field fxFlex class="form-fields" id="competition">
+            <mat-label>Competition</mat-label>
+            <mat-select #compRef [disabled]="!category && groupCompetitions.length == 0" (selectionChange)="changeCompetition($event.value)">
+              <mat-option *ngFor="let competition of groupCompetitions" [value]="competition">
+                {{competition.competition_number}} {{competition.competition_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div fxFlex>
+            <button mat-raised-button (click)="addGroupToSlip()" [disabled]="!(category && groupCompetition)">
+              Add Group
+            </button>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </div>
+    <br>
+    <div>
+      <mat-expansion-panel *ngIf="formType === 'Late' && showGroupsTable" [expanded]="true">
+        <mat-expansion-panel-header>
+          <span class="selected-groups-text">Groups for {{entrant.entrant_name}}</span>
+        </mat-expansion-panel-header>
+        <mat-card-subtitle>
+          Table of groups that {{entrant.entrant_name}} will be competing in and will be late to other
+          competitions as a result.  
+        </mat-card-subtitle>
+
+        <table mat-table [dataSource]="groupDataSource">
+          <!-- Group Name Column --> 
+          <ng-container matColumnDef="Group Name">
+            <td mat-cell *matCellDef="let element"> 
+              {{element.ageGroup.age_group}} {{branch.branch_name}} {{element.groupComp.competition_name}}
+            </td>
+          </ng-container>
+    
+          <!-- Delete Column -->
+          <ng-container matColumnDef="Delete Group">
+            <td mat-cell *matCellDef="let element, let i = index">
+              <button mat-icon-button class="del-group-btn" (click)="removeGroup(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-row *matRowDef="let row; columns: groupDisplayedColumns;"></tr>
+      </table>
+      </mat-expansion-panel>
+    </div>
+    <br>
+    <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+      <mat-form-field fxFlex class="form-fields" id="requester-name">
+        <mat-label>Notified By</mat-label>
+        <input matInput [formControl]="nameControl" required maxlength="60">
+        <mat-error *ngIf="nameControl.hasError('required')">Please enter a requester name</mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex class="form-fields" id="requester-number">
+        <mat-label>Contact Number</mat-label>
+        <input matInput [formControl]="phoneNoControl" required>
+        <mat-error *ngIf="phoneNoControl.hasError('required')">Please enter a contact number</mat-error>
+        <mat-error *ngIf="phoneNoControl.hasError('pattern')">Please enter a valid contact number eg 085-1234567</mat-error>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button class="submit-slip" [disabled]="isSubmitDisabled" (click)="onSubmit()">Submit</button>
+  </mat-card-content>
+</mat-card>

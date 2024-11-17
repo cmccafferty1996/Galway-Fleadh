@@ -1,0 +1,135 @@
+<mat-card>
+  <mat-spinner *ngIf="!loadComplete"></mat-spinner>
+  <mat-card-header *ngIf="loadComplete">
+    <mat-card-title>
+      Request Photography/Recording Permit for {{entrant.entrant_name}}
+    </mat-card-title>
+    <mat-card-subtitle>
+      Please enter your details and agree to the terms below.
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content *ngIf="loadComplete">
+    <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+      <mat-form-field fxFlex class="form-fields" id="requester-name">
+        <mat-label>Full Name</mat-label>
+        <input matInput [formControl]="nameControl" required maxlength="60">
+        <span matPrefix><b>I,</b>&nbsp;</span>
+        <mat-error *ngIf="nameControl.hasError('required')">Please enter your full name</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+      <mat-form-field fxFlex class="form-fields" id="address-line-one">
+        <mat-label>Address Line 1</mat-label>
+        <input matInput [formControl]="addressControl" required maxlength="45">
+        <mat-error *ngIf="addressControl.hasError('required')">Please enter your address</mat-error>
+      </mat-form-field>
+
+      <mat-form-field fxFlex class="form-fields" id="address-line-two">
+        <mat-label>Address Line 2</mat-label>
+        <input matInput [(ngModel)]="addressLineTwo" maxlength="45">
+      </mat-form-field>
+
+      <mat-form-field fxFlex class="form-fields" id="requester-name">
+        <mat-label>Town/City</mat-label>
+        <input matInput [(ngModel)]="town" maxlength="45">
+      </mat-form-field>
+
+      <mat-form-field fxFlex class="form-fields" id="requester-name">
+        <mat-label>County</mat-label>
+        <input matInput [formControl]="countyControl" required maxlength="30">
+        <mat-error *ngIf="countyControl.hasError('required')">Please enter your county</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+      <mat-form-field fxFlex class="form-fields" id="requester-number">
+        <mat-label>Contact Number</mat-label>
+        <input matInput [formControl]="phoneNoControl" required maxlength="15">
+        <mat-error *ngIf="phoneNoControl.hasError('required')">Please enter a contact number</mat-error>
+        <mat-error *ngIf="phoneNoControl.hasError('pattern')">Please enter a valid contact number eg 085-1234567</mat-error>
+      </mat-form-field>
+
+      <mat-form-field fxFlex class="form-fields" id="requester-number">
+        <mat-label>Email</mat-label>
+        <input matInput [formControl]="emailControl" required maxlength="45">
+        <mat-error *ngIf="emailControl.hasError('required')">Please enter an email address</mat-error>
+        <mat-error *ngIf="emailControl.hasError('email')">Please enter a valid email address eg example@gmail.com</mat-error>
+      </mat-form-field>
+    </div>
+
+    <br>
+
+    <div>
+      <span>
+        <b>REQUEST PERMISSION</b> to take photographs and/or make audio/video/digital recordings at CCÉ events including Fleadhanna.
+      </span>
+      <br><br>
+      <span>
+        By completing this application, I <b>ACKNOWLEDGE AND AGREE</b> that:
+      </span>
+      <span>
+        <ol type = "1">
+          <li>I am responsible for all photographs taken and/or recordings (whether audio/visual/digital) made hereunder and for the accuracy of all
+            information contained on this Form;</li>
+          <li>I have obtained the express consent ofthe subject (s) ofthe photography/recording or ofhis/her/their parent or guardian ifunder 18;</li>
+          <li>I will at all times comply with the Conditions upon which this Consent is issued as set out overleaf;</li>
+          <li>I will at all times comply with all requirements of the General Data Protection Regulation, the Data Protection Act, 2018 as well as
+            any other laws, regulations, standards and codes relating to data protection;</li>
+          <li>I will not cause any disruption to or at the event;</li>
+          <li>This Consent may be revoked by CCE at its absolute discretion;</li>
+          <li>This Consent does not confer any copyright on me and it does not license or permit the editing, use, display, reproduction, publication
+            or distribution of any material photographed or recorded;</li>
+          <li>CCE may retain a copy of this permit for a maximum period of 3 months after the event.</li>
+       </ol>
+      </span>
+      <span>
+        <mat-checkbox (change)="onAgreeClicked()">I acknowledge & agree to these terms.</mat-checkbox>
+      </span>
+    </div>
+  </mat-card-content>
+</mat-card>
+<br>
+<mat-card *ngIf="entrant !== null && entrant !== undefined">
+  <mat-card-header>
+    <mat-card-title>
+      Request Photography/Recording Permit for {{entrant.entrant_name}}
+    </mat-card-title>
+    <mat-card-subtitle>
+      Request one or more photography/recording permits for {{entrant.entrant_name}} by selecting from the table of their
+      competitions below.
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource">
+      <!-- Category Column -->
+      <ng-container matColumnDef="Age Group">
+        <th mat-header-cell *matHeaderCellDef class="place-title"><b>Age Group</b></th>
+        <td mat-cell *matCellDef="let element" class="place-text">{{element.ageGroup}}</td>
+      </ng-container>
+
+      <!-- Competition Name Column --> 
+      <ng-container matColumnDef="Competition Name">
+        <th mat-header-cell *matHeaderCellDef><b>Competition Name</b></th>
+        <td mat-cell *matCellDef="let element"> 
+          {{element.competition}}
+        </td>
+      </ng-container>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="Record">
+        <th mat-header-cell *matHeaderCellDef><b>Record</b></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox 
+            [(ngModel)]="element.isChecked"
+            (change)="onCheckBoxSelected()">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <br>
+    <button mat-raised-button class="submit-slip" [disabled]="isSubmitDisabled || !isAgreeClicked" (click)="onSubmit()">Submit</button>
+  </mat-card-content>
+</mat-card>

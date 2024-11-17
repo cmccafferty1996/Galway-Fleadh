@@ -54,6 +54,7 @@ export class ManageResultsComponent implements OnInit {
   isLoginCheckDone = false;
   isComhraGaeilge = false;
   isSaveDisabled = true;
+  loadComplete = false;
   subscription: Subscription;
 
   @ViewChild('catRef') catRef: MatSelect;
@@ -83,14 +84,21 @@ export class ManageResultsComponent implements OnInit {
             this.counties = res;
             this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1)
             this.county = UtilsService.getCountyFromLocalStorage(this.counties);
+            if (this.county !== null && this.county !== undefined) {
+              this.changeCounty(this.county, true);
+            } else {
+              this.loadComplete = true;
+            }
           });
+      } else {
+        this.loadComplete = true;
       }
     });
   }
 
-  changeCounty(county) {
+  changeCounty(county, loadScreen) {
     this.county = county;
-    localStorage.setItem('selectedCounty', JSON.stringify(this.county));
+    localStorage.setItem('selectedCounty', this.county.county_name);
     this.initializeTable();
     this.competition = null;
     this.category = null;
@@ -100,6 +108,7 @@ export class ManageResultsComponent implements OnInit {
         .then((res) => {
           this.categories = res;
           this.categories.sort((a, b) => a.category > b.category ? 1 : -1);
+          if (loadScreen) this.loadComplete = true;
         });
     }
   }

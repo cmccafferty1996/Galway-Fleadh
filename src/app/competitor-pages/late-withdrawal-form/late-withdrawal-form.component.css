@@ -53,6 +53,12 @@
     .group-text {
         text-wrap: wrap;
     }
+    .del-group-btn {
+        color: red;
+        background-color: whitesmoke;
+        border-radius: 0%;
+        margin-left: 12px;
+    }
     #requester-name {
         margin-bottom: 0px !important;
     }
@@ -105,5 +111,10 @@
     }
     .submit-slip {
         margin-top: 10px;
+    }
+    .del-group-btn {
+        color: red;
+        background-color: whitesmoke;
+        border-radius: 0%;
     }
 }

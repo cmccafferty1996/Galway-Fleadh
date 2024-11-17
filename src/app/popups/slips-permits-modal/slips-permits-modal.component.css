@@ -1,209 +1,341 @@
-@media (max-width: 1024px) {
-    #modal-header {
-      background: #63002f;
-      height: 75px;
+/* mobile */
+@media (max-width: 750px) {
+  #modal-header {
+    background: #63002f;
+    height: 75px;
+    color: white;
+    font-size: 20px;
+    vertical-align: middle;
+    text-align: center;
+    font-family: sans-serif;
+  }
+  
+  .modal-content, .other-info {
+    margin-left: 15px;
+    margin-right: 15px;
+    min-height: 270px;
+    margin-top: 15px;
+    font-size: 15px;
+  }
+
+  .other-info {
+    margin-top: 25px;
+    height: 130px !important;
+    min-height: 130px !important;
+  }
+
+  span {
+    font-family: sans-serif;
+    font-weight: 400;
+    line-height: 75px;
+  }
+
+  #sub-header {
+    text-align: center;
+  }
+
+  #about-text {
+    display: inline-block;
+    margin-top: 10px;
+    line-height: 30px;
+    font-size: 14px;
+  }
+  
+  .accordion-heading {
+    color: #63002f;
+    font-family: sans-serif;
+  }
+
+  mat-spinner {
+    margin-left: 40%;
+    margin-top: 2%;
+  }
+
+  #table {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  tr:nth-child(even){background-color: #f2f2f2;}
+  tr:hover {background-color: #ddd;}
+
+  th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      font-size: 14px;
+      text-align: left;
+      background-color: #63002f;
       color: white;
-      font-size: 20px;
-      vertical-align: middle;
+  }
+  th.mat-header-cell, td.mat-cell {
+      padding-left: 8px !important;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+  }
+  th.mat-header-cell, td.mat-cell {
+      padding-left: 8px !important;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
       text-align: center;
-      font-family: sans-serif;
-    }
-  
-    .modal-content, .other-info {
-      margin-left: 15px;
-      margin-right: 15px;
-      min-height: 270px;
-      margin-top: 15px;
-      font-size: 15px;
-    }
+  }
 
-    .other-info {
-      margin-top: 25px;
-      height: 50px !important;
-      min-height: 50px !important;
-    }
+  #requester-name, #requester-number {
+    max-width: 200px;
+  }
+
+  .buttons {
+    float: right;
+    margin-right: 15px;
+    vertical-align: baseline;
+    margin-bottom: 10px;
+    margin-top: 15px;
+  }
   
-    span {
-      font-family: sans-serif;
-      font-weight: 400;
-      line-height: 75px;
-    }
+  .close {
+    color: 686c70;
+    background: #d5d5d5;
+    margin-right: 1pc;
+    margin-bottom: 10px;
+  }
+
+  .modal-names {
+    line-height: 22px;
+  }
+}
+
+/* ipad */
+@media (min-width: 751px) and (max-width: 1024px) {
+  #modal-header {
+    background: #63002f;
+    height: 75px;
+    color: white;
+    font-size: 20px;
+    vertical-align: middle;
+    text-align: center;
+    font-family: sans-serif;
+  }
   
-    #sub-header {
+  .modal-content, .other-info {
+    margin-left: 15px;
+    margin-right: 15px;
+    min-height: 270px;
+    margin-top: 15px;
+    font-size: 15px;
+  }
+
+  .other-info {
+    margin-top: 25px;
+    height: 50px !important;
+    min-height: 50px !important;
+  }
+
+  span {
+    font-family: sans-serif;
+    font-weight: 400;
+    line-height: 75px;
+  }
+
+  #sub-header {
+    text-align: center;
+  }
+
+  #about-text {
+    display: inline-block;
+    margin-top: 10px;
+    line-height: 30px;
+  }
+  
+  .accordion-heading {
+    color: #63002f;
+    font-family: sans-serif;
+  }
+
+  mat-spinner {
+    margin-left: 40%;
+    margin-top: 2%;
+  }
+
+  #table {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  tr:nth-child(even){background-color: #f2f2f2;}
+  tr:hover {background-color: #ddd;}
+
+  th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      font-size: 14px;
+      text-align: left;
+      background-color: #63002f;
+      color: white;
+  }
+  th.mat-header-cell, td.mat-cell {
+      padding-left: 8px !important;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+  }
+  th.mat-header-cell, td.mat-cell {
+      padding-left: 8px !important;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
       text-align: center;
-    }
-  
-    #about-text {
-      display: inline-block;
-      margin-top: 10px;
-      line-height: 30px;
-    }
-  
-    .accordion-heading {
-      color: #63002f;
-      font-family: sans-serif;
-    }
+  }
 
-    #table {
-      margin-left: 0px;
-    }
+  #requester-name, #requester-number {
+    max-width: 250px;
+  }
 
-    table {
-      font-family: Arial, Helvetica, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    td, th {
+  .buttons {
+    float: right;
+    margin-right: 15px;
+    vertical-align: baseline;
+    margin-bottom: 10px;
+    margin-top: 15px;
+  }
+  
+  .close {
+    color: 686c70;
+    background: #d5d5d5;
+    margin-right: 1pc;
+    margin-bottom: 10px;
+  }
+
+  .modal-names {
+    line-height: 22px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  #modal-header {
+    background: #63002f;
+    height: 75px;
+    color: white;
+    font-size: 25px;
+    vertical-align: middle;
+    text-align: center;
+    font-family: sans-serif;
+  }
+
+  #about-text {
+    display: inline-block;
+    margin-top: 10px;
+    line-height: 30px;
+  }
+
+  .modal-content, .other-info {
+    margin-left: 15px;
+    margin-right: 15px;
+    min-height: 50px;
+    margin-top: 15px;
+    font-size: 15px;
+  }
+
+  .other-info {
+    margin-top: 25px;
+    height: 50px !important;
+    min-height: 50px !important;
+  }
+
+  #sub-header {
+    text-align: center;
+  }
+
+  .accordion-heading {
+    color: #63002f;
+    font-family: sans-serif;
+  }
+
+  span {
+    font-family: sans-serif;
+    font-weight: 400;
+    line-height: 75px;
+  }
+
+  mat-spinner {
+    margin-left: 40%;
+    margin-top: 2%;
+  }
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+  }
+  td, th {
       border: 1px solid #ddd;
       padding: 8px;
-    }
-  
-    tr:nth-child(even){background-color: #f2f2f2;}
-    tr:hover {background-color: #ddd;}
-
-    th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        font-size: 14px;
-        text-align: left;
-        background-color: #63002f;
-        color: white;
-    }
-    th.mat-header-cell, td.mat-cell {
-        padding-left: 8px !important;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
-    }
-    th.mat-header-cell, td.mat-cell {
-        padding-left: 8px !important;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
-        text-align: center;
-    }
-
-    #requester-name, #requester-number {
-      max-width: 250px;
-    }
-  
-    .buttons {
-      float: right;
-      margin-right: 15px;
-      vertical-align: baseline;
-      margin-bottom: 10px;
-      margin-top: 15px;
-    }
-  
-    .close {
-      color: 686c70;
-      background: #d5d5d5;
-      margin-right: 1pc;
-      margin-bottom: 10px;
-    }
-  
-    .modal-names {
-      line-height: 22px;
-    }
   }
   
-  @media (min-width: 1025px) {
-    #modal-header {
-      background: #63002f;
-      height: 75px;
+  tr:nth-child(even){background-color: #f2f2f2;}
+  tr:hover {background-color: #ddd;}
+
+  th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      font-size: 16px;
+      text-align: left;
+      background-color: #63002f;
       color: white;
-      font-size: 25px;
-      vertical-align: middle;
-      text-align: center;
-      font-family: sans-serif;
-    }
-
-    #about-text {
-      display: inline-block;
-      margin-top: 10px;
-      line-height: 30px;
-    }
-
-    .modal-content, .other-info {
-      margin-left: 15px;
-      margin-right: 15px;
-      min-height: 50px;
-      margin-top: 15px;
-      font-size: 15px;
-    }
-
-    .other-info {
-      margin-top: 25px;
-      height: 50px !important;
-      min-height: 50px !important;
-    }
-  
-    #sub-header {
-      text-align: center;
-    }
-  
-    .accordion-heading {
-      color: #63002f;
-      font-family: sans-serif;
-    }
-  
-    span {
-      font-family: sans-serif;
-      font-weight: 400;
-      line-height: 75px;
-    }
-  
-    table {
-      font-family: Arial, Helvetica, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 10px;
-    }
-    td, th {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-    
-    tr:nth-child(even){background-color: #f2f2f2;}
-    tr:hover {background-color: #ddd;}
-
-    th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        font-size: 16px;
-        text-align: left;
-        background-color: #63002f;
-        color: white;
-    }
-    th.mat-header-cell, td.mat-cell {
-        padding-left: 8px !important;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
-        text-align: center;
-    }
-
-    #requester-name, #requester-number {
-      max-width: 250px;
-      max-height: 50px;
-    }
-  
-    .buttons {
-      float: right;
-      margin-right: 15px;
-      vertical-align: baseline;
-      margin-bottom: 10px;
-      margin-top: 15px;
-    }
-  
-    .close {
-      color: 686c70;
-      background: #d5d5d5;
-      margin-right: 1pc;
-      margin-bottom: 15px;
-    }
   }
+  th.mat-header-cell, td.mat-cell {
+      padding-left: 8px !important;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      text-align: center;
+  }
+
+  #requester-name, #requester-number {
+    max-width: 250px;
+    max-height: 50px;
+  }
+
+  .buttons {
+    float: right;
+    margin-right: 15px;
+    vertical-align: baseline;
+    margin-bottom: 10px;
+    margin-top: 15px;
+  }
+
+  .close {
+    color: 686c70;
+    background: #d5d5d5;
+    margin-right: 1pc;
+    margin-bottom: 15px;
+  }
+}
   

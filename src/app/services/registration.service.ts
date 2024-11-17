@@ -22,7 +22,7 @@ export class RegistrationService {
       });
   }
 
-  getAllBranchNames(county: number) {
+  getBranchesByCounty(county: number) {
     return this.http.get(`https://localhost:44372/api/comhaltas/branches?county=${county}`).toPromise()
       .then((branches: Branch[]) => {
         return branches;

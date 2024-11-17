@@ -1,5 +1,5 @@
-<mat-spinner *ngIf="!isLoggedIn && !isLoginCheckDone"></mat-spinner>
-<div class="no-access" *ngIf="!isLoggedIn && isLoginCheckDone">
+<mat-spinner *ngIf="!isLoginCheckDone && !loadComplete"></mat-spinner>
+<div class="no-access" *ngIf="!isLoggedIn && isLoginCheckDone && loadComplete">
   <mat-card class="example-card">
     <mat-card-content>
       <img id="image" mat-card-image src="../../assets/padlock-icon-lock.jpg" alt="Home Photo"><br><br>
@@ -9,7 +9,7 @@
     </mat-card-content>
   </mat-card>
 </div>
-<div *ngIf="isLoggedIn && isLoginCheckDone">
+<div *ngIf="isLoggedIn && isLoginCheckDone && loadComplete">
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>Manage Registration For Competitions</mat-card-title>
@@ -64,7 +64,6 @@
       </mat-form-field>
   
       <br>
-      <button mat-raised-button id="cancel" (click)="router.navigate(['/home'])">Cancel</button>
       <button mat-raised-button (click)="onSubmit()" 
               [disabled]="!(branch && competition && category)">Submit</button>
     </mat-card-content>
@@ -98,7 +97,6 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-      <button mat-raised-button (click)="router.navigate(['/home'])" id="bottom-cancel">Cancel</button>
       <button mat-raised-button id="save" [disabled]="!enableSave" (click)="saveEntries()">Save</button>
     </mat-card-content>
   </mat-card>

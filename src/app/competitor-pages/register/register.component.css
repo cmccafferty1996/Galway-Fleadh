@@ -47,15 +47,8 @@
     #checkBox {
         text-align: center;
     }
-    #cancel {
-        background-color: red;
+    #save {
         margin-top: 15px;
-        margin-right: 10%;
-    }
-    #bottom-cancel {
-        background-color: red;
-        margin-top: 15px;
-        margin-right: 10%;
         margin-left: 16px;
     }
 }
@@ -99,12 +92,7 @@
     #checkBox {
         text-align: center;
     }
-    #cancel, #bottom-cancel {
-        background-color: red;
-        margin-top: 10px;
-        margin-right: 3%;
-    }
-    #bottom-cancel {
-        margin-top: 25px;
+    #save {
+        margin-top: 15px;
     }
 }

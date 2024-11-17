@@ -1,10 +1,16 @@
-@media (max-width: 1024px) {
+/* @media (max-width: 700px) {
   .example-card {
     max-width: 400px;
   }
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 701px) and (max-width: 1024px) {
+  .example-card {
+    max-width: 800px;
+  }
+} */
+
+@media (min-width: 1024px) {
   .example-card {
     max-width: 800px;
     margin: auto;

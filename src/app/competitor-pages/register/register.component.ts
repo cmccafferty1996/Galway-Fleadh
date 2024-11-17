@@ -72,6 +72,7 @@ export class RegisterComponent implements OnInit {
   enableSave: boolean = false;
   isTooEarlyToRegister = false;
   isTooFarFromVenue = false;
+  isLocationDisabled = false;
   displayedColumns: string[] = ['Name', 'Register'];
   tableData: RowElement[] = [];
   entries: Entry[];
@@ -94,10 +95,13 @@ export class RegisterComponent implements OnInit {
     this.service.getAllCountyNames()
       .then((res) => {
         this.counties = res;
-        // this.counties = [new County(1, 'Galway', new Date()), new County(18, 'Mayo', new Date())];
         this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
         this.county = UtilsService.getCountyFromLocalStorage(this.counties);
-        this.loadComplete = true;
+        if (this.county !== null && this.county !== undefined) {
+          this.changeCounty(this.county, true);
+        } else {
+          this.loadComplete = true;
+        }
       })
       .catch((err) => {
         this.abadonShip = true;
@@ -118,7 +122,7 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  changeCounty(county) {
+  changeCounty(county, loadScreen = false) {
     this.county = county;
     localStorage.setItem('selectedCounty', this.county.county_name);
     this.showCompetitions = false;
@@ -128,12 +132,13 @@ export class RegisterComponent implements OnInit {
     this.competition = null;
     this.category = null;
     if (this.branchRef) this.branchRef.options.forEach((el) => el.deselect());
-    // this.service.getAllBranchNames(this.county.id)
-    //   .then((res) => {
-    //     this.branches = res;
-    //     this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
-    //   });
-    // this.getVenueLocation();
+    this.service.getBranchesByCounty(this.county.id)
+      .then((res) => {
+        this.branches = res;
+        this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
+        if (loadScreen) this.loadComplete = true;
+      });
+    this.getVenueLocation();
   }
 
   changeBranch(branch) {
@@ -179,8 +184,8 @@ export class RegisterComponent implements OnInit {
     if (this.showCompetitions) return;
     this.tableData = [];
     this.entries = [];
-    if (this.isCompDateToday(this.county.fleadh_date)) {
-      this.isUserAtTheVenue()
+    if (UtilsService.isCompDateToday(this.county.fleadh_date, this.today)) {
+      UtilsService.isUserAtTheVenue(this.venue, this.venueDistance)
         .then((result) => {
           if (result) {
             this.isTooFarFromVenue = false;
@@ -193,11 +198,14 @@ export class RegisterComponent implements OnInit {
           }
         })
         .catch((err) => {
-          console.log('Error in getCurrentPosition: '+err);
-          this.service.getEntries(this.competition.id, this.county.id)
-            .then((res) => {
-              this.branchFiltering(res);
-            });
+          if (err.code == 1) {
+            this.isLocationDisabled = true;
+          } else {
+            this.service.getEntries(this.competition.id, this.county.id)
+              .then((res) => {
+                this.branchFiltering(res);
+              });
+          }
         });
     } else {
       this.isTooEarlyToRegister = true;
@@ -258,43 +266,6 @@ export class RegisterComponent implements OnInit {
     this.tableData[i].counter++;
     this.tableData[i].isChanged = !this.isOdd(this.tableData[i].counter);
     this.enableSave = this.tableData.filter((entrant) => entrant.isChanged == true).length > 0;
-  }
-
-  private isCompDateToday(compDate) {
-    if (compDate === null || compDate === undefined) return true;
-    const date = new Date(compDate);
-    let result = false;
-    if (this.today >= date) {
-      result = true;
-    }
-    return result;
-  }
-
-  private isUserAtTheVenue(): Promise<boolean> {
-    if (!navigator && !navigator.geolocation) return Promise.resolve(true); // can't get location just return true
-    if (this.venue === null || this.venueDistance === -1) return Promise.resolve(true); // parameters not set
-
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const R = 6371; // Radius of the earth in km
-        const dLat = this.deg2rad(position.coords.latitude - this.venue.latitude);
-        const dLon = this.deg2rad(position.coords.longitude - this.venue.longitude);
-  
-        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-          Math.cos(this.deg2rad(position.coords.latitude)) * Math.cos(this.deg2rad(this.venue.latitude)) * 
-          Math.sin(dLon/2) * Math.sin(dLon/2);
-  
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-        const d = R * c; // Distance in km
-        resolve(d < this.venueDistance);
-      }, (err) => {
-        reject(err);
-      });
-    });
-  }
-
-  private deg2rad(deg) {
-    return deg * (Math.PI/180)
   }
 
   private isOdd(num) {

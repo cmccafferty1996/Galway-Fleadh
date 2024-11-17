@@ -62,6 +62,7 @@ export class ManageRegistrationComponent implements OnInit {
   dataSource = new MatTableDataSource<RowElement>(this.tableData);
   isLoggedIn = false;
   isLoginCheckDone = false;
+  loadComplete = false;
   subscription: Subscription;
 
   @ViewChild('catRef') catRef: MatSelect;
@@ -83,24 +84,32 @@ export class ManageRegistrationComponent implements OnInit {
             this.counties = res;
             this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
             this.county = UtilsService.getCountyFromLocalStorage(this.counties);
+            if (this.county !== null && this.county !== undefined) {
+              this.changeCounty(this.county, true);
+            } else {
+              this.loadComplete = true;
+            }
           });
+      } else {
+        this.loadComplete = true;
       }
     });
   }
 
-  changeCounty(county) {
+  changeCounty(county, loadScreen) {
     this.county = county;
-    localStorage.setItem('selectedCounty', JSON.stringify(this.county));
+    localStorage.setItem('selectedCounty', this.county.county_name);
     this.showCompetitions = false;
     this.branches = null;
     this.branch = null;
     this.competition = null;
     this.category = null;
     if (this.branchRef) this.branchRef.options.forEach((el) => el.deselect());
-    this.service.getAllBranchNames(this.county.id)
+    this.service.getBranchesByCounty(this.county.id)
       .then((res) => {
         this.branches = res;
         this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
+        if (loadScreen) this.loadComplete = true;
       });
   }
 

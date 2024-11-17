@@ -55,13 +55,7 @@
     #checkBox {
         text-align: center;
     }
-    #cancel, #bottom-cancel {
-        background-color: red;
-        margin-top: 10px;
-        margin-right: 10%;
-    }
-
-    #bottom-cancel {
+    #save {
         margin-left: 5%;
         margin-top: 25px;
     }
@@ -114,13 +108,7 @@
     #error-text {
         color: red;
     }
-    #cancel, #bottom-cancel {
-        background-color: red;
-        margin-top: 10px;
-        margin-right: 3%;
-    }
-
-    #bottom-cancel {
+    #save {
         margin-top: 25px;
     }
 }

@@ -63,7 +63,11 @@ export class ViewResultsComponent implements OnInit {
         this.counties = res;
         this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
         this.county = UtilsService.getCountyFromLocalStorage(this.counties);
-        this.loadComplete = true;
+        if (this.county !== null && this.county !== undefined) {
+          this.changeCounty(this.county, true);
+        } else {
+          this.loadComplete = true;
+        }
       })
       .catch((err) => {
         this.abadonShip = true;
@@ -71,9 +75,9 @@ export class ViewResultsComponent implements OnInit {
       })
   }
 
-  changeCounty(county) {
+  changeCounty(county, loadScreen = false) {
     this.county = county;
-    localStorage.setItem('selectedCounty', JSON.stringify(this.county));
+    localStorage.setItem('selectedCounty', this.county.county_name);
     this.initializeTable();
     this.competition = null;
     this.category = null;
@@ -83,6 +87,7 @@ export class ViewResultsComponent implements OnInit {
         .then((res) => {
           this.categories = res;
           this.categories.sort((a, b) => a.category > b.category ? 1 : -1);
+          if (loadScreen) this.loadComplete = true;
         });
     }
   }

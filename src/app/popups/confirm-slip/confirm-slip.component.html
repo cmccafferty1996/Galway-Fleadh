@@ -1,0 +1,46 @@
+<div id="modal-header">
+  <span id="header-text">{{data.title}} for {{data.entrant.entrant_name}}</span>
+  <span id="header-text-mobile">{{data.title}}</span>
+</div>
+
+<div id="sub-header">
+  <span id="about-text">
+    Confirm you are creating {{slipsToCreate.length}} {{data.slipType}} slip(s).
+  </span>
+</div>
+
+<div [ngClass]="data.groups.length > 0 ? 'modal-content-with-groups' : 'modal-content'">
+  <mat-accordion>
+    <mat-expansion-panel class="example-accordion" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="accordion-heading">{{data.slipType}} Slip(s) for {{data.entrant.entrant_name}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-selection-list id="slips-list" *ngFor="let slip of slipsToCreate">
+        <span class="modal-slips" id="slip">
+          <mat-icon id="bullet-point">radio_button_checked</mat-icon> {{slip.ageGroup}} {{slip.competition}}
+        </span>
+      </mat-selection-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <br *ngIf="data.groups.length > 0">
+
+  <mat-accordion *ngIf="data.groups.length > 0">
+    <mat-expansion-panel class="example-accordion" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="accordion-heading">Groups for {{data.entrant.entrant_name}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-selection-list id="groups-list" *ngFor="let group of data.groups">
+        <span class="modal-groups" id="group">
+          <mat-icon id="bullet-point">radio_button_checked</mat-icon>
+          {{group.ageGroup.age_group}} {{data.branch.branch_name}} {{group.groupComp.competition_name}}
+        </span>
+      </mat-selection-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<div class="buttons">
+  <button class="cancel" mat-raised-button (click)="close()">Cancel</button>
+  <button class="request" mat-raised-button (click)="close(true)">Request</button>
+</div>

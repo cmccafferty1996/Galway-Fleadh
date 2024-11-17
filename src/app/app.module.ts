@@ -20,6 +20,8 @@ import { LateWithdrawalFormComponent } from './competitor-pages/late-withdrawal-
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ManageSlipsComponent } from './admin-pages/manage-slips/manage-slips.component';
 import { SlipsPermitsModalComponent } from './popups/slips-permits-modal/slips-permits-modal.component';
+import { ConfirmSlipComponent } from './popups/confirm-slip/confirm-slip.component';
+import { PhotoRecordingPermitComponent } from './competitor-pages/photo-recording-permit/photo-recording-permit.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { SlipsPermitsModalComponent } from './popups/slips-permits-modal/slips-p
     SlipsComponent,
     LateWithdrawalFormComponent,
     ManageSlipsComponent,
-    SlipsPermitsModalComponent
+    SlipsPermitsModalComponent,
+    ConfirmSlipComponent,
+    PhotoRecordingPermitComponent
   ],
   imports: [
     BrowserModule,

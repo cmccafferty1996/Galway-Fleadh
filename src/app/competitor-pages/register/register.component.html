@@ -62,7 +62,6 @@
     </mat-form-field>
 
     <br>
-    <button mat-raised-button id="cancel" (click)="router.navigate(['/home'])">Cancel</button>
     <button mat-raised-button (click)="onSubmit()" 
             [disabled]="!(branch && competition && category)">Submit
     </button>
@@ -78,6 +77,12 @@
 <mat-card *ngIf="isTooFarFromVenue">
   <mat-card-content id="error-text">
     You must be at the competition venue to register for this competition.
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="isLocationDisabled">
+  <mat-card-content id="error-text">
+    You must enable your location to create slips & permits. <br>
+    Contact the Fleadh Office to re-enable location.
   </mat-card-content>
 </mat-card>
 <mat-card *ngIf="showCompetitions">
@@ -114,7 +119,6 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <button mat-raised-button (click)="router.navigate(['/home'])" id="bottom-cancel">Cancel</button>
     <button mat-raised-button id="save" [disabled]="!enableSave" (click)="saveEntries()">Save</button>
   </mat-card-content>
 </mat-card>

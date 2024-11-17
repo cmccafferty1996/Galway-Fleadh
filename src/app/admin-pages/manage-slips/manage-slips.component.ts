@@ -7,16 +7,20 @@ import { Category } from '../../models/category';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { SlipsPermitsModalComponent } from '../../popups/slips-permits-modal/slips-permits-modal.component';
+import { SlipsService } from '../../services/slips.service';
+import { UtilsService } from '../../services/utils.service';
+import { Slip } from '../../models/Slip';
+import { SlipComp } from 'src/app/models/SlipComp';
+import { LoginService } from 'src/app/services/login.service';
+import { Subscription } from 'rxjs';
 
-export class LateSlipTableRow {
-  name: string;
-  notifiedBy: string;
-  phoneNumber: string;
+export class DropDownSlip {
+  label: string;
+  slipType: number;
 
-  constructor(name: string, notified: string, phone: string) {
-    this.name = name;
-    this.notifiedBy = notified;
-    this.phoneNumber = phone;
+  constructor(text: string, type: number) {
+    this.label = text;
+    this.slipType = type;
   }
 }
 
@@ -31,75 +35,90 @@ export class ManageSlipsComponent implements OnInit {
   categoryControl = new FormControl('', [Validators.required]);
   competitionControl = new FormControl('', Validators.required);
   slipControl = new FormControl('', Validators.required);
-  slip: string;
+  slip: DropDownSlip;
   county: County;
   category: Category;
   competition: Competition;
-  entrantCompetitions: Competition[];
-  slips: string[] = ['Recording Permit', 'Late Slip', 'Non-Compete Slip'];
+  slips: DropDownSlip[] = [
+    new DropDownSlip('Late Slip', 1), new DropDownSlip('Non-Compete Slip', 2),
+    new DropDownSlip('Recording Permit', 3)
+  ];
   counties: County[];
   categories: Category[];
   competitions: Competition[];
-  // lateSlipColumns: string[] = ['Competitor Name', 'Notified By', 'Contact Number', 'Open Slip'];
   lateSlipColumns: string[] = ['Competitor Name', 'Notified By', 'Contact Number'];
   nonCompeteSlipColumns: string[] = ['Competitor Name', 'Notified By'];
-  tableData: LateSlipTableRow[] = [];
-  dataSource = new MatTableDataSource<LateSlipTableRow>(this.tableData);
+  recordingPermitColumns: string[] = ['Competitor Name', 'Requester Name'];
+  tableData: Slip[] = [];
+  dataSource = new MatTableDataSource<Slip>(this.tableData);
+  subscription: Subscription;
   showSlips = false;
-  isLoggedIn = true;
-  isLoginCheckDone = true;
+  abadonShip = false;
+  loadComplete = false;
+  isLoggedIn = false;
+  isLoginCheckDone = false;
+  isLoading = false;
 
-  @ViewChild('countyRef') countyRef: MatSelect;
   @ViewChild('catRef') catRef: MatSelect;
+  @ViewChild('compRef') compRef: MatSelect;
+  compareCounty = UtilsService.compareCounty;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private service: SlipsService,  private login: LoginService) { }
 
   ngOnInit(): void {
-    this.counties = [
-      new County(1, 'Galway', new Date()),
-      new County(2, 'Sligo', new Date()),
-      new County(3, 'Limerick', new Date())
-    ];
-
-    this.categories = [
-      new Category(1, 'A', 'U12'),
-      new Category(1, 'B', '12-15'),
-      new Category(1, 'C', '15-18')
-    ];
-
-    this.competitions = [
-      new Competition(1, 1, 'Fiddle - Fidil', 1, 1),
-      new Competition(2, 2, 'Button Accordion - Bosca Ceoil', 1, 1),
-      new Competition(3, 3, 'Tin Whistle - feadóg stáin', 1, 1),
-    ];
-
-    this.entrantCompetitions = [
-      new Competition(1, 1, 'Fiddle - Fidil', 1, 1),
-      new Competition(2, 2, 'Button Accordion - Bosca Ceoil', 1, 1),
-      new Competition(3, 3, 'Tin Whistle - feadóg stáin', 1, 1),
-    ];
+    this.subscription = this.login.isLoggedIn$.subscribe((res) => {
+      this.isLoggedIn = res.isLoggedIn;
+      this.isLoginCheckDone = true;
+      if (this.isLoggedIn) {
+        this.service.getAllCountyNames()
+        .then((res) => {
+          this.counties = res;
+          this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
+          this.county = UtilsService.getCountyFromLocalStorage(this.counties);
+          if (this.county !== null && this.county !== undefined) {
+            this.changeCounty(this.county, true);
+          } else {
+            this.loadComplete = true;
+          }
+        })
+        .catch((err) => {
+          this.abadonShip = true;
+          console.log('No counties retrieved', err);
+        });
+      } else {
+        this.loadComplete = true;
+      }
+    });
   }
 
   changeSlip(selection) {
     this.slip = selection;
     this.showSlips = false;
-    this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
   }
 
-  changeCounty(county) {
+  changeCounty(county, loadScreen) {
     this.county = county;
+    localStorage.setItem('selectedCounty', this.county.county_name);
     this.showSlips = false;
-    this.category = null;
-    this.competition = null;
-    if (this.catRef) this.catRef.options.forEach((el) => el.deselect());
-    this.categories.sort((a, b) => a.category > b.category ? 1 : -1);
+    if (this.categories != undefined) return;
+    this.service.getAllCategories()
+      .then((res) => {
+        this.categories = res;
+        this.categories.sort((a, b) => a.category > b.category ? 1 : -1);
+        if (loadScreen) this.loadComplete = true;
+      })
   }
 
   changeCategory(cat) {
     this.category = cat;
     this.showSlips = false;
     this.competition = null;
-    this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
+    if (this.compRef) this.compRef.options.forEach((el) => el.deselect());
+    this.service.getCompetitionsByAgeGroup(this.category.id)
+      .then((res) => {
+        this.competitions = res;
+        this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
+      });
   }
 
   changeCompetition(comp) {
@@ -108,28 +127,48 @@ export class ManageSlipsComponent implements OnInit {
   }
 
   searchSlips() {
-    this.tableData = [
-      new LateSlipTableRow('Sarah Jones', 'Dan Jones', '(085) 12345566'),
-      new LateSlipTableRow('Jack Smith', 'Amanda Byrne', '(085) 12345566'),
-      new LateSlipTableRow('Martin Ni Cheideannna', 'Sheosamh Ni Cheideannna', '(085) 12345566'),
-      new LateSlipTableRow('Robin Meeblind', 'Dan Jones', '(085) 12345566'),
-    ];
-    this.dataSource = new MatTableDataSource<LateSlipTableRow>(this.tableData);
-    this.showSlips = true;
+    this.isLoading = true;
+    this.tableData = [];
+    this.service.getSlipsByType(this.competition.id, this.county.id, this.slip.slipType)
+      .then((res) => {
+        if (res.length > 0) {
+          res.forEach((slip) => {
+            this.tableData.push(new Slip(
+              this.slip.slipType,
+              slip.entryId, slip.submittedBy, slip.teleNo, slip.email,
+              slip.address1, slip.address2, slip.address3, slip.address4, slip.id,
+              slip.entrantNames, slip.entrantIds, slip.createTime
+            ));
+          });
+        }
+        this.dataSource = new MatTableDataSource<Slip>(this.tableData);
+        this.isLoading = false;
+        this.showSlips = true;
+      })
+      .catch(err => {
+        console.log('No slips found', err);
+        this.isLoading = false;
+        this.showSlips = true;
+      });
   }
 
-  openDialog(rowData: LateSlipTableRow) {
-    this.dialog.open(SlipsPermitsModalComponent, {
-      width: '750px',
-      height: '500px',
-      data: {
-        title: 'Late slip for ', 
-        ageGroup: this.category.age_group,
-        competition: this.competition.competition_name,
-        entrantComps: this.entrantCompetitions,
-        row: rowData
-      }
-    });
+  openDialog(rowData: Slip) {
+    console.log('row', rowData);
+    this.service.getSlipGroups(rowData.id)
+      .then((res: SlipComp[]) => {
+        this.dialog.open(SlipsPermitsModalComponent, {
+          width: '750px',
+          height: '500px',
+          data: {
+            title: this.slip.label,
+            slipType: this.slip.slipType,
+            ageGroup: this.category.age_group,
+            competition: this.competition.competition_name,
+            groups: res,
+            categories: this.categories,
+            row: rowData
+          }
+        });
+      });
   }
-
 }

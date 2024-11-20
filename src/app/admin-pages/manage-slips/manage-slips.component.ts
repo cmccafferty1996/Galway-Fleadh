@@ -153,7 +153,6 @@ export class ManageSlipsComponent implements OnInit {
   }
 
   openDialog(rowData: Slip) {
-    console.log('row', rowData);
     this.service.getSlipGroups(rowData.id)
       .then((res: SlipComp[]) => {
         this.dialog.open(SlipsPermitsModalComponent, {

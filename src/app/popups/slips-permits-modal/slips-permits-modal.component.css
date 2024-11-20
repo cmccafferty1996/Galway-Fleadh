@@ -215,6 +215,10 @@
     max-width: 250px;
   }
 
+  #slip-time {
+    max-width: 140px;
+  }
+
   .buttons {
     float: right;
     margin-right: 15px;
@@ -320,6 +324,11 @@
 
   #requester-name, #requester-number {
     max-width: 250px;
+    max-height: 50px;
+  }
+
+  #slip-time {
+    max-width: 140px;
     max-height: 50px;
   }
 

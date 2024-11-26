@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LateWithdrawalFormComponent } from './late-withdrawal-form.component';
 
@@ -6,7 +6,7 @@ describe('LateWithdrawalFormComponent', () => {
   let component: LateWithdrawalFormComponent;
   let fixture: ComponentFixture<LateWithdrawalFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ LateWithdrawalFormComponent ]
     })

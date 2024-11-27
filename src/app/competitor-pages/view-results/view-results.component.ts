@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Category } from '../../models/category';
 import { ResultsService } from '../../services/results.service';
@@ -29,9 +29,9 @@ export class ResultsTable {
   styleUrls: ['./view-results.component.css']
 })
 export class ViewResultsComponent implements OnInit {
-  countyControl = new FormControl('', [Validators.required]);
-  categoryControl = new FormControl('', [Validators.required]);
-  selectFormControl = new FormControl('', Validators.required);
+  countyControl = new UntypedFormControl('', [Validators.required]);
+  categoryControl = new UntypedFormControl('', [Validators.required]);
+  selectFormControl = new UntypedFormControl('', Validators.required);
   county: County;
   category: Category;
   competition: Competition;

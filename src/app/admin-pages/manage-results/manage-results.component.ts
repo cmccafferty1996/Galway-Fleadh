@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResultsTable } from '../../competitor-pages/view-results/view-results.component';
@@ -23,9 +23,9 @@ import { UtilsService } from '../../services/utils.service';
   styleUrls: ['./manage-results.component.css']
 })
 export class ManageResultsComponent implements OnInit {
-  countyControl = new FormControl('', [Validators.required]);
-  categoryControl = new FormControl('', [Validators.required]);
-  selectFormControl = new FormControl('', Validators.required);
+  countyControl = new UntypedFormControl('', [Validators.required]);
+  categoryControl = new UntypedFormControl('', [Validators.required]);
+  selectFormControl = new UntypedFormControl('', Validators.required);
   county: County;
   category: Category;
   competition: Competition;

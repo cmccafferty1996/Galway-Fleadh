@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Entrant } from '../../models/entrant';
 import { MatTableDataSource } from '@angular/material/table';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { Category } from '../../models/category';
 import { Competition } from '../../models/competition';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -65,8 +65,8 @@ export class LateWithdrawalFormComponent implements OnInit {
   groupTableData: GroupsTableRow[] = [];
   dataSource = new MatTableDataSource<SlipsTableRow>(this.tableData);
   groupDataSource = new MatTableDataSource<GroupsTableRow>(this.groupTableData);
-  nameControl = new FormControl('', [Validators.required]);
-  phoneNoControl = new FormControl('', [Validators.pattern(MOBILE_PATTERN), Validators.required]);
+  nameControl = new UntypedFormControl('', [Validators.required]);
+  phoneNoControl = new UntypedFormControl('', [Validators.pattern(MOBILE_PATTERN), Validators.required]);
   category: Category;
   categories: Category[];
   groupCompetition: Competition;

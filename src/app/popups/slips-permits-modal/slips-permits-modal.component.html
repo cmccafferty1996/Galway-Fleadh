@@ -3,8 +3,8 @@
 </div>
 <div id="sub-header">
   <span id="about-text">
-    This is the late slip for {{data.row.entrantNames}} in {{data.ageGroup}} {{data.competition}}.<br>
-    See below a list of their other competitions and notifier details.
+    This is the {{data.title}} for {{data.row.entrantNames}} in {{data.ageGroup}} {{data.competition}}.<br>
+    See full slip details below.
   </span>
 </div>
 
@@ -28,6 +28,7 @@
       </table>
       <mat-spinner *ngIf="isLoading"></mat-spinner>
       <span *ngIf="!isLoading && showErrMessage">Error getting list of other competitions.</span>
+      <span *ngIf="!isLoading && dataSource.data.length == 0">No other competitions found.</span>
     </mat-expansion-panel>
   </mat-accordion>
 
@@ -52,9 +53,39 @@
       </table>
     </mat-expansion-panel>
   </mat-accordion>
+
+  <mat-accordion *ngIf="data.row.address1">
+    <mat-expansion-panel class="example-accordion" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="accordion-heading">Requester Address</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+        <mat-form-field fxFlex class="form-fields" id="address-line-one">
+          <mat-label>Address Line 1</mat-label>
+          <input matInput [readonly]="true" [value]="data.row.address1">
+        </mat-form-field>
+  
+        <mat-form-field fxFlex class="form-fields" id="address-line-two">
+          <mat-label>Address Line 2</mat-label>
+          <input matInput matInput [readonly]="true" [value]="data.row.address2">
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+        <mat-form-field fxFlex class="form-fields" id="requester-name">
+          <mat-label>Town/City</mat-label>
+          <input matInput matInput [readonly]="true" [value]="data.row.address3">
+        </mat-form-field>
+  
+        <mat-form-field fxFlex class="form-fields" id="requester-name">
+          <mat-label>County</mat-label>
+          <input matInput matInput [readonly]="true" [value]="data.row.address4">
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
 
-<div class="other-info" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+<div *ngIf="!data.row.email" class="other-info" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
   <mat-form-field fxFlex class="form-fields" id="requester-name">
     <mat-label>Notified By</mat-label>
     <input matInput value="{{data.row.submittedBy}}" readonly>
@@ -63,10 +94,37 @@
     <mat-label>Contact Number</mat-label>
     <input matInput readonly value="{{data.row.teleNo}}">
   </mat-form-field>
+  <mat-form-field *ngIf="data.row.email" fxFlex class="form-fields" id="requester-email">
+    <mat-label>Email</mat-label>
+    <input matInput readonly value="{{data.row.email}}">
+  </mat-form-field>
   <mat-form-field fxFlex class="form-fields" id="slip-time">
     <mat-label>Create Time</mat-label>
     <input matInput readonly value="{{timeString}}">
   </mat-form-field>
+</div>
+
+<div *ngIf="data.row.email">
+  <div class="other-info" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+    <mat-form-field fxFlex class="form-fields" id="requester-name">
+      <mat-label>Notified By</mat-label>
+      <input matInput value="{{data.row.submittedBy}}" readonly>
+    </mat-form-field>
+    <mat-form-field fxFlex class="form-fields" id="requester-number">
+      <mat-label>Contact Number</mat-label>
+      <input matInput readonly value="{{data.row.teleNo}}">
+    </mat-form-field>
+  </div>
+  <div class="other-info" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+    <mat-form-field fxFlex class="form-fields" id="requester-email">
+      <mat-label>Email</mat-label>
+      <input matInput readonly value="{{data.row.email}}">
+    </mat-form-field>
+    <mat-form-field fxFlex class="form-fields" id="slip-time">
+      <mat-label>Create Time</mat-label>
+      <input matInput readonly value="{{timeString}}">
+    </mat-form-field>
+  </div>
 </div>
 
 <div class="buttons">

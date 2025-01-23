@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmSlipComponent } from '../../popups/confirm-slip/confirm-slip.component';
 import { SlipsService } from '../../services/slips.service';
 import { Slip } from '../../models/Slip';
-import { SlipComp } from 'src/app/models/SlipComp';
+import { Entry } from '../../models/entry';
 
 export class SlipsTableRow {
   entryId: number;
@@ -35,11 +35,13 @@ export class SlipsTableRow {
 export class GroupsTableRow {
   ageGroup: Category;
   groupComp: Competition;
+  groupEntry: Entry;
   isDelete: boolean = false;
 
-  constructor(age: Category, comp: Competition) {
+  constructor(age: Category, comp: Competition, entry: Entry) {
     this.ageGroup = age;
     this.groupComp = comp;
+    this.groupEntry = entry;
   }
 }
 
@@ -57,6 +59,7 @@ export class LateWithdrawalFormComponent implements OnInit {
   @Input() isLateForm: boolean;
   @ViewChild('catRef') catRef: MatSelect;
   @ViewChild('compRef') compRef: MatSelect;
+  @ViewChild('groupRef') groupRef: MatSelect;
 
   displayedColumns: string[] = ['Age Group', 'Competition Name', 'Late'];
   groupDisplayedColumns: string[] = ['Group Name', 'Delete Group'];
@@ -71,6 +74,8 @@ export class LateWithdrawalFormComponent implements OnInit {
   categories: Category[];
   groupCompetition: Competition;
   groupCompetitions: Competition[] = [];
+  groupEntries: Entry[] = [];
+  groupEntry: Entry;
   showGroupsTable: boolean = false;
   isSubmitDisabled: boolean = true;
   loadComplete: boolean = false;
@@ -113,16 +118,23 @@ export class LateWithdrawalFormComponent implements OnInit {
       });
   }
 
-  changeCompetition(group) {
-    this.groupCompetition = group;
+  changeCompetition(groupComp) {
+    this.groupCompetition = groupComp;
+    this.service.getEntries(this.groupCompetition.id, this.branch.county)
+      .then(entries => {
+        this.groupEntries = entries;
+      });
+  }
+
+  changeGroup(group) {
+    this.groupEntry = group;
   }
 
   addGroupToSlip() {
-    const newGroup = `${this.category.age_group} ${this.branch.branch_name} ${this.groupCompetition.competition_name}`;
     let groupAddedAlready = false;
     if (this.groupTableData !== null && this.groupTableData !== undefined) {
-      this.groupTableData.forEach((group) => {
-        if (`${group.ageGroup.age_group} ${this.branch.branch_name} ${group.groupComp.competition_name}` === newGroup) groupAddedAlready = true;
+      this.groupTableData.forEach((row) => {
+        if (row.groupEntry.id === this.groupEntry.id) groupAddedAlready = true;
       });
     }
 
@@ -131,12 +143,14 @@ export class LateWithdrawalFormComponent implements OnInit {
       return;
     }
 
-    this.groupTableData.push(new GroupsTableRow(this.category, this.groupCompetition));
+    this.groupTableData.push(new GroupsTableRow(this.category, this.groupCompetition, this.groupEntry));
     this.groupDataSource = new MatTableDataSource<GroupsTableRow>(this.groupTableData);
     this.groupCompetition = null;
     this.category = null;
+    this.groupEntry = null;
     if (this.catRef) this.catRef.options.forEach((el) => el.deselect());
     if (this.compRef) this.compRef.options.forEach((el) => el.deselect());
+    if (this.groupRef) this.groupRef.options.forEach((el) => el.deselect());
     this.showGroupsTable = true;
   }
 
@@ -229,7 +243,7 @@ export class LateWithdrawalFormComponent implements OnInit {
         if (this.groupTableData.length > 0) {
           this.groupTableData.forEach(group => {
             newSlip.forEach((slipId) => {
-              this.service.createSlipGroup(this.branch.id, group.groupComp.id, slipId)
+              this.service.createSlipGroup(group.groupEntry.id, slipId)
                 .catch((addGroupErr) => {
                   console.log('Error adding group to slips', addGroupErr);
                 });

@@ -93,8 +93,9 @@
       text-align: center;
   }
 
-  #requester-name, #requester-number {
+  #requester-name, #requester-number, #requester-email, #slip-time {
     max-width: 200px;
+    margin-left: 5px;
   }
 
   .buttons {
@@ -211,8 +212,9 @@
       text-align: center;
   }
 
-  #requester-name, #requester-number {
+  #requester-name, #requester-number, #requester-email {
     max-width: 250px;
+    margin-left: 5px;
   }
 
   #slip-time {
@@ -322,7 +324,7 @@
       text-align: center;
   }
 
-  #requester-name, #requester-number {
+  #requester-name, #requester-number, #requester-email {
     max-width: 250px;
     max-height: 50px;
   }
@@ -341,7 +343,7 @@
   }
 
   .close {
-    color: 686c70;
+    color: #686c70;
     background: #d5d5d5;
     margin-right: 1pc;
     margin-bottom: 15px;

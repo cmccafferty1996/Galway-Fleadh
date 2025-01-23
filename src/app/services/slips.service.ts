@@ -8,6 +8,7 @@ import { County } from "../models/County";
 import { Entrant } from "../models/entrant";
 import { Slip } from "../models/Slip";
 import { SlipComp } from "../models/SlipComp";
+import { Entry } from "../models/entry";
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,13 @@ export class SlipsService {
       });
   }
 
+  getEntries(comp, county) {
+      return this.http.get(`https://localhost:44372/api/comhaltas/entries?comp=${comp}&county=${county}`).toPromise()
+        .then((res: Entry[]) => {
+          return res;
+        });
+    }
+
   getSlipsByType(comp, county, type) {
     return this.http.get(`https://localhost:44372/api/comhaltas/slips?comp=${comp}&county=${county}&slipType=${type}`)
       .toPromise().then((res: Slip[]) => {
@@ -76,9 +84,9 @@ export class SlipsService {
     return this.http.post('https://localhost:44372/api/comhaltas/add-slips', slips).toPromise();
   }
 
-  createSlipGroup(branch: number, competition: number, slipId: number) {
+  createSlipGroup(groupId: number, slipId: number) {
     return this.http.get(
-      `https://localhost:44372/api/comhaltas/add-slip-group?branch=${branch}&competition=${competition}&slipId=${slipId}`
+      `https://localhost:44372/api/comhaltas/add-slip-group?groupEntry=${groupId}&slipId=${slipId}`
     ).toPromise();
   }
 

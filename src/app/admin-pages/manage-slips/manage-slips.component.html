@@ -150,6 +150,9 @@
       <mat-card-title>
         {{slip.label}}s for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}
       </mat-card-title>
+      <mat-card-subtitle>
+        Click name for more information.
+      </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content *ngIf="tableData.length == 0">
       <span id="error-text">No {{slip.label}}s found</span>

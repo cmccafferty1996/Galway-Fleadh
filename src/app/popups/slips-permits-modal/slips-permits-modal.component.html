@@ -4,12 +4,12 @@
 <div id="sub-header">
   <span id="about-text">
     This is the {{data.title}} for {{data.row.entrantNames}} in {{data.ageGroup}} {{data.competition}}.<br>
-    See full slip details below.
+    See full details below.
   </span>
 </div>
 
 <div class="modal-content">
-  <mat-accordion>
+  <mat-accordion *ngIf="data.slipType != 3">
     <mat-expansion-panel class="example-accordion" [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title class="accordion-heading">Other competitions for {{data.row.entrantNames}}</mat-panel-title>

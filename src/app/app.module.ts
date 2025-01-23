@@ -24,35 +24,34 @@ import { ConfirmSlipComponent } from './popups/confirm-slip/confirm-slip.compone
 import { PhotoRecordingPermitComponent } from './competitor-pages/photo-recording-permit/photo-recording-permit.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    RegisterComponent,
-    ViewResultsComponent,
-    LoginComponent,
-    ManageResultsComponent,
-    ManageRegistrationComponent,
-    ConfirmModalComponent,
-    SnackbarContentComponent,
-    SlipsComponent,
-    LateWithdrawalFormComponent,
-    ManageSlipsComponent,
-    SlipsPermitsModalComponent,
-    ConfirmSlipComponent,
-    PhotoRecordingPermitComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    MaterialsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule,
-    FlexLayoutModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-  entryComponents: [ConfirmModalComponent, SnackbarContentComponent]
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        RegisterComponent,
+        ViewResultsComponent,
+        LoginComponent,
+        ManageResultsComponent,
+        ManageRegistrationComponent,
+        ConfirmModalComponent,
+        SnackbarContentComponent,
+        SlipsComponent,
+        LateWithdrawalFormComponent,
+        ManageSlipsComponent,
+        SlipsPermitsModalComponent,
+        ConfirmSlipComponent,
+        PhotoRecordingPermitComponent
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        MaterialsModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        FormsModule,
+        FlexLayoutModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

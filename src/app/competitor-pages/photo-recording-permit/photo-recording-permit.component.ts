@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Branch } from '../../models/branch';
 import { Entrant } from '../../models/entrant';
@@ -26,13 +26,13 @@ export class PhotoRecordingPermitComponent implements OnInit {
   tableData: SlipsTableRow[] = [];
   categories: Category[];
   dataSource = new MatTableDataSource<SlipsTableRow>(this.tableData);
-  nameControl = new FormControl('', [Validators.required]);
-  addressControl = new FormControl('', [Validators.required]);
+  nameControl = new UntypedFormControl('', [Validators.required]);
+  addressControl = new UntypedFormControl('', [Validators.required]);
   addressLineTwo: string = null;
   town: string = null;
-  countyControl = new FormControl('', [Validators.required]);
-  emailControl = new FormControl('', [Validators.email, Validators.required]);
-  phoneNoControl = new FormControl('', [Validators.pattern(MOBILE_PATTERN), Validators.required]);
+  countyControl = new UntypedFormControl('', [Validators.required]);
+  emailControl = new UntypedFormControl('', [Validators.email, Validators.required]);
+  phoneNoControl = new UntypedFormControl('', [Validators.pattern(MOBILE_PATTERN), Validators.required]);
   isSubmitDisabled: boolean = true;
   loadComplete: boolean = false;
   isAgreeClicked: boolean = false;

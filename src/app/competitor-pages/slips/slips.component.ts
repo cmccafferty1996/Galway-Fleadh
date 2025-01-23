@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { County } from '../../models/County';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { Branch } from '../../models/branch';
 import { Entrant } from '../../models/entrant';
 import { MatSelect } from '@angular/material/select';
@@ -15,10 +15,10 @@ import { CoOrdinate } from '../register/register.component';
 })
 export class SlipsComponent implements OnInit {
 
-  countyControl = new FormControl('', [Validators.required]);
-  branchControl = new FormControl('', [Validators.required]);
-  entrantControl = new FormControl('', Validators.required);
-  slipControl = new FormControl('', Validators.required);
+  countyControl = new UntypedFormControl('', [Validators.required]);
+  branchControl = new UntypedFormControl('', [Validators.required]);
+  entrantControl = new UntypedFormControl('', Validators.required);
+  slipControl = new UntypedFormControl('', Validators.required);
   slip: string;
   county: County;
   branch: Branch;

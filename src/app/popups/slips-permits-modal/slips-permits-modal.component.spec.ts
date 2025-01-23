@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SlipsPermitsModalComponent } from './slips-permits-modal.component';
 
@@ -6,7 +6,7 @@ describe('SlipsPermitsModalComponent', () => {
   let component: SlipsPermitsModalComponent;
   let fixture: ComponentFixture<SlipsPermitsModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SlipsPermitsModalComponent ]
     })

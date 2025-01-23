@@ -33,7 +33,7 @@
       <mat-selection-list id="groups-list" *ngFor="let group of data.groups">
         <span class="modal-groups" id="group">
           <mat-icon id="bullet-point">radio_button_checked</mat-icon>
-          {{group.ageGroup.age_group}} {{data.branch.branch_name}} {{group.groupComp.competition_name}}
+          {{group.groupEntry.entrantName}} in {{group.ageGroup.age_group}} {{group.groupComp.competition_name}}
         </span>
       </mat-selection-list>
     </mat-expansion-panel>
@@ -42,5 +42,5 @@
 
 <div class="buttons">
   <button class="cancel" mat-raised-button (click)="close()">Cancel</button>
-  <button class="request" mat-raised-button (click)="close(true)">Request</button>
+  <button class="request" mat-raised-button (click)="close(true)">Submit slip</button>
 </div>

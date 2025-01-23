@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -40,11 +40,11 @@ export class RowElement {
   styleUrls: ['./manage-registration.component.css']
 })
 export class ManageRegistrationComponent implements OnInit {
-  countyControl = new FormControl('', [Validators.required]);
-  branchControl = new FormControl('', [Validators.required]);
-  ageGroupControl = new FormControl('', [Validators.required]);
-  compControl = new FormControl('', [Validators.required]);
-  selectFormControl = new FormControl('', Validators.required);
+  countyControl = new UntypedFormControl('', [Validators.required]);
+  branchControl = new UntypedFormControl('', [Validators.required]);
+  ageGroupControl = new UntypedFormControl('', [Validators.required]);
+  compControl = new UntypedFormControl('', [Validators.required]);
+  selectFormControl = new UntypedFormControl('', Validators.required);
   counties: County[];
   branches: Branch[];
   catagories: Category[];

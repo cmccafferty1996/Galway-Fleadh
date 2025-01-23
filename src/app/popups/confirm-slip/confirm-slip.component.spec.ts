@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ConfirmSlipComponent } from './confirm-slip.component';
 
@@ -6,7 +6,7 @@ describe('ConfirmSlipComponent', () => {
   let component: ConfirmSlipComponent;
   let fixture: ComponentFixture<ConfirmSlipComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ConfirmSlipComponent ]
     })

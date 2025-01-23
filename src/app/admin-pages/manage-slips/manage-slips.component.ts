@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { Competition } from '../../models/competition';
 import { County } from '../../models/County';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { Category } from '../../models/category';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -31,10 +31,10 @@ export class DropDownSlip {
 })
 export class ManageSlipsComponent implements OnInit {
 
-  countyControl = new FormControl('', [Validators.required]);
-  categoryControl = new FormControl('', [Validators.required]);
-  competitionControl = new FormControl('', Validators.required);
-  slipControl = new FormControl('', Validators.required);
+  countyControl = new UntypedFormControl('', [Validators.required]);
+  categoryControl = new UntypedFormControl('', [Validators.required]);
+  competitionControl = new UntypedFormControl('', Validators.required);
+  slipControl = new UntypedFormControl('', Validators.required);
   slip: DropDownSlip;
   county: County;
   category: Category;

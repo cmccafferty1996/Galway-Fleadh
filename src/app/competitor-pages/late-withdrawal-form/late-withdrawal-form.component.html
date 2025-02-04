@@ -67,14 +67,14 @@
           </mat-form-field>
           <mat-form-field fxFlex class="form-fields" id="group">
             <mat-label>Group</mat-label>
-            <mat-select #groupRef [disabled]="!category && !groupCompetition && groupEntries.length == 0" (selectionChange)="changeGroup($event.value)">
+            <mat-select #groupRef [disabled]="!(category && groupCompetition) && groupEntries.length == 0" (selectionChange)="changeGroup($event.value)">
               <mat-option *ngFor="let group of groupEntries" [value]="group">
                 {{group.entrantName}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <div fxFlex>
-            <button mat-raised-button (click)="addGroupToSlip()" [disabled]="!(category && groupCompetition)">
+            <button mat-raised-button (click)="addGroupToSlip()" [disabled]="!(category && groupCompetition && groupEntry)">
               Add Group
             </button>
           </div>

@@ -112,6 +112,9 @@ export class LateWithdrawalFormComponent implements OnInit {
 
   changeCategory(cat) {
     this.category = cat;
+    this.groupEntry = null;
+    this.groupEntries = [];
+    this.groupCompetition = null;
     this.service.getCompetitionsByAgeGroup(this.category.id)
       .then((competitions) => {
         this.groupCompetitions = competitions.filter(comp => comp.comp_type == 4);
@@ -120,6 +123,7 @@ export class LateWithdrawalFormComponent implements OnInit {
 
   changeCompetition(groupComp) {
     this.groupCompetition = groupComp;
+    this.groupEntry = null;
     this.service.getEntries(this.groupCompetition.id, this.branch.county)
       .then(entries => {
         this.groupEntries = entries;

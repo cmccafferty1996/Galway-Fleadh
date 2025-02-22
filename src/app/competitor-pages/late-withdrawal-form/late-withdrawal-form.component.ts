@@ -16,13 +16,15 @@ import { Entry } from '../../models/entry';
 
 export class SlipsTableRow {
   entryId: number;
+  name: string;
   ageGroup: string;
   competition: string;
   slipExists: boolean = false
   isChecked: boolean = false;
 
-  constructor(entry: number, age: string, comp: string, slipExists?: boolean) {
+  constructor(entry: number, entryName: string, age: string, comp: string, slipExists?: boolean) {
     this.entryId = entry;
+    this.name = entryName;
     this.ageGroup = age;
     this.competition = comp;
     if (slipExists) {
@@ -55,6 +57,8 @@ const MOBILE_PATTERN = '[- +0-9]+';
 export class LateWithdrawalFormComponent implements OnInit {
 
   @Input() entrant: Entrant;
+  @Input() competition: Competition;
+  @Input() ageGroup: Category;
   @Input() branch: Branch;
   @Input() isLateForm: boolean;
   @ViewChild('catRef') catRef: MatSelect;
@@ -62,12 +66,17 @@ export class LateWithdrawalFormComponent implements OnInit {
   @ViewChild('groupRef') groupRef: MatSelect;
 
   displayedColumns: string[] = ['Age Group', 'Competition Name', 'Late'];
+  compViewDisplayedColumns: string[] = ['Name', 'Late'];
   groupDisplayedColumns: string[] = ['Group Name', 'Delete Group'];
   formType: string;
+  infoText: string;
+  subtitleText: string;
   tableData: SlipsTableRow[] = [];
+  compViewTableData: SlipsTableRow[] = [];
   groupTableData: GroupsTableRow[] = [];
   dataSource = new MatTableDataSource<SlipsTableRow>(this.tableData);
   groupDataSource = new MatTableDataSource<GroupsTableRow>(this.groupTableData);
+  compViewDataSource = new MatTableDataSource<SlipsTableRow>(this.compViewTableData);
   nameControl = new UntypedFormControl('', [Validators.required]);
   phoneNoControl = new UntypedFormControl('', [Validators.pattern(MOBILE_PATTERN), Validators.required]);
   category: Category;
@@ -84,7 +93,36 @@ export class LateWithdrawalFormComponent implements OnInit {
 
   ngOnInit(): void {
     const slipType = this.isLateForm ? 1 : 2;
-    this.service.getCompetitionsByEntrant([this.entrant.id], slipType)
+    this.formType = this.isLateForm ? 'Late' : 'Non-Compete';
+    if (this.competition) {
+      this.infoText = `group in ${this.ageGroup.category} ${this.ageGroup.age_group} ${this.competition.competition_name}`;
+      this.subtitleText =  `Create a ${this.formType} slip by selecting the group name from the table below.`;
+      this.service.getEntries(this.competition.id, this.branch.county)
+        .then((res) => {
+          if (res.length > 0) {
+            this.service.checkSlipExists(res, slipType)
+              .then((res2: Slip[]) => {
+                res.forEach((entry) => {
+                  if (res2.find((slip) => entry.id === slip.entryId)) {
+                    this.compViewTableData.push(new SlipsTableRow(entry.id, entry.entrantName, null, null,true));
+                  } else {
+                    this.compViewTableData.push(new SlipsTableRow(entry.id, entry.entrantName, null, null,false));
+                  }
+                });
+                this.compViewDataSource = new MatTableDataSource<SlipsTableRow>(this.compViewTableData);
+              });
+          } else {}
+          this.loadComplete = true;
+        })
+        .catch((err) => {
+          console.log('Error getting entries for competition', err);
+          this.loadComplete = true;
+        })
+    } else {
+      this.infoText = this.entrant.entrant_name;
+      this.subtitleText = `Create one or more ${this.formType} slips for ${this.infoText} by selecting from the table of their
+      competitions below.`;
+      this.service.getCompetitionsByEntrant([this.entrant.id], slipType)
       .then((res) => {
         if (res.length > 0) {
           this.service.getAllCategories()
@@ -94,12 +132,11 @@ export class LateWithdrawalFormComponent implements OnInit {
                 const currentCategory = this.categories.find((cat) => cat.id == comp.ageGroup);
                 const slipExists = comp.slipNumber != 0;
                 this.tableData.push(
-                  new SlipsTableRow(comp.entryId, currentCategory.category + ' ' + currentCategory.age_group,
+                  new SlipsTableRow(comp.entryId, null, currentCategory.category + ' ' + currentCategory.age_group,
                     comp.competitionName, slipExists)
                 );
               });
               this.dataSource = new MatTableDataSource<SlipsTableRow>(this.tableData);
-              this.formType = this.isLateForm ? 'Late' : 'Non-Compete';
               this.loadComplete = true;
             });
         }
@@ -108,6 +145,7 @@ export class LateWithdrawalFormComponent implements OnInit {
         console.log('Error getting entrant competitions', err);
         this.loadComplete = true;
       });
+    }
   }
 
   changeCategory(cat) {
@@ -159,7 +197,7 @@ export class LateWithdrawalFormComponent implements OnInit {
   }
 
   onCheckBoxSelected() {
-    const selectedRows = this.tableData.filter((row) => row.isChecked);
+    const selectedRows = this.tableData.length === 0 ? this.compViewTableData.filter((row) => row.isChecked) : this.tableData.filter((row) => row.isChecked);
     if (selectedRows.length == 0) {
       this.isSubmitDisabled = true;
     } else {
@@ -211,15 +249,16 @@ export class LateWithdrawalFormComponent implements OnInit {
   }
 
   openConfirmPopup() {
+    const name = this.entrant == null ? this.competition.competition_number + " " + this.competition.competition_name : this.entrant.entrant_name;
     const dialogRef = this.dialog.open(ConfirmSlipComponent, {
       width: '750px',
       height: '500px',
       data: {
         title: `Confirm ${this.formType} Slip(s)`,
         branch: this.branch,
-        entrant: this.entrant,
+        name: name,
         groups: this.groupTableData,
-        slips: this.tableData,
+        slips: this.tableData.length == 0 ? this.compViewTableData : this.tableData,
         slipType: this.formType
       }
     });
@@ -233,7 +272,12 @@ export class LateWithdrawalFormComponent implements OnInit {
 
   createSlips() {
     let slips: Slip[] = [];
-    const selectedRows = this.tableData.filter((row) => row.isChecked && !row.slipExists);
+    let selectedRows;
+    if (this.tableData.length > 0) {
+      selectedRows = this.tableData.filter((row) => row.isChecked && !row.slipExists);
+    } else {
+      selectedRows = this.compViewTableData.filter((row) => row.isChecked && !row.slipExists);
+    }
     const slipType = this.isLateForm ? 1 : 2;
     selectedRows.forEach((row) => {
       slips.push(new Slip(slipType, row.entryId, this.nameControl.value, this.phoneNoControl.value,

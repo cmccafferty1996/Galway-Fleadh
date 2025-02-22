@@ -1,5 +1,5 @@
 <div id="modal-header">
-  <span id="header-text">{{data.title}} for {{data.entrant.entrant_name}}</span>
+  <span id="header-text">{{data.title}} for {{data.name}}</span>
   <span id="header-text-mobile">{{data.title}}</span>
 </div>
 
@@ -13,11 +13,11 @@
   <mat-accordion>
     <mat-expansion-panel class="example-accordion" [expanded]="true">
       <mat-expansion-panel-header>
-        <mat-panel-title class="accordion-heading">{{data.slipType}} Slip(s) for {{data.entrant.entrant_name}}</mat-panel-title>
+        <mat-panel-title class="accordion-heading">{{data.slipType}} Slip(s) for {{data.name}}</mat-panel-title>
       </mat-expansion-panel-header>
       <mat-selection-list id="slips-list" *ngFor="let slip of slipsToCreate">
         <span class="modal-slips" id="slip">
-          <mat-icon id="bullet-point">radio_button_checked</mat-icon> {{slip.ageGroup}} {{slip.competition}}
+          <mat-icon id="bullet-point">radio_button_checked</mat-icon> {{slip.ageGroup}} {{slip.competition}}{{slip.name}}
         </span>
       </mat-selection-list>
     </mat-expansion-panel>
@@ -28,7 +28,7 @@
   <mat-accordion *ngIf="data.groups.length > 0">
     <mat-expansion-panel class="example-accordion" [expanded]="true">
       <mat-expansion-panel-header>
-        <mat-panel-title class="accordion-heading">Groups for {{data.entrant.entrant_name}}</mat-panel-title>
+        <mat-panel-title class="accordion-heading">Groups for {{data.name}}</mat-panel-title>
       </mat-expansion-panel-header>
       <mat-selection-list id="groups-list" *ngFor="let group of data.groups">
         <span class="modal-groups" id="group">

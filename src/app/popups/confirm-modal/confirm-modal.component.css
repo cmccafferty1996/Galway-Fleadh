@@ -78,7 +78,7 @@
   }
 
   .cancel, .cancel-delete {
-    color: 686c70;
+    color: #686c70;
     background: #d5d5d5;
     margin-right: 1pc;
     margin-bottom: 10px;
@@ -182,14 +182,14 @@
   }
 
   .cancel {
-    color: 686c70;
+    color: #686c70;
     background: #d5d5d5;
     margin-right: 1pc;
     margin-bottom: 15px;
   }
 
   .cancel-delete {
-    color: 686c70;
+    color: #686c70;
     background: #d5d5d5;
     margin-right: 1pc;
   }

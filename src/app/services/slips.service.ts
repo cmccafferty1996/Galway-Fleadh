@@ -59,6 +59,13 @@ export class SlipsService {
       });
   }
 
+  checkSlipExists(entryIds, slipType) {
+    return this.http.post(`https://localhost:44372/api/comhaltas/check-slip-exists/${slipType}`, entryIds).toPromise()
+      .then((res: Slip[]) => {
+        return res;
+      });
+  }
+
   getEntrantsByBranch(branch) {
     return this.http.get(`https://localhost:44372/api/comhaltas/entrants?branch=${branch}`).toPromise()
       .then((res: Entrant[]) => {

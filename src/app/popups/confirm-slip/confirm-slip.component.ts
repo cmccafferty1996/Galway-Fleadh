@@ -18,12 +18,10 @@ export class ConfirmSlipComponent implements OnInit {
   ngOnInit(): void {
     if (this.data.slips) {
       this.slipsToCreate = this.data.slips.filter((row) => row.isChecked && !row.slipExists);
-      console.log('slips count', this.slipsToCreate.length);
     }
   }
 
   close(param?): void {
     this.dialogRef.close(param);
   }
-
 }

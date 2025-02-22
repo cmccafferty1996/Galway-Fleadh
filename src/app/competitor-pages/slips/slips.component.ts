@@ -7,6 +7,8 @@ import { MatSelect } from '@angular/material/select';
 import { SlipsService } from '../../services/slips.service';
 import { UtilsService } from '../../services/utils.service';
 import { CoOrdinate } from '../register/register.component';
+import { Category } from 'src/app/models/category';
+import { Competition } from 'src/app/models/competition';
 
 @Component({
   selector: 'slips',
@@ -18,15 +20,24 @@ export class SlipsComponent implements OnInit {
   countyControl = new UntypedFormControl('', [Validators.required]);
   branchControl = new UntypedFormControl('', [Validators.required]);
   entrantControl = new UntypedFormControl('', Validators.required);
+  entrantTypeControl = new UntypedFormControl('', Validators.required);
   slipControl = new UntypedFormControl('', Validators.required);
+  ageGroupControl = new UntypedFormControl('', [Validators.required]);
+  compControl = new UntypedFormControl('', [Validators.required]);
   slip: string;
+  entrantType: string;
   county: County;
   branch: Branch;
   entrant: Entrant;
+  ageGroup: Category;
+  competition: Competition;
   slips: string[] = ['Recording Permit', 'Late Slip', 'Non-Compete Slip'];
+  entrantTypes: string[] = ['Solo/Duet/Trio', 'Group'];
   counties: County[];
   branches: Branch[];
   entrants: Entrant[];
+  ageGroups: Category[];
+  competitions: Competition[];
   today = new Date();
   venue: CoOrdinate;
   venueDistance: number;
@@ -41,6 +52,8 @@ export class SlipsComponent implements OnInit {
   @ViewChild('countyRef') countyRef: MatSelect;
   @ViewChild('branchRef') branchRef: MatSelect;
   @ViewChild('entrantRef') entrantRef: MatSelect;
+  @ViewChild('entrantTypeRef') entrantTypeRef: MatSelect;
+  @ViewChild('catRef') catRef: MatSelect;
   compareCounty = UtilsService.compareCounty;
 
   constructor(private service: SlipsService) { }
@@ -66,7 +79,21 @@ export class SlipsComponent implements OnInit {
 
   changeSlip(selection) {
     this.slip = selection;
+    this.entrant = null;
+    if (this.entrantRef) this.entrantRef.options.forEach((el) => el.deselect());
+    this.entrantType = null;
+    if (this.entrantTypeRef) this.entrantTypeRef.options.forEach((el) => el.deselect());
+    this.competition = null;
+    this.ageGroup = null;
+    if (this.catRef) this.catRef.options.forEach((el) => el.deselect());
     this.showForm = false;
+    if (this.branch && this.slip == 'Late Slip') {
+      this.service.getEntrantsByBranch(this.branch.id)
+        .then((result: Entrant[]) => {
+          this.entrants = result.filter(entrant => !entrant.isGroup);
+          this.entrants.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
+        });
+    }
   }
 
   changeCounty(county, loadScreen = false) {
@@ -75,6 +102,10 @@ export class SlipsComponent implements OnInit {
     this.showForm = false;
     this.branch = null;
     this.entrant = null;
+    this.entrantType = null;
+    if (this.entrantTypeRef) this.entrantTypeRef.options.forEach((el) => el.deselect());
+    this.competition = null;
+    this.ageGroup = null;
     if (this.branchRef) this.branchRef.options.forEach((el) => el.deselect());
     this.service.getBranchesByCounty(this.county.id)
       .then((res) => {
@@ -100,18 +131,69 @@ export class SlipsComponent implements OnInit {
 
   changeBranch(branch) {
     this.branch = branch;
-    this.showForm = false;
     this.entrant = null;
-    if (this.entrantRef) this.entrantRef.options.forEach((el) => el.deselect());
-    this.service.getEntrantsByBranch(this.branch.id)
-      .then((result: Entrant[]) => {
-        this.entrants = result;
-        this.entrants.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
-      });
+    this.competition = null;
+    this.ageGroup = null;
+    if (this.slip == 'Late Slip') {
+      if (this.entrantRef) this.entrantRef.options.forEach((el) => el.deselect());
+      this.service.getEntrantsByBranch(this.branch.id)
+        .then((result: Entrant[]) => {
+          this.entrants = result.filter(entrant => !entrant.isGroup);
+          this.entrants.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
+        });
+    } else {
+      this.entrantType = null;
+      if (this.entrantTypeRef) this.entrantTypeRef.options.forEach((el) => el.deselect());
+      this.entrant = null;
+      this.competition = null;
+      this.ageGroup = null;
+    }
+    this.showForm = false;
   }
 
-  radioSelection(value) {
-    console.log('radio selection', value);
+  changeEntrantType(value) {
+    this.entrantType = value;
+    this.entrant = null;
+    this.competition = null;
+    this.ageGroup = null;
+    this.showForm = false;
+
+    if (this.entrantType == 'Solo/Duet/Trio') {
+      if (this.entrantRef) this.entrantRef.options.forEach((el) => el.deselect());
+      this.service.getEntrantsByBranch(this.branch.id)
+        .then((result: Entrant[]) => {
+          this.entrants = result.filter(entrant => !entrant.isGroup);
+          this.entrants.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
+        });
+    } else {
+      if (this.catRef) this.catRef.options.forEach((el) => el.deselect());
+      if (!this.ageGroups) {
+        this.service.getAllCategories()
+        .then((res) => {
+          this.ageGroups = res;
+          this.ageGroups.sort((a, b) => a.category > b.category ? 1 : -1);
+        });
+      }
+    }
+  }
+
+  changeCategory(value) {
+    this.ageGroup = value;
+    this.entrant = null;
+    this.showForm = false;
+    this.competition = null;
+    if (this.ageGroup) {
+      this.service.getCompetitionsByAgeGroup(this.ageGroup.id)
+        .then((res) => {
+          this.competitions = res.filter(comp => comp.comp_type == 4);
+          this.competitions.sort((a, b) => a.competition_number > b.competition_number ? 1 : -1);
+        });
+    }
+  }
+
+  changeCompetition(value) {
+    this.competition = value;
+    this.showForm = false;
   }
 
   changeEntrant(entrant) {

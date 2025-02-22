@@ -2,15 +2,17 @@
   <mat-spinner *ngIf="!loadComplete"></mat-spinner>
   <mat-card-header *ngIf="loadComplete">
     <mat-card-title>
-      Submit {{formType}} Slip(s) for {{entrant.entrant_name}}
+      Submit {{formType}} Slip(s) for {{infoText}}
     </mat-card-title>
     <mat-card-subtitle>
-      Create one or more {{formType}} slips for {{entrant.entrant_name}} by selecting from the table of their
-      competitions below.
+     {{subtitleText}}
     </mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content *ngIf="loadComplete">
-    <table mat-table [dataSource]="dataSource">
+  <mat-card-content *ngIf="loadComplete && compViewTableData.length == 0 && tableData.length == 0">
+    <span>No entrants or groups found for given search parameters.</span>
+  </mat-card-content>
+  <mat-card-content *ngIf="loadComplete && (compViewTableData.length > 0 || tableData.length > 0)">
+    <table mat-table [dataSource]="dataSource" *ngIf="entrant != null || entrant != undefined">
         <!-- Category Column -->
        <ng-container matColumnDef="Age Group">
         <th mat-header-cell *matHeaderCellDef class="place-title"><b>Age Group</b></th>
@@ -38,6 +40,29 @@
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <table mat-table [dataSource]="compViewDataSource" *ngIf="competition != null || competition != undefined">
+      <!-- Entrant Name Column --> 
+      <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef><b>Name</b></th>
+        <td mat-cell *matCellDef="let element"> 
+          {{element.name}}
+        </td>
+      </ng-container>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="Late">
+        <th mat-header-cell *matHeaderCellDef><b>{{formType}}</b></th>
+        <td mat-cell *matCellDef="let element, let i = index">
+          <mat-checkbox
+            [disabled]="element.slipExists"
+            [(ngModel)]="element.isChecked"
+            (change)="onCheckBoxSelected()">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="compViewDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: compViewDisplayedColumns;"></tr>
     </table>
     <br>
     <div>

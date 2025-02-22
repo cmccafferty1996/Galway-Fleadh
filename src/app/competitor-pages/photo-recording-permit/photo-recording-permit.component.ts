@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Category } from '../../models/category';
 import { SlipsService } from '../../services/slips.service';
 import { Slip } from '../../models/Slip';
+import { Competition } from 'src/app/models/competition';
 
 const MOBILE_PATTERN = '[- +0-9]+';
 
@@ -20,12 +21,18 @@ const MOBILE_PATTERN = '[- +0-9]+';
 export class PhotoRecordingPermitComponent implements OnInit {
 
   @Input() entrant: Entrant;
+  @Input() competition: Competition;
+  @Input() ageGroup: Category;
   @Input() branch: Branch;
 
   displayedColumns: string[] = ['Age Group', 'Competition Name', 'Record'];
+  compViewDisplayedColumns: string[] = ['Name', 'Record'];
+  infoText: string = 'Request Photography/Recording Permit for ';
   tableData: SlipsTableRow[] = [];
+  compViewTableData: SlipsTableRow[] = [];
   categories: Category[];
   dataSource = new MatTableDataSource<SlipsTableRow>(this.tableData);
+  compViewDataSource = new MatTableDataSource<SlipsTableRow>(this.compViewTableData);
   nameControl = new UntypedFormControl('', [Validators.required]);
   addressControl = new UntypedFormControl('', [Validators.required]);
   addressLineTwo: string = null;
@@ -40,7 +47,23 @@ export class PhotoRecordingPermitComponent implements OnInit {
   constructor(private snackbar: MatSnackBar, private service: SlipsService) { }
 
   ngOnInit(): void {
-    this.service.getCompetitionsByEntrant([this.entrant.id], 3)
+    if (this.competition) {
+      this.infoText += `group in ${this.ageGroup.category} ${this.ageGroup.age_group} ${this.competition.competition_name}`;
+      this.service.getEntries(this.competition.id, this.branch.county)
+        .then((res) => {
+          res.forEach((entry) => {
+            this.compViewTableData.push(new SlipsTableRow(entry.id, entry.entrantName, null, null))
+          });
+          this.compViewDataSource = new MatTableDataSource<SlipsTableRow>(this.compViewTableData);
+          this.loadComplete = true;
+        })
+        .catch((err) => {
+          console.log('Error getting entries for competition', err);
+          this.loadComplete = true;
+        });
+    } else {
+      this.infoText += this.entrant.entrant_name;
+      this.service.getCompetitionsByEntrant([this.entrant.id], 3)
       .then((res) => {
         if (res.length > 0) {
           this.service.getAllCategories()
@@ -49,7 +72,7 @@ export class PhotoRecordingPermitComponent implements OnInit {
               res.forEach((comp) => {
                 const currentCategory = this.categories.find((cat) => cat.id == comp.ageGroup);
                 this.tableData.push(
-                  new SlipsTableRow(comp.entryId, currentCategory.category + ' ' + currentCategory.age_group, comp.competitionName)
+                  new SlipsTableRow(comp.entryId, null, currentCategory.category + ' ' + currentCategory.age_group, comp.competitionName)
                 );
               });
               this.dataSource = new MatTableDataSource<SlipsTableRow>(this.tableData);
@@ -61,6 +84,7 @@ export class PhotoRecordingPermitComponent implements OnInit {
         console.log('Error getting entrant competitions', err);
         this.loadComplete = true;
       });
+    }
   }
 
   openSnackbar(css, message, time = 5000) {
@@ -74,7 +98,7 @@ export class PhotoRecordingPermitComponent implements OnInit {
   }
 
   onCheckBoxSelected() {
-    const selectedRows = this.tableData.filter((row) => row.isChecked);
+    const selectedRows =  this.tableData.length == 0 ? this.compViewTableData.filter((row) => row.isChecked) : this.tableData.filter((row) => row.isChecked);
     if (selectedRows.length == 0) {
       this.isSubmitDisabled = true;
     } else {
@@ -145,7 +169,12 @@ export class PhotoRecordingPermitComponent implements OnInit {
 
   createSlips() {
     let slips: Slip[] = [];
-    const selectedRows = this.tableData.filter((row) => row.isChecked);
+    let selectedRows;
+    if (this.tableData.length > 0) {
+      selectedRows = this.tableData.filter((row) => row.isChecked);
+    } else {
+      selectedRows = this.compViewTableData.filter((row) => row.isChecked);
+    }
     selectedRows.forEach((row) => {
       slips.push(new Slip(3, row.entryId, this.nameControl.value, this.phoneNoControl.value,
         this.emailControl.value, this.addressControl.value, this.addressLineTwo, this.town, this.countyControl.value

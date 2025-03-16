@@ -36,19 +36,7 @@
     
     <br>
 
-    <mat-form-field id="branch" *ngIf="county && slip">
-      <mat-label>Branch</mat-label>
-      <mat-select [formControl]="branchControl" required #branchRef (selectionChange)="changeBranch($event.value)">
-        <mat-option *ngFor="let branch of branches" [value]="branch">
-          {{branch.branch_name}}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="branchControl.hasError('required')">Please choose your branch</mat-error>
-    </mat-form-field>
-
-    <br>
-
-    <mat-form-field id="entrant-type" *ngIf="(county && slip && branch) && slip != 'Late Slip'">
+    <mat-form-field id="entrant-type" *ngIf="(county && slip) && slip != 'Late Slip'">
       <mat-label>Entrant Type</mat-label>
       <mat-select [formControl]="entrantTypeControl" #entrantTypeRef required (selectionChange)="changeEntrantType($event.value)">
         <mat-option *ngFor="let type of entrantTypes" [value]="type">
@@ -60,6 +48,18 @@
     
     <br *ngIf="entrantType">
 
+    <mat-form-field id="branch" *ngIf="county && slip && (entrantType == 'Solo/Duet/Trio' || slip == 'Late Slip')">
+      <mat-label>Branch</mat-label>
+      <mat-select [formControl]="branchControl" required #branchRef (selectionChange)="changeBranch($event.value)">
+        <mat-option *ngFor="let branch of branches" [value]="branch">
+          {{branch.branch_name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="branchControl.hasError('required')">Please choose your branch</mat-error>
+    </mat-form-field>
+
+    <br *ngIf="branch">
+
     <mat-form-field id="entrant" *ngIf="branch && (entrantType == 'Solo/Duet/Trio' || slip == 'Late Slip')">
       <mat-label>Entrant</mat-label>
       <mat-select [formControl]="entrantControl" required #entrantRef (selectionChange)="changeEntrant($event.value)">
@@ -70,13 +70,14 @@
       <mat-error *ngIf="entrantControl.hasError('required')">Please choose entrant</mat-error>
     </mat-form-field>
 
-    <mat-form-field id="category" *ngIf="entrantType == 'Group'">
+    <mat-form-field id="age-group" *ngIf="entrantType == 'Group'">
       <mat-label>Age Group</mat-label>
-      <mat-select [formControl]="ageGroupControl" required #catRef (selectionChange)="changeCategory($event.value)">
-        <mat-option *ngFor="let cat of ageGroups" [value]="cat">
-          {{cat.category}} {{cat.age_group}}
+      <mat-select [formControl]="ageGroupControl" required #ageGroupRef (selectionChange)="changeCategory($event.value)">
+        <mat-option *ngFor="let ageGroup of ageGroups" [value]="ageGroup">
+          {{ageGroup.category}} {{ageGroup.age_group}}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="ageGroupControl.hasError('required')">Please choose your age group</mat-error>
     </mat-form-field>
 
     <br>
@@ -129,6 +130,6 @@
   [entrant]="entrant"
   [competition]="competition"
   [ageGroup]="ageGroup"
-  [branch]="branch">
+  [county]="county">
 </photo-recording-permit>
 </div>

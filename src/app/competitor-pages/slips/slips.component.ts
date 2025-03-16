@@ -9,6 +9,8 @@ import { UtilsService } from '../../services/utils.service';
 import { CoOrdinate } from '../register/register.component';
 import { Category } from 'src/app/models/category';
 import { Competition } from 'src/app/models/competition';
+import { Subscription } from 'rxjs';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'slips',
@@ -31,7 +33,7 @@ export class SlipsComponent implements OnInit {
   entrant: Entrant;
   ageGroup: Category;
   competition: Competition;
-  slips: string[] = ['Recording Permit', 'Late Slip', 'Non-Compete Slip'];
+  slips: string[] = ['Recording Permit', 'Late Slip'];
   entrantTypes: string[] = ['Solo/Duet/Trio', 'Group'];
   counties: County[];
   branches: Branch[];
@@ -41,6 +43,7 @@ export class SlipsComponent implements OnInit {
   today = new Date();
   venue: CoOrdinate;
   venueDistance: number;
+  subscription: Subscription;
   onSubmitClicked = false;
   abadonShip = false;
   loadComplete = false;
@@ -53,13 +56,19 @@ export class SlipsComponent implements OnInit {
   @ViewChild('branchRef') branchRef: MatSelect;
   @ViewChild('entrantRef') entrantRef: MatSelect;
   @ViewChild('entrantTypeRef') entrantTypeRef: MatSelect;
-  @ViewChild('catRef') catRef: MatSelect;
+  @ViewChild('ageGroupRef') ageGroupRef: MatSelect;
   compareCounty = UtilsService.compareCounty;
 
-  constructor(private service: SlipsService) { }
+  constructor(private service: SlipsService, private login: LoginService) { }
 
   ngOnInit(): void {
     this.today.setHours(0, 0, 0, 0);
+    this.subscription = this.login.isLoggedIn$.subscribe((res) => {
+      if (res.isLoggedIn) {
+        this.slips = ['Recording Permit', 'Late Slip', 'Non-Compete Slip'];
+      }
+    });
+
     this.service.getAllCountyNames()
       .then((res) => {
         this.counties = res;
@@ -85,13 +94,20 @@ export class SlipsComponent implements OnInit {
     if (this.entrantTypeRef) this.entrantTypeRef.options.forEach((el) => el.deselect());
     this.competition = null;
     this.ageGroup = null;
-    if (this.catRef) this.catRef.options.forEach((el) => el.deselect());
+    if (this.ageGroupRef) this.ageGroupRef.options.forEach((el) => el.deselect());
     this.showForm = false;
     if (this.branch && this.slip == 'Late Slip') {
       this.service.getEntrantsByBranch(this.branch.id)
         .then((result: Entrant[]) => {
           this.entrants = result.filter(entrant => !entrant.isGroup);
           this.entrants.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
+        });
+    } else if (this.county && this.slip == 'Late Slip') {
+      if (this.branchRef) this.branchRef.options.forEach((el) => el.deselect());
+      this.service.getBranchesByCounty(this.county.id)
+        .then((res) => {
+          this.branches = res;
+          this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
         });
     }
   }
@@ -106,13 +122,17 @@ export class SlipsComponent implements OnInit {
     if (this.entrantTypeRef) this.entrantTypeRef.options.forEach((el) => el.deselect());
     this.competition = null;
     this.ageGroup = null;
-    if (this.branchRef) this.branchRef.options.forEach((el) => el.deselect());
-    this.service.getBranchesByCounty(this.county.id)
-      .then((res) => {
-        this.branches = res;
-        this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
-        if (loadScreen) this.loadComplete = true;
-      });
+
+    if (loadScreen) {
+      this.loadComplete = true;
+    } else {
+      if (this.branchRef) this.branchRef.options.forEach((el) => el.deselect());
+      this.service.getBranchesByCounty(this.county.id)
+        .then((res) => {
+          this.branches = res;
+          this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
+        });
+    }
     this.getVenueLocation();
   }
 
@@ -129,44 +149,23 @@ export class SlipsComponent implements OnInit {
       });
   }
 
-  changeBranch(branch) {
-    this.branch = branch;
-    this.entrant = null;
-    this.competition = null;
-    this.ageGroup = null;
-    if (this.slip == 'Late Slip') {
-      if (this.entrantRef) this.entrantRef.options.forEach((el) => el.deselect());
-      this.service.getEntrantsByBranch(this.branch.id)
-        .then((result: Entrant[]) => {
-          this.entrants = result.filter(entrant => !entrant.isGroup);
-          this.entrants.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
-        });
-    } else {
-      this.entrantType = null;
-      if (this.entrantTypeRef) this.entrantTypeRef.options.forEach((el) => el.deselect());
-      this.entrant = null;
-      this.competition = null;
-      this.ageGroup = null;
-    }
-    this.showForm = false;
-  }
-
   changeEntrantType(value) {
     this.entrantType = value;
+    this.branch = null;
     this.entrant = null;
     this.competition = null;
     this.ageGroup = null;
     this.showForm = false;
 
     if (this.entrantType == 'Solo/Duet/Trio') {
-      if (this.entrantRef) this.entrantRef.options.forEach((el) => el.deselect());
-      this.service.getEntrantsByBranch(this.branch.id)
-        .then((result: Entrant[]) => {
-          this.entrants = result.filter(entrant => !entrant.isGroup);
-          this.entrants.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
+      if (this.branchRef) this.branchRef.options.forEach((el) => el.deselect());
+      this.service.getBranchesByCounty(this.county.id)
+        .then((res) => {
+          this.branches = res;
+          this.branches.sort((a, b) => a.branch_name > b.branch_name ? 1 : -1);
         });
     } else {
-      if (this.catRef) this.catRef.options.forEach((el) => el.deselect());
+      this.ageGroupControl.reset();
       if (!this.ageGroups) {
         this.service.getAllCategories()
         .then((res) => {
@@ -175,6 +174,26 @@ export class SlipsComponent implements OnInit {
         });
       }
     }
+  }
+
+  changeBranch(branch) {
+    this.branch = branch;
+    this.entrant = null;
+    this.competition = null;
+    this.ageGroup = null;
+    if (this.slip == 'Late Slip' || this.entrantType == 'Solo/Duet/Trio') {
+      if (this.entrantRef) this.entrantRef.options.forEach((el) => el.deselect());
+      this.service.getEntrantsByBranch(this.branch.id)
+        .then((result: Entrant[]) => {
+          this.entrants = result.filter(entrant => !entrant.isGroup);
+          this.entrants.sort((a, b) => a.entrant_name > b.entrant_name ? 1 : -1);
+        });
+    } else {
+      this.entrant = null;
+      this.competition = null;
+      this.ageGroup = null;
+    }
+    this.showForm = false;
   }
 
   changeCategory(value) {

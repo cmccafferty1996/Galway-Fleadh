@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Branch } from '../../models/branch';
 import { Entrant } from '../../models/entrant';
 import { SnackbarContentComponent } from '../../popups/snackbar-content/snackbar-content.component';
 import { SlipsTableRow } from '../late-withdrawal-form/late-withdrawal-form.component';
@@ -9,7 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Category } from '../../models/category';
 import { SlipsService } from '../../services/slips.service';
 import { Slip } from '../../models/Slip';
-import { Competition } from 'src/app/models/competition';
+import { Competition } from '../../models/competition';
+import { County } from '../../models/County';
 
 const MOBILE_PATTERN = '[- +0-9]+';
 
@@ -23,7 +23,7 @@ export class PhotoRecordingPermitComponent implements OnInit {
   @Input() entrant: Entrant;
   @Input() competition: Competition;
   @Input() ageGroup: Category;
-  @Input() branch: Branch;
+  @Input() county: County;
 
   displayedColumns: string[] = ['Age Group', 'Competition Name', 'Record'];
   compViewDisplayedColumns: string[] = ['Name', 'Record'];
@@ -49,7 +49,7 @@ export class PhotoRecordingPermitComponent implements OnInit {
   ngOnInit(): void {
     if (this.competition) {
       this.infoText += `group in ${this.ageGroup.category} ${this.ageGroup.age_group} ${this.competition.competition_name}`;
-      this.service.getEntries(this.competition.id, this.branch.county)
+      this.service.getEntries(this.competition.id, this.county.id)
         .then((res) => {
           res.forEach((entry) => {
             this.compViewTableData.push(new SlipsTableRow(entry.id, entry.entrantName, null, null))

@@ -58,6 +58,8 @@ export class ManageSlipsComponent implements OnInit {
   isLoggedIn = false;
   isLoginCheckDone = false;
   isLoading = false;
+  isViewMode = false;
+  isCreateMode = false;
 
   @ViewChild('catRef') catRef: MatSelect;
   @ViewChild('compRef') compRef: MatSelect;
@@ -69,26 +71,41 @@ export class ManageSlipsComponent implements OnInit {
     this.subscription = this.login.isLoggedIn$.subscribe((res) => {
       this.isLoggedIn = res.isLoggedIn;
       this.isLoginCheckDone = true;
-      if (this.isLoggedIn) {
-        this.service.getAllCountyNames()
-        .then((res) => {
-          this.counties = res;
-          this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
-          this.county = UtilsService.getCountyFromLocalStorage(this.counties);
-          if (this.county !== null && this.county !== undefined) {
-            this.changeCounty(this.county, true);
-          } else {
-            this.loadComplete = true;
-          }
-        })
-        .catch((err) => {
-          this.abadonShip = true;
-          console.log('No counties retrieved', err);
-        });
+      this.loadComplete = !this.isLoggedIn;
+    });
+  }
+
+  showViewMode() {
+    this.isCreateMode = false;
+    this.isViewMode = true;
+    this.slip = null;
+    this.category = null;
+    this.showSlips = false;
+    this.competition = null;
+    if (this.compRef) this.compRef.options.forEach((el) => el.deselect());
+    this.categoryControl.reset();
+    this.slipControl.reset();
+    this.service.getAllCountyNames()
+    .then((res) => {
+      this.counties = res;
+      this.counties.sort((a, b) => a.county_name > b.county_name ? 1 : -1);
+      this.county = UtilsService.getCountyFromLocalStorage(this.counties);
+      if (this.county !== null && this.county !== undefined) {
+        this.changeCounty(this.county, true);
       } else {
         this.loadComplete = true;
       }
+    })
+    .catch((err) => {
+      this.abadonShip = true;
+      console.log('No counties retrieved', err);
     });
+  }
+
+  showCreateMode() {
+    this.isCreateMode = true;
+    this.isViewMode = false;
+    this.loadComplete = true;
   }
 
   changeSlip(selection) {

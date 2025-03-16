@@ -1,15 +1,27 @@
-<mat-spinner *ngIf="!isLoginCheckDone && !loadComplete"></mat-spinner>
 <div class="no-access" *ngIf="!isLoggedIn && isLoginCheckDone && loadComplete">
   <mat-card class="example-card">
     <mat-card-content>
-      <img id="image" mat-card-image src="../../assets/padlock-icon-lock.jpg" alt="Home Photo"><br><br>
+      <img id="image" mat-card-image src="/assets/padlock-icon-lock.jpg" alt="Home Photo"><br><br>
       <span class="unathenticated-message">
         User must be logged in to manage results. If you are an admin user please <a href='/login'>login</a>
       </span>
     </mat-card-content>
   </mat-card>
 </div>
-<div *ngIf="isLoggedIn && isLoginCheckDone && loadComplete">
+<div *ngIf="isLoggedIn && isLoginCheckDone">
+  <mat-card class="example-card">
+    <mat-card-content>
+      <button mat-raised-button id="view-slips" (click)="showViewMode()">View Slips/Permits</button>
+      <button mat-raised-button id="create-slips" (click)="showCreateMode()" >Create Slips/Permits</button>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<br>
+
+<mat-spinner *ngIf="isViewMode && !loadComplete"></mat-spinner>
+<slips *ngIf="isCreateMode && loadComplete"></slips>
+<div *ngIf="isViewMode && loadComplete">
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>Manage Slips and Permits For Competitions</mat-card-title>
@@ -45,7 +57,7 @@
       
       <br>
 
-      <mat-form-field id="category" *ngIf="county">
+      <mat-form-field id="category" *ngIf="county && slip">
         <mat-label>Age Group</mat-label>
         <mat-select [formControl]="categoryControl" required #catRef (selectionChange)="changeCategory($event.value)">
           <mat-option *ngFor="let category of categories" [value]="category">

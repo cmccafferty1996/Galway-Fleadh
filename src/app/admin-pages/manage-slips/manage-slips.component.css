@@ -1,4 +1,4 @@
-@media (max-width: 404px) {
+@media (max-width: 480px) {
     mat-card-content {
         margin-left: 16px;
     }
@@ -20,8 +20,13 @@
         color: white;
         font-family: 'Oxygen';
     }
+    #view-slips {
+        width: 160px;
+    }
     #create-slips {
+        display: block;
         margin-top: 16px;
+        width: 160px;
     }
     #error-text {
         color: red;
@@ -79,7 +84,7 @@
     }
 }
 
-@media (min-width: 405px) and (max-width: 1024px) {
+@media (min-width: 481px) and (max-width: 1024px) {
     mat-card-content {
         margin-left: 16px;
     }

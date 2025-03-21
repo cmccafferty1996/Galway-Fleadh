@@ -19,7 +19,7 @@ export class SlipsPermitsModalComponent implements OnInit {
   groupDataSource = new MatTableDataSource<SlipsTableRow>(this.groupTableData);
   isLoading = true;
   showErrMessage = false;
-  timeString = '';
+  timeString: Date;
 
   constructor(public dialogRef: MatDialogRef<SlipsPermitsModalComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any, private service: SlipsService) { }
@@ -49,7 +49,7 @@ export class SlipsPermitsModalComponent implements OnInit {
             });
             this.groupDataSource = new MatTableDataSource<SlipsTableRow>(this.groupTableData);
           }
-          this.timeString = this.data.row.createTime.split('T')[1];
+          this.timeString = new Date(this.data.row.createTime);
           this.isLoading = false;
         }
       })

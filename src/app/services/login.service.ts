@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 export class subjectData {
   isLoggedIn: boolean;
@@ -30,11 +31,11 @@ export class LoginService {
   }
 
   getUserByUserName(username) {
-    return this.http.get(`https://localhost:44372/api/comhaltas/admin-user?username=${username}`).toPromise();
+    return this.http.get(`${environment.baseUrl}/api/comhaltas/admin-user?username=${username}`).toPromise();
   }
 
   updateLastLogon(user) {
-    return this.http.get(`https://localhost:44372/api/comhaltas/update-logon?username=${user}`,
+    return this.http.get(`${environment.baseUrl}/api/comhaltas/update-logon?username=${user}`,
       {responseType: 'text'}).toPromise();
   }
 }

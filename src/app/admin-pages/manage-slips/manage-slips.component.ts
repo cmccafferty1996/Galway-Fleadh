@@ -13,6 +13,7 @@ import { Slip } from '../../models/Slip';
 import { SlipComp } from 'src/app/models/SlipComp';
 import { LoginService } from 'src/app/services/login.service';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export class DropDownSlip {
   label: string;

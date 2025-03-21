@@ -100,7 +100,7 @@
   </mat-form-field>
   <mat-form-field fxFlex class="form-fields" id="slip-time">
     <mat-label>Create Time</mat-label>
-    <input matInput readonly value="{{timeString}}">
+    <input matInput readonly value="{{timeString | date: 'EEEE h:mm a'}}">
   </mat-form-field>
 </div>
 
@@ -122,7 +122,7 @@
     </mat-form-field>
     <mat-form-field fxFlex class="form-fields" id="slip-time">
       <mat-label>Create Time</mat-label>
-      <input matInput readonly value="{{timeString}}">
+      <input matInput readonly value="{{timeString | date: 'EEEE h:mm a'}}">
     </mat-form-field>
   </div>
 </div>

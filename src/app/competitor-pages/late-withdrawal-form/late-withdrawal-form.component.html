@@ -151,6 +151,9 @@
         <mat-error *ngIf="phoneNoControl.hasError('pattern')">Please enter a valid contact number eg 085-1234567</mat-error>
       </mat-form-field>
     </div>
-    <button mat-raised-button class="submit-slip" [disabled]="isSubmitDisabled" (click)="onSubmit()">Submit</button>
+    <button mat-raised-button class="submit-slip" [disabled]="isSubmitDisabled || isCreatingSlip" (click)="onSubmit()">Submit</button>
+    <br>
+    <br>
+    <mat-spinner *ngIf="isCreatingSlip"></mat-spinner>
   </mat-card-content>
 </mat-card>

@@ -85,6 +85,7 @@
     Contact the Fleadh Office to re-enable location.
   </mat-card-content>
 </mat-card>
+<mat-spinner *ngIf="isSearching"></mat-spinner>
 <mat-card *ngIf="showCompetitions">
   <mat-card-header>
     <mat-card-title>

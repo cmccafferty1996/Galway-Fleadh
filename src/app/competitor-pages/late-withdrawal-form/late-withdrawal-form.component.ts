@@ -88,6 +88,7 @@ export class LateWithdrawalFormComponent implements OnInit {
   showGroupsTable: boolean = false;
   isSubmitDisabled: boolean = true;
   loadComplete: boolean = false;
+  isCreatingSlip: boolean = false;
 
   constructor(private snackbar: MatSnackBar, public dialog: MatDialog, private service: SlipsService) { }
 
@@ -197,7 +198,7 @@ export class LateWithdrawalFormComponent implements OnInit {
   }
 
   onCheckBoxSelected() {
-    const selectedRows = this.tableData.length === 0 ? this.compViewTableData.filter((row) => row.isChecked) : this.tableData.filter((row) => row.isChecked);
+    const selectedRows = this.tableData.length === 0 ? this.compViewTableData.filter((row) => row.isChecked && !row.slipExists) : this.tableData.filter((row) => row.isChecked && !row.slipExists);
     if (selectedRows.length == 0) {
       this.isSubmitDisabled = true;
     } else {
@@ -271,6 +272,7 @@ export class LateWithdrawalFormComponent implements OnInit {
   }
 
   createSlips() {
+    this.isCreatingSlip = true;
     let slips: Slip[] = [];
     let selectedRows;
     if (this.tableData.length > 0) {
@@ -287,6 +289,21 @@ export class LateWithdrawalFormComponent implements OnInit {
 
     this.service.createSlips(slips)
       .then((newSlip: number[]) => {
+        this.isCreatingSlip = false;
+        this.isSubmitDisabled = true;
+        if (this.tableData.length > 0) {
+          this.tableData = this.tableData.map((row) => {
+            if (row.isChecked) row.slipExists = true;
+            return row;
+          });
+          this.dataSource = new MatTableDataSource<SlipsTableRow>(this.tableData);
+        } else {
+          this.compViewTableData = this.compViewTableData.map((row) => {
+            if (row.isChecked) row.slipExists = true;
+            return row;
+          });
+          this.compViewDataSource = new MatTableDataSource<SlipsTableRow>(this.compViewTableData);
+        }
         this.openSnackbar('green-snackbar', `Successfully created ${selectedRows.length} slip(s).`);
         if (this.groupTableData.length > 0) {
           this.groupTableData.forEach(group => {
@@ -300,6 +317,7 @@ export class LateWithdrawalFormComponent implements OnInit {
         }
       })
       .catch((err) => {
+        this.isCreatingSlip = false;
         console.log('Error creating slips', err);
         this.openSnackbar('red-snackbar', 'Error creating slips.');
       });

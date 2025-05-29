@@ -106,7 +106,7 @@
 </mat-card>
 <mat-card *ngIf="isTooFarFromVenue">
   <mat-card-content id="error-text">
-    You must be at the competition venue to register for this competition.
+    You must be at the competition venue to create a slip or permit for this competition.
   </mat-card-content>
 </mat-card>
 <mat-card *ngIf="isLocationDisabled">
@@ -115,6 +115,8 @@
     Contact the Fleadh Office to re-enable location.
   </mat-card-content>
 </mat-card>
+
+<mat-spinner *ngIf="isSearching"></mat-spinner>
 
 <late-withdrawal-form
   *ngIf="showForm && slip != 'Recording Permit'"

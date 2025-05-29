@@ -51,6 +51,7 @@ export class SlipsComponent implements OnInit {
   isTooFarFromVenue: boolean = false;
   isTooEarly: boolean = false;
   isLocationDisabled: boolean = false;
+  isSearching: boolean = false;
 
   @ViewChild('countyRef') countyRef: MatSelect;
   @ViewChild('branchRef') branchRef: MatSelect;
@@ -221,21 +222,26 @@ export class SlipsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isSearching = true;
     if (UtilsService.isCompDateToday(this.county.fleadh_date, this.today)) {
       UtilsService.isUserAtTheVenue(this.venue, this.venueDistance)
         .then((result) => {
           if (result) {
+            this.isSearching = false;
             this.isTooFarFromVenue = false;
             this.showForm = true;
           } else {
+            this.isSearching = false;
             this.isTooFarFromVenue = true;
           }
         })
         .catch((err) => {
+          this.isSearching = false;
           this.isLocationDisabled = true;
           console.log('Error in getCurrentPosition: '+ err);
         });
     } else {
+      this.isSearching = false;
       this.isTooEarly = true;
     }
   }

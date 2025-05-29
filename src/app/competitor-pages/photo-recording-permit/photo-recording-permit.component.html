@@ -130,7 +130,10 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <br>
-    <button mat-raised-button class="submit-slip" [disabled]="isSubmitDisabled || !isAgreeClicked" (click)="onSubmit()">Submit</button>
+    <button mat-raised-button class="submit-slip" [disabled]="isSubmitDisabled || !isAgreeClicked || isCreatingSlips" (click)="onSubmit()">Submit</button>
+    <br>
+    <br>
+    <mat-spinner *ngIf="isCreatingSlips"></mat-spinner>
   </mat-card-content>
 </mat-card>
 <mat-card *ngIf="competition !== null && competition !== undefined">
@@ -163,6 +166,9 @@
       <tr mat-row *matRowDef="let row; columns: compViewDisplayedColumns;"></tr>
     </table>
     <br>
-    <button mat-raised-button class="submit-slip" [disabled]="isSubmitDisabled || !isAgreeClicked" (click)="onSubmit()">Submit</button>
+    <button mat-raised-button class="submit-slip" [disabled]="isSubmitDisabled || !isAgreeClicked || isCreatingSlips" (click)="onSubmit()">Submit</button>
+    <br>
+    <br>
+    <mat-spinner *ngIf="isCreatingSlips"></mat-spinner>
   </mat-card-content>
 </mat-card>

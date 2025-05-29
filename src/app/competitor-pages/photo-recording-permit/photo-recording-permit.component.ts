@@ -43,6 +43,7 @@ export class PhotoRecordingPermitComponent implements OnInit {
   isSubmitDisabled: boolean = true;
   loadComplete: boolean = false;
   isAgreeClicked: boolean = false;
+  isCreatingSlips: boolean = false;
 
   constructor(private snackbar: MatSnackBar, private service: SlipsService) { }
 
@@ -98,7 +99,7 @@ export class PhotoRecordingPermitComponent implements OnInit {
   }
 
   onCheckBoxSelected() {
-    const selectedRows =  this.tableData.length == 0 ? this.compViewTableData.filter((row) => row.isChecked) : this.tableData.filter((row) => row.isChecked);
+    const selectedRows = this.tableData.length == 0 ? this.compViewTableData.filter((row) => row.isChecked) : this.tableData.filter((row) => row.isChecked);
     if (selectedRows.length == 0) {
       this.isSubmitDisabled = true;
     } else {
@@ -168,6 +169,7 @@ export class PhotoRecordingPermitComponent implements OnInit {
   }
 
   createSlips() {
+    this.isCreatingSlips = true;
     let slips: Slip[] = [];
     let selectedRows;
     if (this.tableData.length > 0) {
@@ -183,9 +185,11 @@ export class PhotoRecordingPermitComponent implements OnInit {
 
     this.service.createSlips(slips)
       .then(() => {
+        this.isCreatingSlips = false;
         this.openSnackbar('green-snackbar', `Successfully created ${selectedRows.length} recording permit(s).`);
       })
       .catch((err) => {
+        this.isCreatingSlips = false;
         console.log('Error creating recording permit', err);
         this.openSnackbar('red-snackbar', 'Error creating recording permit.');
       })

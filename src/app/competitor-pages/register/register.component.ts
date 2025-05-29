@@ -73,6 +73,7 @@ export class RegisterComponent implements OnInit {
   isTooEarlyToRegister = false;
   isTooFarFromVenue = false;
   isLocationDisabled = false;
+  isSearching: boolean = false;
   displayedColumns: string[] = ['Name', 'Register'];
   tableData: RowElement[] = [];
   entries: Entry[];
@@ -182,6 +183,7 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.showCompetitions) return;
+    this.isSearching = true;
     this.tableData = [];
     this.entries = [];
     if (UtilsService.isCompDateToday(this.county.fleadh_date, this.today)) {
@@ -194,11 +196,13 @@ export class RegisterComponent implements OnInit {
                 this.branchFiltering(res);
               });
           } else {
+            this.isSearching = false;
             this.isTooFarFromVenue = true;
           }
         })
         .catch((err) => {
           if (err.code == 1) {
+            this.isSearching = false;
             this.isLocationDisabled = true;
           } else {
             this.service.getEntries(this.competition.id, this.county.id)
@@ -208,6 +212,7 @@ export class RegisterComponent implements OnInit {
           }
         });
     } else {
+      this.isSearching = false;
       this.isTooEarlyToRegister = true;
     }
   }
@@ -298,6 +303,7 @@ export class RegisterComponent implements OnInit {
     Promise.all(promise).then(() => {
       this.tableData.sort((a, b) => a.name > b.name ? 1 : -1);
       this.dataSource = new MatTableDataSource<RowElement>(this.tableData);
+      this.isSearching = false;
       this.showCompetitions = true;
       window.scrollTo(0, document.body.scrollHeight);
     });

@@ -77,14 +77,14 @@
       background-color: #63002f;
       color: white;
   }
-  th.mat-header-cell, td.mat-cell {
+  th.mat-mdc-header-cell, td.mat-mdc-cell {
       padding-left: 8px !important;
       padding-top: 8px;
       padding-bottom: 8px;
       border-bottom-width: 1px;
       border-bottom-style: solid;
   }
-  th.mat-header-cell, td.mat-cell {
+  th.mat-mdc-header-cell, td.mat-mdc-cell {
       padding-left: 8px !important;
       padding-top: 8px;
       padding-bottom: 8px;
@@ -196,14 +196,14 @@
       background-color: #63002f;
       color: white;
   }
-  th.mat-header-cell, td.mat-cell {
+  th.mat-mdc-header-cell, td.mat-mdc-cell {
       padding-left: 8px !important;
       padding-top: 8px;
       padding-bottom: 8px;
       border-bottom-width: 1px;
       border-bottom-style: solid;
   }
-  th.mat-header-cell, td.mat-cell {
+  th.mat-mdc-header-cell, td.mat-mdc-cell {
       padding-left: 8px !important;
       padding-top: 8px;
       padding-bottom: 8px;
@@ -315,7 +315,7 @@
       background-color: #63002f;
       color: white;
   }
-  th.mat-header-cell, td.mat-cell {
+  th.mat-mdc-header-cell, td.mat-mdc-cell {
       padding-left: 8px !important;
       padding-top: 8px;
       padding-bottom: 8px;

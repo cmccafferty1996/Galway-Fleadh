@@ -1,5 +1,5 @@
 <div class="no-access" *ngIf="!isLoggedIn && isLoginCheckDone && loadComplete">
-  <mat-card class="example-card">
+  <mat-card appearance="outlined" class="example-card">
     <mat-card-content>
       <img id="image" mat-card-image src="/assets/padlock-icon-lock.jpg" alt="Home Photo"><br><br>
       <span class="unathenticated-message">
@@ -9,7 +9,7 @@
   </mat-card>
 </div>
 <div *ngIf="isLoggedIn && isLoginCheckDone">
-  <mat-card class="example-card">
+  <mat-card appearance="outlined" class="example-card">
     <mat-card-content>
       <button mat-raised-button id="view-slips" (click)="showViewMode()">View Slips/Permits</button>
       <button mat-raised-button id="create-slips" (click)="showCreateMode()" >Create Slips/Permits</button>
@@ -22,7 +22,7 @@
 <mat-spinner *ngIf="isViewMode && !loadComplete"></mat-spinner>
 <slips *ngIf="isCreateMode && loadComplete"></slips>
 <div *ngIf="isViewMode && loadComplete">
-  <mat-card class="example-card">
+  <mat-card appearance="outlined" class="example-card">
     <mat-card-header>
       <mat-card-title>Manage Slips and Permits For Competitions</mat-card-title>
       <mat-card-subtitle>Please select slip/permit type, county, age group & competition</mat-card-subtitle>
@@ -83,7 +83,7 @@
   </mat-card>
   <br>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <mat-card *ngIf="showSlips && slip.label == 'Late Slip'">
+  <mat-card appearance="outlined" *ngIf="showSlips && slip.label == 'Late Slip'">
     <mat-card-header>
       <mat-card-title>
         {{slip.label}}s for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}
@@ -126,7 +126,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="showSlips && slip.label == 'Non-Compete Slip'">
+  <mat-card appearance="outlined" *ngIf="showSlips && slip.label == 'Non-Compete Slip'">
     <mat-card-header>
       <mat-card-title>
         {{slip.label}}s for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}
@@ -159,7 +159,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="showSlips && slip.label == 'Recording Permit'">
+  <mat-card appearance="outlined" *ngIf="showSlips && slip.label == 'Recording Permit'">
     <mat-card-header>
       <mat-card-title>
         {{slip.label}}s for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}

@@ -1,7 +1,7 @@
 <mat-spinner *ngIf="!abadonShip && !loadComplete"></mat-spinner>
 <div *ngIf="abadonShip">Internal error, please go to the Fleadh office to see competition results</div>
 <div *ngIf="!abadonShip && loadComplete">
-<mat-card class="example-card">
+<mat-card appearance="outlined" class="example-card">
   <mat-card-header>
     <mat-card-title>Slips & Permits</mat-card-title>
     <mat-card-subtitle>Please select slip/permit type followed by the county, branch and name of the entrant you are requesting the slip for</mat-card-subtitle>
@@ -98,18 +98,18 @@
 </mat-card>
 <br>
 
-<mat-card *ngIf="isTooEarly">
+<mat-card appearance="outlined" *ngIf="isTooEarly">
   <mat-card-content id="error-text">
     The {{county.county_name}} Fleadh has not started yet.
     Slips & Permits can only be created on the day of the competition.
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="isTooFarFromVenue">
+<mat-card appearance="outlined" *ngIf="isTooFarFromVenue">
   <mat-card-content id="error-text">
     You must be at the competition venue to create a slip or permit for this competition.
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="isLocationDisabled">
+<mat-card appearance="outlined" *ngIf="isLocationDisabled">
   <mat-card-content id="error-text">
     You must enable your location to create slips & permits. <br>
     Contact the Fleadh Office to re-enable location.

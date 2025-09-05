@@ -1,4 +1,4 @@
-<mat-card class="example-card" *ngIf="!isLoggedIn">
+<mat-card appearance="outlined" class="example-card" *ngIf="!isLoggedIn">
   <mat-card-header>
     <mat-card-title>Login</mat-card-title>
     <mat-card-subtitle>Login for admin access - to manage registration, slips/permits and competition results</mat-card-subtitle>
@@ -15,22 +15,22 @@
   </mat-card-content>
 </mat-card>
 <br>
-<mat-card *ngIf="isLoggedIn">
+<mat-card appearance="outlined" *ngIf="isLoggedIn">
   <mat-card-content id="success">
     Login successful! You now have admin access to manage results and registration.
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="loginFailed">
+<mat-card appearance="outlined" *ngIf="loginFailed">
   <mat-card-content id="failed">
     Login failed! Try again!
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="!loginFailed && isIncorrectAccess">
+<mat-card appearance="outlined" *ngIf="!loginFailed && isIncorrectAccess">
   <mat-card-content id="failed">
     User {{username}} does not have access to input competition results or manage registration.
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="isMissingInput">
+<mat-card appearance="outlined" *ngIf="isMissingInput">
   <mat-card-content id="failed">
     Missing username or password. Please enter an admin username and password.
   </mat-card-content>

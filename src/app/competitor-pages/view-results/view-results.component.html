@@ -1,7 +1,7 @@
 <mat-spinner *ngIf="!abadonShip && !loadComplete"></mat-spinner>
 <div *ngIf="abadonShip">Internal error, please go to the Fleadh office to see competition results</div>
 <div *ngIf="!abadonShip && loadComplete">
-<mat-card class="example-card">
+<mat-card appearance="outlined" class="example-card">
   <mat-card-header>
     <mat-card-title>View Competition Results</mat-card-title>
     <mat-card-subtitle>Please select county, competition and age group</mat-card-subtitle>
@@ -48,13 +48,13 @@
 </mat-card>
 <br>
 <mat-spinner *ngIf="onSubmitClicked && !showResults && !showResultsError"></mat-spinner>
-<mat-card *ngIf="showResultsError">
+<mat-card appearance="outlined" *ngIf="showResultsError">
   <mat-card-content id="error-text">
     Results could not be found for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}. <br>
     Please try again later or contact the fleadh office.
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="showResults">
+<mat-card appearance="outlined" *ngIf="showResults">
   <mat-card-header>
     <mat-card-title>
       Results for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}

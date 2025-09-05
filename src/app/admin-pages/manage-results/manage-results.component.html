@@ -1,6 +1,6 @@
 <mat-spinner *ngIf="!loadComplete && !isLoginCheckDone"></mat-spinner>
 <div class="no-access" *ngIf="!isLoggedIn && isLoginCheckDone && loadComplete">
-  <mat-card class="example-card">
+  <mat-card appearance="outlined" class="example-card">
     <mat-card-content>
       <img id="image" mat-card-image src="/assets/padlock-icon-lock.jpg" alt="Home Photo"><br><br>
       <span class="unathenticated-message">
@@ -10,7 +10,7 @@
   </mat-card>
 </div>
 <div *ngIf="isLoggedIn && isLoginCheckDone && loadComplete">
-  <mat-card class="example-card">
+  <mat-card appearance="outlined" class="example-card">
     <mat-card-header>
       <mat-card-title>Manage Competition Results</mat-card-title>
       <mat-card-subtitle>Please select county, competition and age group</mat-card-subtitle>
@@ -55,14 +55,14 @@
     </mat-card-content>
   </mat-card>
   <br>
-  <mat-card *ngIf="showNoResultsMsg">
+  <mat-card appearance="outlined" *ngIf="showNoResultsMsg">
     <mat-card-content>
       Results could not be found for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}.<br>
       Click 'Input Results' below to add results for this competition.<br>
       <button mat-raised-button id="inputResults" (click)="openEditMode()">Input Results</button>
     </mat-card-content>
   </mat-card>
-  <mat-card *ngIf="showResultsError">
+  <mat-card appearance="outlined" *ngIf="showResultsError">
     <mat-card-content id="error-text">
       Error retrieving results could not be found for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}.<br>
       Please contact the Fleadh office.
@@ -70,7 +70,7 @@
   </mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-  <mat-card *ngIf="showResults && !isLoading">
+  <mat-card appearance="outlined" *ngIf="showResults && !isLoading">
     <mat-card-header>
       <mat-card-title>
         Results for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}
@@ -113,7 +113,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="manageResults && !isLoading">
+  <mat-card appearance="outlined" *ngIf="manageResults && !isLoading">
     <mat-card-title>Enter Results for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}.</mat-card-title>
     <span *ngIf="duplicatedResults" id="error-text">
       Error saving results, competitor entered for more than one place! Please review

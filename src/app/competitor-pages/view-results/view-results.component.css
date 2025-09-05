@@ -1,5 +1,5 @@
 @media (max-width: 1024px) {
-    
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
   mat-card-content {
     margin-left: 16px;
   }
@@ -8,7 +8,7 @@
     width: 55px;
   }
 
-  .mat-cell {
+  .mat-mdc-cell {
     word-wrap: break-word;
     font-size: 12px;
   }
@@ -50,7 +50,7 @@
     color: white;
   }
 
-  th.mat-header-cell, td.mat-cell {
+  th.mat-mdc-header-cell, td.mat-mdc-cell {
     padding-left: 8px !important;
     padding-top: 8px;
     padding-bottom: 8px;
@@ -64,12 +64,12 @@
 }
 
 @media (min-width: 1025px) {
-
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
   mat-card-content {
     margin-left: 16px;
   }
 
-  .mat-header-cell, .mat-cell {
+  .mat-mdc-header-cell, .mat-mdc-cell {
     padding-right: 24px;
   }
 
@@ -106,7 +106,7 @@
       color: white;
   }
 
-  th.mat-header-cell, td.mat-cell {
+  th.mat-mdc-header-cell, td.mat-mdc-cell {
     padding-left: 8px !important;
     padding-top: 8px;
     padding-bottom: 8px;

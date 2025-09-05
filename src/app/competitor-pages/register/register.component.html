@@ -1,7 +1,7 @@
 <mat-spinner *ngIf="!abadonShip && !loadComplete"></mat-spinner>
-<div *ngIf="abadonShip">Internal error, please go to the Fleadh office to register</div>
+<div class="abadon-ship" *ngIf="abadonShip">Internal error, please go to the fleadh office to register</div>
 <div *ngIf="!abadonShip && loadComplete">
-<mat-card class="example-card">
+<mat-card appearance="outlined" class="example-card">
   <mat-card-header>
     <mat-card-title>Register For Competitions</mat-card-title>
     <mat-card-subtitle>
@@ -11,7 +11,7 @@
   </mat-card-header>
 
   <mat-card-content>
-    <mat-form-field id="county">
+    <mat-form-field appearance="outline" id="county">
       <mat-label>County/Region</mat-label>
       <mat-select [formControl]="countyControl"
                   [compareWith]="compareCounty"
@@ -28,7 +28,7 @@
     
     <br>
 
-    <mat-form-field id="branch" *ngIf="county">
+    <mat-form-field appearance="outline" id="branch" *ngIf="county">
       <mat-label>Branch</mat-label>
       <mat-select [formControl]="branchControl" required #branchRef (selectionChange)="changeBranch($event.value)">
         <mat-option *ngFor="let branch of branches" [value]="branch">
@@ -40,7 +40,7 @@
 
     <br>
 
-    <mat-form-field id="category" *ngIf="branch">
+    <mat-form-field appearance="outline" id="category" *ngIf="branch">
       <mat-label>Age Group</mat-label>
       <mat-select [formControl]="ageGroupControl" required #catRef (selectionChange)="changeCategory($event.value)">
         <mat-option *ngFor="let cat of catagories" [value]="cat">
@@ -51,7 +51,7 @@
 
     <br>
   
-    <mat-form-field id="competition" *ngIf="category">
+    <mat-form-field appearance="outline" id="competition" *ngIf="category">
       <mat-label>Competition</mat-label>
       <mat-select [formControl]="compControl" required (selectionChange)="changeCompetition($event.value)">
         <mat-option *ngFor="let competition of competitions" [value]="competition">
@@ -68,25 +68,25 @@
   </mat-card-content>
 </mat-card>
 <br>
-<mat-card *ngIf="isTooEarlyToRegister">
+<mat-card appearance="outlined" *ngIf="isTooEarlyToRegister">
   <mat-card-content id="error-text">
     Registration is not yet open for {{category.age_group}} {{competition.competition_name}} {{county.county_name}}.
     Registration is open on the day of the competition.
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="isTooFarFromVenue">
+<mat-card appearance="outlined" *ngIf="isTooFarFromVenue">
   <mat-card-content id="error-text">
     You must be at the competition venue to register for this competition.
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="isLocationDisabled">
+<mat-card appearance="outlined" *ngIf="isLocationDisabled">
   <mat-card-content id="error-text">
     You must enable your location to create slips & permits. <br>
     Contact the Fleadh Office to re-enable location.
   </mat-card-content>
 </mat-card>
 <mat-spinner *ngIf="isSearching"></mat-spinner>
-<mat-card *ngIf="showCompetitions">
+<mat-card appearance="outlined" *ngIf="showCompetitions">
   <mat-card-header>
     <mat-card-title>
       Entries for {{category.age_group}} {{competition.competition_name}} {{county.county_name}} from {{branch.branch_name}}
@@ -101,7 +101,7 @@
     No entries found for this competition. Check your search options again!
   </mat-card-content>
   <mat-card-content id="table" *ngIf="tableData.length != 0">
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <!-- Name Column -->
       <ng-container matColumnDef="Name">
         <th mat-header-cell *matHeaderCellDef><b>Name</b></th>

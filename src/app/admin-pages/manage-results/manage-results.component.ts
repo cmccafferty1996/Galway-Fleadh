@@ -288,6 +288,13 @@ export class ManageResultsComponent implements OnInit {
     this.isComhraGaeilge = this.competition.comp_type === 6;
   }
 
+  cancelClicked() {
+    this.showResults = true;
+    this.showResultsError = false;
+    this.showNoResultsMsg = false;
+    this.manageResults = false;
+  }
+
   deleteResultForComp() {
     const dialogRef = this.dialog.open(ConfirmModalComponent, {
       width: '750px',

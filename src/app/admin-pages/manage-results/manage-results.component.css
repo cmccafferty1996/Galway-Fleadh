@@ -1,8 +1,13 @@
 @media (max-width: 1024px) {
-  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
-  mat-card-content {
-    margin-left: 16px;
+  mat-card-header {
+    padding-bottom: 16px;
   }
+
+  mat-spinner {
+      margin-left: 40%;
+      margin-top: 2%;
+  }
+
   /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
   mat-card-title {
     font-size: 20px;
@@ -10,6 +15,7 @@
 
   .no-access {
     text-align: center;
+    font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
   }
 
   #image {
@@ -20,7 +26,7 @@
     margin-right: auto;
   }
 
-  button {
+  .mat-mdc-raised-button:not(:disabled) {
     background-color: #468ee5;
     color: white;
     font-family: 'Oxygen';
@@ -51,6 +57,7 @@
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    margin-bottom: 16px !important;
   }
 
   td, th {
@@ -61,7 +68,7 @@
   tr:nth-child(even){background-color: #f2f2f2;}
   tr:hover {background-color: #ddd;}
 
-  th {
+  .mat-mdc-table .mat-mdc-header-cell {
     padding-top: 12px;
     padding-bottom: 12px;
     font-size: 14px;
@@ -78,10 +85,6 @@
     border-bottom-style: solid;
   }
 
-  #first {
-    text-align: center
-  }
-
   #edit {
     margin-right: 20px;
     margin-top: 15px;
@@ -93,8 +96,11 @@
 
   #cancel, #delete {
     background-color: red;
-    margin-top: 10px;
     margin-right: 5%;
+  }
+
+  #delete {
+    margin-top: 10px;
   }
 
   #save {
@@ -103,13 +109,18 @@
 }
 
 @media (min-width: 1025px) {
-  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
-  mat-card-content {
-    margin-left: 16px;
+  mat-spinner {
+    margin-left: 40%;
+    margin-top: 2%;
+  }
+
+  mat-card-header {
+    padding-bottom: 16px;
   }
 
   .no-access {
     text-align: center;
+    font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
   }
 
   #image {
@@ -120,7 +131,7 @@
     margin-right: auto;
   }
 
-  button {
+  .mat-mdc-raised-button:not(:disabled) {
     background-color: #468ee5;
     color: white;
     font-family: 'Oxygen';
@@ -142,6 +153,7 @@
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    margin-bottom: 16px !important;
   }
 
   td, th {
@@ -152,7 +164,7 @@
   tr:nth-child(even){background-color: #f2f2f2;}
   tr:hover {background-color: #ddd;}
 
-  th {
+  .mat-mdc-table .mat-mdc-header-cell {
       padding-top: 12px;
       padding-bottom: 12px;
       font-size: 16px;
@@ -173,10 +185,6 @@
     width: 60px;
   }
 
-  #first {
-    text-align: center
-  }
-
   #edit {
     margin-right: 20px;
     margin-top: 15px;
@@ -188,6 +196,13 @@
 
   #cancel, #delete {
     background-color: red;
+  }
+
+  #cancel {
+    margin-right: 3%;
+  }
+
+  #delete {
     margin-top: 10px;
     margin-right: 5%;
   }

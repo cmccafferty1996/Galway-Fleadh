@@ -17,7 +17,7 @@ import { ConfirmModalComponent } from './popups/confirm-modal/confirm-modal.comp
 import { SnackbarContentComponent } from './popups/snackbar-content/snackbar-content.component';
 import { SlipsComponent } from './competitor-pages/slips/slips.component';
 import { LateWithdrawalFormComponent } from './competitor-pages/late-withdrawal-form/late-withdrawal-form.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { ManageSlipsComponent } from './admin-pages/manage-slips/manage-slips.component';
 import { SlipsPermitsModalComponent } from './popups/slips-permits-modal/slips-permits-modal.component';
 import { ConfirmSlipComponent } from './popups/confirm-slip/confirm-slip.component';

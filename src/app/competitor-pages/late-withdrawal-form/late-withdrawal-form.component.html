@@ -12,7 +12,7 @@
     <span>No entrants or groups found for given search parameters.</span>
   </mat-card-content>
   <mat-card-content *ngIf="loadComplete && (compViewTableData.length > 0 || tableData.length > 0)">
-    <table mat-table [dataSource]="dataSource" *ngIf="entrant != null || entrant != undefined">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z3" *ngIf="entrant != null || entrant != undefined">
         <!-- Category Column -->
        <ng-container matColumnDef="Age Group">
         <th mat-header-cell *matHeaderCellDef class="place-title"><b>Age Group</b></th>
@@ -41,7 +41,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <table mat-table [dataSource]="compViewDataSource" *ngIf="competition != null || competition != undefined">
+    <table mat-table [dataSource]="compViewDataSource" class="mat-elevation-z3" *ngIf="competition != null || competition != undefined">
       <!-- Entrant Name Column --> 
       <ng-container matColumnDef="Name">
         <th mat-header-cell *matHeaderCellDef><b>Name</b></th>
@@ -70,11 +70,11 @@
         <mat-expansion-panel-header>
           <span class="group-text">Clashing group competition</span>
         </mat-expansion-panel-header>
-        <mat-card-subtitle>
+        <mat-card-subtitle id="expansion-panel-subtitle">
           Select the age group and competition for the group that the entrant will be competing in at this time.
         </mat-card-subtitle>
         <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="10px">
-          <mat-form-field fxFlex class="form-fields" id="category">
+          <mat-form-field appearance="outline" fxFlex class="form-fields" id="category">
             <mat-label>Age Group</mat-label>
             <mat-select #catRef (selectionChange)="changeCategory($event.value)">
               <mat-option *ngFor="let cat of categories" [value]="cat">
@@ -82,7 +82,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field fxFlex class="form-fields" id="competition">
+          <mat-form-field appearance="outline" fxFlex class="form-fields" id="competition">
             <mat-label>Competition</mat-label>
             <mat-select #compRef [disabled]="!category && groupCompetitions.length == 0" (selectionChange)="changeCompetition($event.value)">
               <mat-option *ngFor="let competition of groupCompetitions" [value]="competition">
@@ -90,7 +90,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field fxFlex class="form-fields" id="group">
+          <mat-form-field appearance="outline" fxFlex class="form-fields" id="group">
             <mat-label>Group</mat-label>
             <mat-select #groupRef [disabled]="!(category && groupCompetition) && groupEntries.length == 0" (selectionChange)="changeGroup($event.value)">
               <mat-option *ngFor="let group of groupEntries" [value]="group">
@@ -99,7 +99,7 @@
             </mat-select>
           </mat-form-field>
           <div fxFlex>
-            <button mat-raised-button (click)="addGroupToSlip()" [disabled]="!(category && groupCompetition && groupEntry)">
+            <button mat-raised-button class="add-group" (click)="addGroupToSlip()" [disabled]="!(category && groupCompetition && groupEntry)">
               Add Group
             </button>
           </div>
@@ -112,12 +112,12 @@
         <mat-expansion-panel-header>
           <span class="selected-groups-text">Clashing group(s) for {{entrant.entrant_name}}</span>
         </mat-expansion-panel-header>
-        <mat-card-subtitle>
+        <mat-card-subtitle id="expansion-panel-subtitle">
           Table of groups that {{entrant.entrant_name}} will be competing in and will be late to other
           competitions as a result.  
         </mat-card-subtitle>
 
-        <table mat-table [dataSource]="groupDataSource">
+        <table mat-table [dataSource]="groupDataSource" class="mat-elevation-z3">
           <!-- Group Name Column --> 
           <ng-container matColumnDef="Group Name">
             <td mat-cell *matCellDef="let element"> 
@@ -144,7 +144,7 @@
         <input matInput [formControl]="nameControl" required maxlength="60">
         <mat-error *ngIf="nameControl.hasError('required')">Please enter a requester name</mat-error>
       </mat-form-field>
-      <mat-form-field fxFlex class="form-fields" id="requester-number">
+      <mat-form-field  fxFlex class="form-fields" id="requester-number">
         <mat-label>Contact Number</mat-label>
         <input matInput [formControl]="phoneNoControl" required>
         <mat-error *ngIf="phoneNoControl.hasError('required')">Please enter a contact number</mat-error>

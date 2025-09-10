@@ -14,7 +14,7 @@
       <mat-expansion-panel-header>
         <mat-panel-title class="accordion-heading">Other competitions for {{data.row.entrantNames}}</mat-panel-title>
       </mat-expansion-panel-header>
-      <table *ngIf="dataSource.data.length > 0" mat-table id="table" [dataSource]="dataSource">
+      <table *ngIf="dataSource.data.length > 0" mat-table id="table" [dataSource]="dataSource" class="mat-elevation-z3">
         <!-- Competition Name Column -->
          <ng-container matColumnDef="Competition Name">
           <th mat-header-cell *matHeaderCellDef class="place-title"><b>Competition Name</b></th>
@@ -39,7 +39,7 @@
       <mat-expansion-panel-header>
         <mat-panel-title class="accordion-heading">Group entries for {{data.row.entrantNames}}</mat-panel-title>
       </mat-expansion-panel-header>
-      <table *ngIf="groupDataSource.data.length > 0" mat-table id="table" [dataSource]="groupDataSource">
+      <table *ngIf="groupDataSource.data.length > 0" mat-table id="table" [dataSource]="groupDataSource" class="mat-elevation-z3">
         <!-- Competition Name Column -->
          <ng-container matColumnDef="Competition Name">
           <th mat-header-cell *matHeaderCellDef class="place-title"><b>Group Entry</b></th>
@@ -59,7 +59,7 @@
       <mat-expansion-panel-header>
         <mat-panel-title class="accordion-heading">Requester Address</mat-panel-title>
       </mat-expansion-panel-header>
-      <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+      <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
         <mat-form-field fxFlex class="form-fields" id="address-line-one">
           <mat-label>Address Line 1</mat-label>
           <input matInput [readonly]="true" [value]="data.row.address1">
@@ -70,13 +70,13 @@
           <input matInput matInput [readonly]="true" [value]="data.row.address2">
         </mat-form-field>
       </div>
-      <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
-        <mat-form-field fxFlex class="form-fields" id="requester-name">
+      <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
+        <mat-form-field fxFlex class="form-fields" id="address-town">
           <mat-label>Town/City</mat-label>
           <input matInput matInput [readonly]="true" [value]="data.row.address3">
         </mat-form-field>
   
-        <mat-form-field fxFlex class="form-fields" id="requester-name">
+        <mat-form-field fxFlex class="form-fields" id="address-county">
           <mat-label>County</mat-label>
           <input matInput matInput [readonly]="true" [value]="data.row.address4">
         </mat-form-field>
@@ -85,7 +85,7 @@
   </mat-accordion>
 </div>
 
-<div *ngIf="!data.row.email" class="other-info" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+<div *ngIf="!data.row.email" class="other-info" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
   <mat-form-field fxFlex class="form-fields" id="requester-name">
     <mat-label>Notified By</mat-label>
     <input matInput value="{{data.row.submittedBy}}" readonly>
@@ -105,7 +105,7 @@
 </div>
 
 <div *ngIf="data.row.email">
-  <div class="other-info" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+  <div class="other-info-with-email" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
     <mat-form-field fxFlex class="form-fields" id="requester-name">
       <mat-label>Notified By</mat-label>
       <input matInput value="{{data.row.submittedBy}}" readonly>
@@ -115,7 +115,7 @@
       <input matInput readonly value="{{data.row.teleNo}}">
     </mat-form-field>
   </div>
-  <div class="other-info" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px">
+  <div class="other-info-with-email" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
     <mat-form-field fxFlex class="form-fields" id="requester-email">
       <mat-label>Email</mat-label>
       <input matInput readonly value="{{data.row.email}}">

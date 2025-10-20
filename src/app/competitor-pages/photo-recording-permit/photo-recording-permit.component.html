@@ -54,7 +54,7 @@
         <mat-label>Email</mat-label>
         <input matInput [formControl]="emailControl" required maxlength="45">
         <mat-error *ngIf="emailControl.hasError('required')">Please enter an email address</mat-error>
-        <mat-error *ngIf="emailControl.hasError('email')">Please enter a valid email address eg example@gmail.com</mat-error>
+        <mat-error *ngIf="emailControl.hasError('email')">Please enter a valid email address eg example&#64;gmail.com</mat-error>
       </mat-form-field>
     </div>
 

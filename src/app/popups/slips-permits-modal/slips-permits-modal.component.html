@@ -83,29 +83,8 @@
       </div>
     </mat-expansion-panel>
   </mat-accordion>
-</div>
 
-<div *ngIf="!data.row.email" class="other-info" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
-  <mat-form-field fxFlex class="form-fields" id="requester-name">
-    <mat-label>Notified By</mat-label>
-    <input matInput value="{{data.row.submittedBy}}" readonly>
-  </mat-form-field>
-  <mat-form-field fxFlex class="form-fields" id="requester-number">
-    <mat-label>Contact Number</mat-label>
-    <input matInput readonly value="{{data.row.teleNo}}">
-  </mat-form-field>
-  <mat-form-field *ngIf="data.row.email" fxFlex class="form-fields" id="requester-email">
-    <mat-label>Email</mat-label>
-    <input matInput readonly value="{{data.row.email}}">
-  </mat-form-field>
-  <mat-form-field fxFlex class="form-fields" id="slip-time">
-    <mat-label>Create Time</mat-label>
-    <input matInput readonly value="{{timeString | date: 'EEEE h:mm a'}}">
-  </mat-form-field>
-</div>
-
-<div *ngIf="data.row.email">
-  <div class="other-info-with-email" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
+  <div *ngIf="!data.row.email" class="other-info" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
     <mat-form-field fxFlex class="form-fields" id="requester-name">
       <mat-label>Notified By</mat-label>
       <input matInput value="{{data.row.submittedBy}}" readonly>
@@ -114,9 +93,7 @@
       <mat-label>Contact Number</mat-label>
       <input matInput readonly value="{{data.row.teleNo}}">
     </mat-form-field>
-  </div>
-  <div class="other-info-with-email" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
-    <mat-form-field fxFlex class="form-fields" id="requester-email">
+    <mat-form-field *ngIf="data.row.email" fxFlex class="form-fields" id="requester-email">
       <mat-label>Email</mat-label>
       <input matInput readonly value="{{data.row.email}}">
     </mat-form-field>
@@ -125,8 +102,31 @@
       <input matInput readonly value="{{timeString | date: 'EEEE h:mm a'}}">
     </mat-form-field>
   </div>
-</div>
 
-<div class="buttons">
-  <button class="close" mat-raised-button (click)="close()">Close</button>
+  <div *ngIf="data.row.email">
+    <div class="other-info-with-email" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
+      <mat-form-field fxFlex class="form-fields" id="requester-name">
+        <mat-label>Notified By</mat-label>
+        <input matInput value="{{data.row.submittedBy}}" readonly>
+      </mat-form-field>
+      <mat-form-field fxFlex class="form-fields" id="requester-number">
+        <mat-label>Contact Number</mat-label>
+        <input matInput readonly value="{{data.row.teleNo}}">
+      </mat-form-field>
+    </div>
+    <div class="other-info-with-email" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
+      <mat-form-field fxFlex class="form-fields" id="requester-email">
+        <mat-label>Email</mat-label>
+        <input matInput readonly value="{{data.row.email}}">
+      </mat-form-field>
+      <mat-form-field fxFlex class="form-fields" id="slip-time">
+        <mat-label>Create Time</mat-label>
+        <input matInput readonly value="{{timeString | date: 'EEEE h:mm a'}}">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button class="close" mat-raised-button (click)="close()">Close</button>
+  </div>
 </div>

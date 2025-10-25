@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, DOCUMENT } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,7 +11,7 @@ import { Competition } from '../../models/competition';
 import { ConfirmModalComponent } from '../../popups/confirm-modal/confirm-modal.component';
 import { Router } from '@angular/router';
 import { SnackbarContentComponent } from '../../popups/snackbar-content/snackbar-content.component';
-import { DOCUMENT } from '@angular/common'; 
+ 
 import { Entry } from '../../models/entry';
 import { MatSelect } from '@angular/material/select';
 import { County } from '../../models/County';

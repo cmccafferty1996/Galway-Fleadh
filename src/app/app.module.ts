@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule} from '@angular/common/http'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,8 +23,7 @@ import { SlipsPermitsModalComponent } from './popups/slips-permits-modal/slips-p
 import { ConfirmSlipComponent } from './popups/confirm-slip/confirm-slip.component';
 import { PhotoRecordingPermitComponent } from './competitor-pages/photo-recording-permit/photo-recording-permit.component';
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
         HomeComponent,
         RegisterComponent,
@@ -41,17 +40,11 @@ import { PhotoRecordingPermitComponent } from './competitor-pages/photo-recordin
         ConfirmSlipComponent,
         PhotoRecordingPermitComponent
     ],
-    imports: [
-        BrowserModule,
+    bootstrap: [AppComponent], imports: [BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
         MaterialsModule,
-        HttpClientModule,
         ReactiveFormsModule,
         FormsModule,
-        FlexLayoutModule
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
-})
+        FlexLayoutModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

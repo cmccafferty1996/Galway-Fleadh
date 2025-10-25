@@ -18,9 +18,10 @@ import { LoginService } from '../../services/login.service';
 import { UtilsService } from '../../services/utils.service';
 
 @Component({
-  selector: 'app-manage-results',
-  templateUrl: './manage-results.component.html',
-  styleUrls: ['./manage-results.component.css']
+    selector: 'app-manage-results',
+    templateUrl: './manage-results.component.html',
+    styleUrls: ['./manage-results.component.css'],
+    standalone: false
 })
 export class ManageResultsComponent implements OnInit {
   countyControl = new UntypedFormControl('', [Validators.required]);

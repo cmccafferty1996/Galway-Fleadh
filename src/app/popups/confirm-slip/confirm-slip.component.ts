@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SlipsTableRow } from '../../competitor-pages/late-withdrawal-form/late-withdrawal-form.component';
 
 @Component({
-  selector: 'app-confirm-slip',
-  templateUrl: './confirm-slip.component.html',
-  styleUrls: ['./confirm-slip.component.css']
+    selector: 'app-confirm-slip',
+    templateUrl: './confirm-slip.component.html',
+    styleUrls: ['./confirm-slip.component.css'],
+    standalone: false
 })
 export class ConfirmSlipComponent implements OnInit {
 

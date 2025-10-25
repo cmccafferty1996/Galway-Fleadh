@@ -50,9 +50,10 @@ export class GroupsTableRow {
 const MOBILE_PATTERN = '[- +0-9]+';
 
 @Component({
-  selector: 'late-withdrawal-form',
-  templateUrl: './late-withdrawal-form.component.html',
-  styleUrls: ['./late-withdrawal-form.component.css']
+    selector: 'late-withdrawal-form',
+    templateUrl: './late-withdrawal-form.component.html',
+    styleUrls: ['./late-withdrawal-form.component.css'],
+    standalone: false
 })
 export class LateWithdrawalFormComponent implements OnInit {
 

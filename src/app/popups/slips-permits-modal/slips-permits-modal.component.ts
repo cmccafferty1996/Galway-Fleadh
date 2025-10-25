@@ -6,9 +6,10 @@ import { SlipsTableRow } from '../../competitor-pages/late-withdrawal-form/late-
 import { SlipComp } from 'src/app/models/SlipComp';
 
 @Component({
-  selector: 'app-slips-permits-modal',
-  templateUrl: './slips-permits-modal.component.html',
-  styleUrls: ['./slips-permits-modal.component.css']
+    selector: 'app-slips-permits-modal',
+    templateUrl: './slips-permits-modal.component.html',
+    styleUrls: ['./slips-permits-modal.component.css'],
+    standalone: false
 })
 export class SlipsPermitsModalComponent implements OnInit {
 

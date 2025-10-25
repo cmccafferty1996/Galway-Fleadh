@@ -13,9 +13,10 @@ import { Subscription } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
-  selector: 'slips',
-  templateUrl: './slips.component.html',
-  styleUrls: ['./slips.component.css']
+    selector: 'slips',
+    templateUrl: './slips.component.html',
+    styleUrls: ['./slips.component.css'],
+    standalone: false
 })
 export class SlipsComponent implements OnInit {
 

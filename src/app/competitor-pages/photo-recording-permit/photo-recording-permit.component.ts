@@ -14,9 +14,10 @@ import { County } from '../../models/County';
 const MOBILE_PATTERN = '[- +0-9]+';
 
 @Component({
-  selector: 'photo-recording-permit',
-  templateUrl: './photo-recording-permit.component.html',
-  styleUrls: ['./photo-recording-permit.component.css']
+    selector: 'photo-recording-permit',
+    templateUrl: './photo-recording-permit.component.html',
+    styleUrls: ['./photo-recording-permit.component.css'],
+    standalone: false
 })
 export class PhotoRecordingPermitComponent implements OnInit {
 

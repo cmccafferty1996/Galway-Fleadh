@@ -26,9 +26,10 @@ export class DropDownSlip {
 }
 
 @Component({
-  selector: 'manage-slips',
-  templateUrl: './manage-slips.component.html',
-  styleUrls: ['./manage-slips.component.css']
+    selector: 'manage-slips',
+    templateUrl: './manage-slips.component.html',
+    styleUrls: ['./manage-slips.component.css'],
+    standalone: false
 })
 export class ManageSlipsComponent implements OnInit {
 

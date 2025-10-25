@@ -3,9 +3,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Entrant } from '../../models/entrant';
 
 @Component({
-  selector: 'app-confirm-modal',
-  templateUrl: './confirm-modal.component.html',
-  styleUrls: ['./confirm-modal.component.css']
+    selector: 'app-confirm-modal',
+    templateUrl: './confirm-modal.component.html',
+    styleUrls: ['./confirm-modal.component.css'],
+    standalone: false
 })
 export class ConfirmModalComponent implements OnInit {
 

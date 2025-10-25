@@ -24,9 +24,10 @@ export class ResultsTable {
 }
 
 @Component({
-  selector: 'app-view-results',
-  templateUrl: './view-results.component.html',
-  styleUrls: ['./view-results.component.css']
+    selector: 'app-view-results',
+    templateUrl: './view-results.component.html',
+    styleUrls: ['./view-results.component.css'],
+    standalone: false
 })
 export class ViewResultsComponent implements OnInit {
   countyControl = new UntypedFormControl('', [Validators.required]);

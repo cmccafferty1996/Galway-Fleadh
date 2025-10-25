@@ -35,9 +35,10 @@ export class RowElement {
 }
 
 @Component({
-  selector: 'app-manage-registration',
-  templateUrl: './manage-registration.component.html',
-  styleUrls: ['./manage-registration.component.css']
+    selector: 'app-manage-registration',
+    templateUrl: './manage-registration.component.html',
+    styleUrls: ['./manage-registration.component.css'],
+    standalone: false
 })
 export class ManageRegistrationComponent implements OnInit {
   countyControl = new UntypedFormControl('', [Validators.required]);

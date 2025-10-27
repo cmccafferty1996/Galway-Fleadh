@@ -10,7 +10,7 @@
   .abadon-ship {
       margin-top: 16px;
       margin-left: 16px;
-      font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+      font-family: var(--mat-typography-headline6-font-family, var(--mat-typography-font-family, Roboto, sans-serif));
   }
 
   .place-text, .place-title {
@@ -30,7 +30,7 @@
 
   #error-text {
     color: red;
-    font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+    font-family: var(--mat-typography-headline6-font-family, var(--mat-typography-font-family, Roboto, sans-serif));
   }
 
   #table {
@@ -87,7 +87,7 @@
   .abadon-ship {
     margin-top: 16px;
     margin-left: 16px;
-    font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+    font-family: var(--mat-typography-headline6-font-family, var(--mat-typography-font-family, Roboto, sans-serif));
   }
 
   .mat-mdc-header-cell, .mat-mdc-cell {
@@ -102,7 +102,7 @@
 
   #error-text {
     color: red;
-    font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+    font-family: var(--mat-typography-headline6-font-family, var(--mat-typography-font-family, Roboto, sans-serif));
   }
 
   table {

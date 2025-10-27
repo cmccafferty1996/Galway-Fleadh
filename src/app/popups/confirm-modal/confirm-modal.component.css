@@ -60,7 +60,6 @@
   }
 
   .buttons, .delete-buttons {
-    float: right;
     margin-right: 15px;
     vertical-align: baseline;
     margin-bottom: 10px;
@@ -72,12 +71,14 @@
   }
 
   .register, .delete {
+    float: right;
     color: white;
     background-color: #468ee5;
     margin-bottom: 10px;
   }
 
   .cancel, .cancel-delete {
+    float: right;
     color: #686c70;
     background: #d5d5d5;
     margin-right: 1pc;
@@ -153,7 +154,6 @@
   }
 
   .buttons {
-    float: right;
     margin-right: 15px;
     vertical-align: baseline;
     margin-bottom: 10px;
@@ -161,7 +161,6 @@
   }
 
   .delete-buttons {
-    float: right;
     margin-right: 15px;
     vertical-align: baseline;
   }
@@ -171,17 +170,20 @@
   }
 
   .register {
+    float: right;
     color: white;
     background-color: #468ee5;
     margin-bottom: 15px;
   }
 
   .delete {
+    float: right;
     color: white;
     background-color: #468ee5;
   }
 
   .cancel {
+    float: right;
     color: #686c70;
     background: #d5d5d5;
     margin-right: 1pc;
@@ -189,6 +191,7 @@
   }
 
   .cancel-delete {
+    float: right;
     color: #686c70;
     background: #d5d5d5;
     margin-right: 1pc;

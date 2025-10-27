@@ -13,7 +13,7 @@
     }
     #error-text {
         color: red;
-        font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+        font-family: var(--mat-typography-headline6-font-family, var(--mat-typography-font-family, Roboto, sans-serif));
     }
     #table {
         margin-left: 0px;
@@ -52,9 +52,13 @@
     }
     .form-fields {
         max-width: fit-content;
+        display: inline;
     }
     .group-text {
         text-wrap: wrap;
+    }
+    .groups-content {
+        display: block !important;
     }
     .del-group-btn {
         color: red;
@@ -64,7 +68,7 @@
     }
     #expansion-panel-subtitle {
         margin-bottom: 10px;
-        font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+        font-family: var(--mat-typography-headline6-font-family, var(--mat-typography-font-family, Roboto, sans-serif));
     }
     #requester-name {
         margin-bottom: 0px !important;
@@ -111,20 +115,21 @@
     }
     #error-text {
         color: red;
-        font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+        font-family: var(--mat-typography-headline6-font-family, var(--mat-typography-font-family, Roboto, sans-serif));
     }
     th.mat-mdc-header-cell, td.mat-mdc-cell {
         text-align: center;
     }
     .form-fields {
         max-width: fit-content;
+        display: inline;
     }
     .add-group {
         margin-top: 10px;
     }
     #expansion-panel-subtitle {
         margin-bottom: 10px;
-        font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+        font-family: var(--mat-typography-headline6-font-family, var(--mat-typography-font-family, Roboto, sans-serif));
     }
     .submit-slip {
         margin-top: 10px;

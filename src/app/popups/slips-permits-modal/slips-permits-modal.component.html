@@ -59,7 +59,7 @@
       <mat-expansion-panel-header>
         <mat-panel-title class="accordion-heading">Requester Address</mat-panel-title>
       </mat-expansion-panel-header>
-      <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
+      <div class="first-address-line" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
         <mat-form-field fxFlex class="form-fields" id="address-line-one">
           <mat-label>Address Line 1</mat-label>
           <input matInput [readonly]="true" [value]="data.row.address1">
@@ -70,7 +70,7 @@
           <input matInput matInput [readonly]="true" [value]="data.row.address2">
         </mat-form-field>
       </div>
-      <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
+      <div class="second-address-line" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutGap.lt-sm="10px">
         <mat-form-field fxFlex class="form-fields" id="address-town">
           <mat-label>Town/City</mat-label>
           <input matInput matInput [readonly]="true" [value]="data.row.address3">

@@ -73,7 +73,7 @@
         <mat-card-subtitle id="expansion-panel-subtitle">
           Select the age group and competition for the group that the entrant will be competing in at this time.
         </mat-card-subtitle>
-        <div fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="10px">
+        <div class="groups-content" fxLayout="row" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="10px">
           <mat-form-field appearance="outline" fxFlex class="form-fields" id="category">
             <mat-label>Age Group</mat-label>
             <mat-select #catRef (selectionChange)="changeCategory($event.value)">

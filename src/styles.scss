@@ -1,0 +1,17 @@
+@use '@angular/material' as mat;
+
+:root {
+    .green-snackbar {
+        @include mat.snack-bar-overrides((
+            container-color: green
+        ));
+        text-align: center;
+    }
+
+    .red-snackbar {
+        @include mat.snack-bar-overrides((
+            container-color: red
+        ));
+        text-align: center;
+    }
+}

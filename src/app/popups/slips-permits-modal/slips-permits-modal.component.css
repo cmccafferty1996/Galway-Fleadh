@@ -99,6 +99,12 @@
       text-align: center;
   }
 
+  .first-address-line, .second-address-line {
+    height: 50% !important;
+    min-height: 50% !important;
+    margin-bottom: 20px;
+  }
+
   #requester-name, #requester-number, #requester-email, #slip-time {
     max-width: 200px;
     margin-left: 5px;
@@ -216,7 +222,13 @@
       text-align: center;
   }
 
-  #requester-name, #requester-number, #requester-email {
+  .first-address-line, .second-address-line {
+    height: 50% !important;
+    min-height: 50% !important;
+    margin-bottom: 20px;
+  }
+
+  #requester-name, #requester-number, #requester-email, #address-line-one, #address-line-two, #address-town, #address-county {
     margin-left: 5px;
     display: inline;
   }
@@ -336,18 +348,24 @@
       text-align: center;
   }
 
-  #requester-name, #requester-number, #requester-email {
+  .first-address-line, .second-address-line {
+    height: 50% !important;
+    min-height: 50% !important;
+    margin-bottom: 20px;
+  }
+
+  #requester-name, #requester-number, #requester-email, #address-line-one, #address-line-two, #address-town, #address-county {
     max-height: 50px;
     display: inline;
   }
 
   #requester-name {
     max-width: 250px;
-  } 
+  }
   
   #requester-number, #requester-email {
     max-width: 200px;
-  } 
+  }
 
   #slip-time {
     max-width: 200px;

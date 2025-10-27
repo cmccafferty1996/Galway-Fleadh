@@ -15,7 +15,7 @@
 
   .no-access {
     text-align: center;
-    font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+    font-family: var(--mat-typography-headline6-font-family, var(--mat-typography-font-family, Roboto, sans-serif));
   }
 
   #image {
@@ -120,7 +120,7 @@
 
   .no-access {
     text-align: center;
-    font-family: var(--mdc-typography-headline6-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+    font-family: var(--mat-typography-headline6-font-family, var(--mat-typography-font-family, Roboto, sans-serif));
   }
 
   #image {

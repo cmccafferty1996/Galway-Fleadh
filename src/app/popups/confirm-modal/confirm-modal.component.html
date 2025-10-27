@@ -37,6 +37,6 @@
 </div>
 
 <div [ngClass]="isDelete ? 'delete-buttons' : 'buttons'">
-  <button [ngClass]="isDelete ? 'cancel-delete' : 'cancel'" mat-raised-button (click)="close()">Cancel</button>
   <button [ngClass]="isDelete ? 'delete' : 'register'" mat-raised-button (click)="close(true)" cdkFocusInitial>{{buttonText}}</button>
+  <button [ngClass]="isDelete ? 'cancel-delete' : 'cancel'" mat-raised-button (click)="close()">Cancel</button>
 </div>

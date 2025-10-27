@@ -17,18 +17,7 @@ mat-dialog-container {
     display: none;
 }
 
-.green-snackbar {
-    --mdc-snackbar-container-color: green;
-    color: white;
-    text-align: center;
-}
-
 .cdk-overlay-pane {
     margin-bottom: calc(35vh - 50px)!important;
 }
 
-.red-snackbar {
-    --mdc-snackbar-container-color: red;
-    color: white;
-    text-align: center;
-}

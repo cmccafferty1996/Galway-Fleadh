@@ -9,7 +9,13 @@ mat-dialog-container {
     margin-top: 10%;
 }
 
-.mat-mdc-text-field-wrapper {
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: white !important;
+    border-left: solid #63002F 7px;
+}
+
+.mat-mdc-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-mdc-text-field-wrapper {
+    cursor: pointer;
     background-color: whitesmoke;
 }
 

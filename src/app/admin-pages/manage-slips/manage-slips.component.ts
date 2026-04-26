@@ -48,9 +48,9 @@ export class ManageSlipsComponent implements OnInit {
   counties: County[];
   categories: Category[];
   competitions: Competition[];
-  lateSlipColumns: string[] = ['Competitor Name', 'Notified By', 'Contact Number'];
-  nonCompeteSlipColumns: string[] = ['Competitor Name', 'Notified By'];
-  recordingPermitColumns: string[] = ['Competitor Name', 'Requester Name'];
+  lateSlipColumns: string[] = ['Running Order', 'Competitor Name', 'Notified By', 'Contact Number'];
+  nonCompeteSlipColumns: string[] = ['Running Order', 'Competitor Name', 'Notified By'];
+  recordingPermitColumns: string[] = ['Running Order', 'Competitor Name', 'Requester Name'];
   tableData: Slip[] = [];
   dataSource = new MatTableDataSource<Slip>(this.tableData);
   subscription: Subscription;
@@ -156,10 +156,11 @@ export class ManageSlipsComponent implements OnInit {
               this.slip.slipType,
               slip.entryId, slip.submittedBy, slip.teleNo, slip.email,
               slip.address1, slip.address2, slip.address3, slip.address4, slip.id,
-              slip.entrantNames, slip.entrantIds, slip.createTime
+              slip.entrantNames, slip.entrantIds, slip.createTime, slip.entryRunningOrder
             ));
           });
         }
+        this.tableData.sort((a, b) => a.entryRunningOrder > b.entryRunningOrder ? 1 : -1);
         this.dataSource = new MatTableDataSource<Slip>(this.tableData);
         this.isLoading = false;
         this.showSlips = true;

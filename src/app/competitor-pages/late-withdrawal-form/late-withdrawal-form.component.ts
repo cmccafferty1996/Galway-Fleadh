@@ -19,12 +19,14 @@ export class SlipsTableRow {
   name: string;
   ageGroup: string;
   competition: string;
+  runningOrder: number;
   slipExists: boolean = false
   isChecked: boolean = false;
 
-  constructor(entry: number, entryName: string, age: string, comp: string, slipExists?: boolean) {
+  constructor(entry: number, entryName: string, rOrder: number, age: string, comp: string, slipExists?: boolean) {
     this.entryId = entry;
     this.name = entryName;
+    this.runningOrder = rOrder;
     this.ageGroup = age;
     this.competition = comp;
     if (slipExists) {
@@ -106,9 +108,9 @@ export class LateWithdrawalFormComponent implements OnInit {
               .then((res2: Slip[]) => {
                 res.forEach((entry) => {
                   if (res2.find((slip) => entry.id === slip.entryId)) {
-                    this.compViewTableData.push(new SlipsTableRow(entry.id, entry.entrantName, null, null,true));
+                    this.compViewTableData.push(new SlipsTableRow(entry.id, entry.entrantName, entry.runningOrder, null, null, true));
                   } else {
-                    this.compViewTableData.push(new SlipsTableRow(entry.id, entry.entrantName, null, null,false));
+                    this.compViewTableData.push(new SlipsTableRow(entry.id, entry.entrantName, entry.runningOrder, null, null, false));
                   }
                 });
                 this.compViewDataSource = new MatTableDataSource<SlipsTableRow>(this.compViewTableData);
@@ -134,7 +136,7 @@ export class LateWithdrawalFormComponent implements OnInit {
                 const currentCategory = this.categories.find((cat) => cat.id == comp.ageGroup);
                 const slipExists = comp.slipNumber != 0;
                 this.tableData.push(
-                  new SlipsTableRow(comp.entryId, null, currentCategory.category + ' ' + currentCategory.age_group,
+                  new SlipsTableRow(comp.entryId, null, comp.entryRunningOrder, currentCategory.category + ' ' + currentCategory.age_group,
                     comp.competitionName, slipExists)
                 );
               });

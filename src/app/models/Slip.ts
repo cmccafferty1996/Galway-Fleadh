@@ -13,9 +13,11 @@ export class Slip {
   entrantNames: string;
   entrantIds: number[];
   createTime: Date;
+  entryRunningOrder: number;
 
   constructor(stype: number, entry: number, name: string, phone: string, email: string,
-    ad1: string, ad2: string, ad3: string, ad4: string, id?: number, entrant?: string, ids?: number[], create?: Date) {
+    ad1: string, ad2: string, ad3: string, ad4: string, id?: number, entrant?: string, ids?: number[], create?: Date,
+    rOrder?: number) {
       this.slipType = stype;
       this.entryId = entry;
       this.submittedBy = name;
@@ -29,5 +31,6 @@ export class Slip {
       if (entrant) this.entrantNames = entrant;
       if (ids) this.entrantIds = ids;
       if (create) this.createTime = create;
+      if (rOrder) this.entryRunningOrder = rOrder;
   }
 }

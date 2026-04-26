@@ -70,8 +70,7 @@
   }
 
   .buttons {
-    float: right;
-    margin-right: 15px;
+    margin-left: 20%;
     vertical-align: baseline;
     margin-bottom: 10px;
     margin-top: 30px;
@@ -160,8 +159,7 @@
   }
 
   .buttons {
-    float: right;
-    margin-right: 15px;
+    margin-left: 65%;
     vertical-align: baseline;
     margin-bottom: 10px;
     margin-top: 15px;

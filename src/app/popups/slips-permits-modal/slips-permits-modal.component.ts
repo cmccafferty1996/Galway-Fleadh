@@ -33,7 +33,7 @@ export class SlipsPermitsModalComponent implements OnInit {
           res.forEach((comp) => {
             const currentCategory = this.data.categories.find((cat) => cat.id == comp.ageGroup);
             this.tableData.push(
-              new SlipsTableRow(comp.entryId, null, currentCategory.category + ' ' + currentCategory.age_group, comp.competitionName)
+              new SlipsTableRow(comp.entryId, null, comp.entryRunningOrder, currentCategory.category + ' ' + currentCategory.age_group, comp.competitionName)
             );
           });
           this.tableData = this.tableData.filter(
@@ -45,7 +45,7 @@ export class SlipsPermitsModalComponent implements OnInit {
             this.data.groups.forEach((group: SlipComp) => {
               const currentGroupCategory = this.data.categories.find((cat) => cat.id == group.ageGroup);
               this.groupTableData.push(
-                new SlipsTableRow(group.entryId, null, currentGroupCategory.category + ' ' + currentGroupCategory.age_group, group.competitionName)
+                new SlipsTableRow(group.entryId, null, group.entryRunningOrder, currentGroupCategory.category + ' ' + currentGroupCategory.age_group, group.competitionName)
               );
             });
             this.groupDataSource = new MatTableDataSource<SlipsTableRow>(this.groupTableData);

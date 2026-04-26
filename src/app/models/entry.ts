@@ -9,4 +9,5 @@ export class Entry {
   entrantName: string;
   instrumentList: string;
   county: number;
+  runningOrder: number;
 }

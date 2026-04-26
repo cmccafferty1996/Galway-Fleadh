@@ -13,7 +13,7 @@
       <mat-form-field fxFlex class="form-fields" id="requester-name">
         <mat-label>Full Name</mat-label>
         <input matInput [formControl]="nameControl" required maxlength="60">
-        <span matPrefix><b>I,</b>&nbsp;</span>
+        <span class="prefix" matPrefix><b>I,</b>&nbsp;</span>
         <mat-error *ngIf="nameControl.hasError('required')">Please enter your full name</mat-error>
       </mat-form-field>
     </div>

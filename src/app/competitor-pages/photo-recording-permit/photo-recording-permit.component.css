@@ -30,7 +30,6 @@
       padding-top: 12px;
       padding-bottom: 12px;
       font-size: 14px;
-      text-align: left;
       background-color: #63002f;
       color: white;
   }
@@ -45,13 +44,16 @@
       text-align: center;
   }
   .form-fields {
-      max-width: fit-content;
+    max-width: fit-content;
+  }
+  .prefix {
+    margin-left: 5px;
   }
   #requester-name {
-      margin-bottom: 0px !important;
+    margin-bottom: 0px !important;
   }
   #requester-number {
-      margin-bottom: 10px !important;
+    margin-bottom: 10px !important;
   }
 }
 
@@ -86,7 +88,6 @@
       padding-top: 12px;
       padding-bottom: 12px;
       font-size: 16px;
-      text-align: left;
       background-color: #63002f;
       color: white;
   }
@@ -94,9 +95,12 @@
       text-align: center;
   }
   .form-fields {
-      max-width: fit-content;
+    max-width: fit-content;
   }
   .submit-slip {
       margin-top: 10px;
+  }
+  .prefix {
+    margin-left: 5px;
   }
 }

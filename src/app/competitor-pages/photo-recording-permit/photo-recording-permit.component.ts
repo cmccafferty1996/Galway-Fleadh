@@ -54,7 +54,7 @@ export class PhotoRecordingPermitComponent implements OnInit {
       this.service.getEntries(this.competition.id, this.county.id)
         .then((res) => {
           res.forEach((entry) => {
-            this.compViewTableData.push(new SlipsTableRow(entry.id, entry.entrantName, null, null))
+            this.compViewTableData.push(new SlipsTableRow(entry.id, entry.entrantName, entry.runningOrder, null, null))
           });
           this.compViewDataSource = new MatTableDataSource<SlipsTableRow>(this.compViewTableData);
           this.loadComplete = true;
@@ -74,7 +74,7 @@ export class PhotoRecordingPermitComponent implements OnInit {
               res.forEach((comp) => {
                 const currentCategory = this.categories.find((cat) => cat.id == comp.ageGroup);
                 this.tableData.push(
-                  new SlipsTableRow(comp.entryId, null, currentCategory.category + ' ' + currentCategory.age_group, comp.competitionName)
+                  new SlipsTableRow(comp.entryId, null, comp.entryRunningOrder, currentCategory.category + ' ' + currentCategory.age_group, comp.competitionName)
                 );
               });
               this.dataSource = new MatTableDataSource<SlipsTableRow>(this.tableData);
